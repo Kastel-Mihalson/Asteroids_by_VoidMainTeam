@@ -6,6 +6,5 @@ public class AsteroidView : MonoBehaviour
 {
     void Start()
     {
-        
     }
 }
