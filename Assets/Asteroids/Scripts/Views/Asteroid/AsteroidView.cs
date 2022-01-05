@@ -6,7 +6,7 @@ public class AsteroidView : MonoBehaviour
 
     private void Start()
     {
-        explosionEffect = Resources.Load("Explosion/Explosion_1") as GameObject;
+        explosionEffect = Resources.Load("Explosion/Explosion") as GameObject;
     }
 
     private void OnTriggerEnter(Collider other)
