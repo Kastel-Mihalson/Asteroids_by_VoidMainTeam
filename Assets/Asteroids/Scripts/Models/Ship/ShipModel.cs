@@ -1,5 +1,5 @@
 public class ShipModel
 {
-    public float moveSpeed = 10f;
-    public float turn = 4f;
+    public float MoveSpeed = 10f;
+    public float Turn = 4f;
 }

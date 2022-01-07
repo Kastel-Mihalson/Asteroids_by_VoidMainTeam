@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class AsteroidView : MonoBehaviour
 {
     private GameObject explosionEffect;

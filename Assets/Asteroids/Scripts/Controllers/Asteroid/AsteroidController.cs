@@ -1,9 +1,10 @@
 using UnityEngine;
 
+
 public class AsteroidController
 {
-    public AsteroidModel _model;
-    public AsteroidView _view;
+    private AsteroidModel _model;
+    private AsteroidView _view;
 
     public AsteroidController(AsteroidModel model, AsteroidView view)
     {
@@ -13,7 +14,7 @@ public class AsteroidController
     
     public void AsteroidMove(Rigidbody rigidbody)
     {
-        rigidbody.angularVelocity = Random.insideUnitSphere * _model.rotationSpeed;
-        rigidbody.velocity = Vector3.back * Random.Range(_model.minMoveSpeed, _model.maxMoveSpeed);
+        rigidbody.angularVelocity = Random.insideUnitSphere * _model.RotationSpeed;
+        rigidbody.velocity = Vector3.back * Random.Range(_model.MinMoveSpeed, _model.MaxMoveSpeed);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+
 public class ShipController
 {
     private ShipModel _model;
@@ -19,8 +20,8 @@ public class ShipController
             float vertical = Input.GetAxis("Vertical");
             float horizontal = Input.GetAxis("Horizontal");
 
-            rigidbody.velocity = new Vector3(horizontal, 0, vertical) * _model.moveSpeed;
-            rigidbody.rotation = Quaternion.Euler(0, 0, -rigidbody.velocity.x * _model.turn);
+            rigidbody.velocity = new Vector3(horizontal, 0, vertical) * _model.MoveSpeed;
+            rigidbody.rotation = Quaternion.Euler(0, 0, -rigidbody.velocity.x * _model.Turn);
         }
         else
         {
