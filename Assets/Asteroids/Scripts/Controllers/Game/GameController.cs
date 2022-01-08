@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class GameController : MonoBehaviour
 {
     // Ship
@@ -30,10 +31,19 @@ public class GameController : MonoBehaviour
     private Transform _asteroidSpawnPosition;
 
     // Game parameters
-    private float _leftScreenBorder = -9.5f;
-    private float _rightScreenBorder = 9.5f;
-    private float _topScreenBorder = 1f;
-    private float _bottomScreenBorder = -5f;
+    private float _leftScreenBorder;
+    private float _rightScreenBorder;
+    private float _topScreenBorder;
+    private float _bottomScreenBorder;
+
+    private void Awake()
+    {
+        Vector3 screenSize = Camera.main.ViewportToWorldPoint(Vector3.one);
+        _rightScreenBorder = screenSize.x;
+        _leftScreenBorder = -screenSize.x;
+        _topScreenBorder = screenSize.z;
+        _bottomScreenBorder = -screenSize.z;
+    }
 
     void Start()
     {
@@ -52,7 +62,7 @@ public class GameController : MonoBehaviour
     private void InitShip()
     {
         _shipStartPosition = new Vector3(0, 0, -4.5f);
-        _shipPrefab = Resources.Load("Player") as GameObject;
+        _shipPrefab = Resources.Load("PlayerV2") as GameObject;
         _shipPrefab.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
         _shipGameObject = Instantiate(_shipPrefab, _shipStartPosition, Quaternion.identity);
         _shipView = _shipGameObject.GetComponent<ShipView>();
@@ -87,25 +97,24 @@ public class GameController : MonoBehaviour
 
     private void Shoot()
     {
-        var bulletModel = _bulletController._model;
-        bool canShoot = Time.time > bulletModel.nextShoot;
+        bool canShoot = Time.time > _bulletModel.NextShoot;
 
         if (Input.GetKey(KeyCode.Space) && canShoot)
         {
-            _bulletController._model.nextShoot = Time.time + bulletModel.shootDelay;
+            _bulletModel.NextShoot = Time.time + _bulletModel.ShootDelay;
             _bulletGameObject = Instantiate(_bulletPrefab, _bulletSpawnPosition.position, Quaternion.identity);
             _bulletRigidBody = _bulletGameObject.GetComponent<Rigidbody>();
+            _bulletView = _bulletGameObject.GetComponent<BulletView>();
             _bulletController.BulletFly(_bulletRigidBody);
+            _bulletView.Die(_bulletModel.LifeTime);
         }
     }
 
     public void AsteroidUpdate()
     {
-        var asteroidModel = _asteroidController._model;
-
-        if (Time.time > asteroidModel.nextSpawn)
+        if (Time.time > _asteroidModel.NextSpawn)
         {
-            _asteroidGameObject = Instantiate(_asteroidPrefab, new Vector3(Random.Range(-9.5f, 9.5f), 0, 8f), Quaternion.identity);
+            _asteroidGameObject = Instantiate(_asteroidPrefab, new Vector3(Random.Range(_leftScreenBorder, _rightScreenBorder), 0, 8f), Quaternion.identity);
             _asteroidRigidBody = _asteroidGameObject.GetComponent<Rigidbody>();
 
             if (_asteroidRigidBody)
@@ -113,7 +122,7 @@ public class GameController : MonoBehaviour
                 _asteroidController.AsteroidMove(_asteroidRigidBody);
             }
 
-            asteroidModel.nextSpawn += Random.Range(asteroidModel.minDelay, asteroidModel.maxDelay);
+            _asteroidModel.NextSpawn += Random.Range(_asteroidModel.MinDelay, _asteroidModel.MaxDelay);
         }
     }
 
