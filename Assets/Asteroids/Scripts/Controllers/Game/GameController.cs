@@ -108,7 +108,8 @@ public class GameController : MonoBehaviour
     {
         bool canShoot = Time.time > _bulletModel.NextShoot;
 
-        if (canShoot && Physics.Raycast(_shipView.transform.position, Vector3.forward, _shootingDistance, _enemyMask))
+        bool isEnemyDetected = Physics.Raycast(_shipView.transform.position, Vector3.forward, _shootingDistance, _enemyMask);
+        if (canShoot && isEnemyDetected)
         {
             _bulletModel.NextShoot = Time.time + _bulletModel.ShootDelay;
             _bulletGameObject = Instantiate(_bulletPrefab, _bulletSpawnPosition.position, Quaternion.identity);
@@ -135,7 +136,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // Ограничение области полета корабля
+    // Flight area limitation
     private void ScreenBorderPosition()
     {
         if (_shipGameObject)
@@ -147,7 +148,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // Удаление объектов выходящих за пределы игровой зоны
+    // Removing objects outside level area
     private void OnTriggerExit(Collider other)
     {
         Destroy(other.gameObject);
