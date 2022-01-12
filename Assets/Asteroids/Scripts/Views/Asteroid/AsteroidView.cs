@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class AsteroidView : MonoBehaviour
 {
-    private GameObject explosionEffect;
+    private GameObject _explosionEffect;
+    private float _effectTime = 2f;
+
+    public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
 
     private void Start()
     {
-        explosionEffect = Resources.Load("Explosion/Explosion") as GameObject;
+        _explosionEffect = Resources.Load("Explosion/Explosion") as GameObject;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -16,12 +19,12 @@ public class AsteroidView : MonoBehaviour
 
         if (other.tag == "Player")
         {
-            GameObject playerExplosion = Instantiate(explosionEffect, other.transform.position, other.transform.rotation);
-            Destroy(playerExplosion, 2f);
+            GameObject playerExplosion = Instantiate(_explosionEffect, other.transform.position, other.transform.rotation);
+            Destroy(playerExplosion, _effectTime);
         }
 
-        GameObject asteroidExplosion = Instantiate(explosionEffect, transform.position, transform.rotation);
-        Destroy(asteroidExplosion, 2f);
+        GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
+        Destroy(asteroidExplosion, _effectTime);
         Destroy(gameObject);
         Destroy(other.gameObject);
     }

@@ -2,30 +2,37 @@ using System;
 using UnityEngine;
 
 
-public class ShipController
+public sealed class ShipController
 {
     private ShipModel _model;
-    private ShipView _view;
+    private Rigidbody _rigidBody;
+    private Vector3 _movement;
+    private GameObject _gameObject;
 
     public ShipController(ShipModel model, ShipView view)
     {
         _model = model;
-        _view = view;
+        _rigidBody = view.Rigidbody;
+        _gameObject = view.gameObject;
     }
 
-    public void MoveWithRigidBody(Rigidbody rigidbody)
+    public void MoveWithRigidBody(Vector3 movement)
     {
-        if (rigidbody)
-        {
-            float vertical = Input.GetAxis("Vertical");
-            float horizontal = Input.GetAxis("Horizontal");
-
-            rigidbody.velocity = new Vector3(horizontal, 0, vertical) * _model.MoveSpeed;
-            rigidbody.rotation = Quaternion.Euler(0, 0, -rigidbody.velocity.x * _model.Turn);
+        if (_rigidBody)
+        {        
+            _rigidBody.velocity = movement * _model.MoveSpeed;
+            _rigidBody.rotation = Quaternion.Euler(0, 0, -_rigidBody.velocity.x * _model.Turn);
         }
-        else
+    }
+
+    public void LimitFlightArea(float leftLimit, float rightLimit, float topLimit, float bottomLimit)
+    {
+        if (_gameObject)
         {
-            throw new Exception("Component rigidBody for Player is not defind or null. Check it out");
+            float x = Mathf.Clamp(_gameObject.transform.position.x, leftLimit, rightLimit);
+            float z = Mathf.Clamp(_gameObject.transform.position.z, bottomLimit, topLimit);
+
+            _gameObject.transform.position = new Vector3(x, 0, z);
         }
     }
 }

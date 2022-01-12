@@ -4,16 +4,19 @@ using UnityEngine;
 public class BulletController
 {
     private BulletModel _model;
-    private BulletView _view;
+    private Rigidbody _rigidbody;
 
     public BulletController(BulletModel model, BulletView view)
     {
         _model = model;
-        _view = view;
+        _rigidbody = view.Rigidbody;
     }
 
-    public void BulletFly(Rigidbody rigidbody)
+    public void BulletFly()
     {
-        rigidbody.velocity = Vector3.forward * _model.BulletSpeed;
+        if (_rigidbody)
+        {
+            _rigidbody.velocity = Vector3.forward * _model.BulletSpeed;
+        }
     }
 }
