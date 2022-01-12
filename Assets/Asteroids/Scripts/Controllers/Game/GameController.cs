@@ -36,13 +36,13 @@ public class GameController : MonoBehaviour
     private float _topScreenBorder;
     private float _bottomScreenBorder;
 
+    private float _shootingDistance = 8f;
+    private LayerMask _enemyMask;
+
     private void Awake()
     {
-        Vector3 screenSize = Camera.main.ViewportToWorldPoint(Vector3.one);
-        _rightScreenBorder = screenSize.x;
-        _leftScreenBorder = -screenSize.x;
-        _topScreenBorder = screenSize.z;
-        _bottomScreenBorder = -screenSize.z;
+        SetScreenBorders();
+        _enemyMask = LayerMask.GetMask("Enemy");
     }
 
     void Start()
@@ -56,7 +56,15 @@ public class GameController : MonoBehaviour
     {
         ShipUpdate();
         AsteroidUpdate();
-        ScreenBorderPosition();
+    }
+
+    private void SetScreenBorders()
+    {
+        Vector3 screenSize = Camera.main.ViewportToWorldPoint(Vector3.one);
+        _rightScreenBorder = screenSize.x;
+        _leftScreenBorder = -screenSize.x;
+        _topScreenBorder = screenSize.z;
+        _bottomScreenBorder = -screenSize.z;
     }
 
     private void InitShip()
@@ -92,6 +100,7 @@ public class GameController : MonoBehaviour
         {
             _shipController.MoveWithRigidBody(_shipRigidBody);
             Shoot();
+            ScreenBorderPosition();
         }
     }
 
@@ -99,7 +108,7 @@ public class GameController : MonoBehaviour
     {
         bool canShoot = Time.time > _bulletModel.NextShoot;
 
-        if (Input.GetKey(KeyCode.Space) && canShoot)
+        if (canShoot && Physics.Raycast(_shipView.transform.position, Vector3.forward, _shootingDistance, _enemyMask))
         {
             _bulletModel.NextShoot = Time.time + _bulletModel.ShootDelay;
             _bulletGameObject = Instantiate(_bulletPrefab, _bulletSpawnPosition.position, Quaternion.identity);
