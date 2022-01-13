@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64e85f12892c44f4e81475eab46e44e6, type: 3}
-  m_Name: PlayerShip
+  m_Script: {fileID: 11500000, guid: eb9b52f3193c06c419ead4eb0749a7b8, type: 3}
+  m_Name: Bullet
   m_EditorClassIdentifier: 
-  _moveSpeed: 10
-  _turnSpeed: 4
-  _prefab: {fileID: 4608874829272778946, guid: 0859a31ac1831a7429caf7284df8c7ea, type: 3}
-  _startPosition: {x: 0, y: 0, z: -4.5}
+  _nextShoot: 0
+  _shootDelay: 0.2
+  _bulletDestroy: 2
+  _bulletSpeed: 15
+  _lifeTime: 1
+  _prefab: {fileID: 8304725429417330109, guid: 232e92a4765b5e141aac53fd319909a8, type: 3}

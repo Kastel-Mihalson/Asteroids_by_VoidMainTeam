@@ -1,34 +1,52 @@
+using UnityEngine;
+
+
 public class BulletModel
 {
-    private float _nextShoot = 0f;
-    private float _shootDelay = 0.2f;
-    private float _bulletDestroy = 2f;
-    private float _bulletSpeed = 15f;
-    private float _lifeTime = 1f;
+    private float _nextShoot;
+    private float _shootDelay;
+    private float _bulletDestroy;
+    private float _bulletSpeed;
+    private float _lifeTime;
+    private Transform _spawnPosition;
 
     public float NextShoot
     {
         get => _nextShoot;
-        set { _nextShoot = value; }
+        set { _nextShoot = value; } // сделать приватным
     }
     public float ShootDelay
     {
         get => _shootDelay;
-        set { _shootDelay = value; }
+        private set { _shootDelay = value; }
     }
     public float BulletDestroy
     {
         get => _bulletDestroy;
-        set { _bulletDestroy = value; }
+        private set { _bulletDestroy = value; }
     }
     public float BulletSpeed
     {
         get => _bulletSpeed;
-        set { _bulletSpeed = value; }
+        private set { _bulletSpeed = value; }
     }
     public float LifeTime
     {
         get => _lifeTime;
-        set { _lifeTime = value; }
+        private set { _lifeTime = value; }
+    }
+    public Transform SpawnPosition
+    {
+        get => _spawnPosition;
+        set { _spawnPosition = value; }
+    }
+
+    public BulletModel(float nextShoot, float shootDelay, float bulletDestroy, float bulletSpeed, float lifeTime)
+    {
+        _nextShoot = nextShoot;
+        _shootDelay = shootDelay;
+        _bulletDestroy = bulletDestroy;
+        _bulletSpeed = bulletSpeed;
+        _lifeTime = lifeTime;
     }
 }

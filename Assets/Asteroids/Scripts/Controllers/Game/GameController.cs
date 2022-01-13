@@ -11,11 +11,10 @@ public class GameController : MonoBehaviour
     private ShipController _shipController;
 
     // Bullet
+    [SerializeField] private BulletData _bullet;
     private BulletModel _bulletModel;
     private BulletView _bulletView;
     private BulletController _bulletController;
-    private GameObject _bulletPrefab;
-    private Transform _bulletSpawnPosition;
 
     // Asteroid
     private AsteroidModel _asteroidModel;
@@ -88,9 +87,8 @@ public class GameController : MonoBehaviour
 
     private void InitBullet()
     {
-        _bulletPrefab = Resources.Load("Bullet") as GameObject;
-        _bulletModel = new BulletModel();
-        _bulletSpawnPosition = FindObjectOfType<BulletSpawnMarker>().transform;
+        _bulletModel = new BulletModel(_bullet.NextShoot, _bullet.ShootDelay, _bullet.BulletDestroy, _bullet.BulletSpeed, _bullet.LifeTime);
+        _bulletModel.SpawnPosition = FindObjectOfType<BulletSpawnMarker>().transform;
     }
 
     public void InitAsteroid()
@@ -112,7 +110,7 @@ public class GameController : MonoBehaviour
         {
             _bulletModel.NextShoot = Time.time + _bulletModel.ShootDelay;
 
-            GameObject bulletGameObject = Instantiate(_bulletPrefab, _bulletSpawnPosition.position, Quaternion.identity);
+            GameObject bulletGameObject = Instantiate(_bullet.Prefab, _bulletModel.SpawnPosition.position, Quaternion.identity);
             _bulletView = bulletGameObject.GetComponent<BulletView>();
 
             _bulletController = new BulletController(_bulletModel, _bulletView);
