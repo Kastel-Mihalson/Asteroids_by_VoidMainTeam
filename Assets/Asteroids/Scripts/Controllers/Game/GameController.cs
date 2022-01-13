@@ -80,14 +80,14 @@ public class GameController : MonoBehaviour
     {
         GameObject shipGameObject = Instantiate(_playerShip.Prefab, _playerShip.StartPosition, Quaternion.identity);
 
-        _shipModel = new ShipModel(_playerShip.MoveSpeed, _playerShip.TurnSpeed);
+        _shipModel = new ShipModel(_playerShip);
         _shipView = shipGameObject.GetComponent<ShipView>();
         _shipController = new ShipController(_shipModel, _shipView);
     }
 
     private void InitBullet()
     {
-        _bulletModel = new BulletModel(_bullet.NextShoot, _bullet.ShootDelay, _bullet.BulletDestroy, _bullet.BulletSpeed, _bullet.LifeTime);
+        _bulletModel = new BulletModel(_bullet);
         _bulletModel.SpawnPosition = FindObjectOfType<BulletSpawnMarker>().transform;
     }
 

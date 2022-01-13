@@ -13,7 +13,7 @@ public class BulletModel
     public float NextShoot
     {
         get => _nextShoot;
-        set { _nextShoot = value; } // сделать приватным
+        set { _nextShoot = value; } // TODO private
     }
     public float ShootDelay
     {
@@ -41,12 +41,12 @@ public class BulletModel
         set { _spawnPosition = value; }
     }
 
-    public BulletModel(float nextShoot, float shootDelay, float bulletDestroy, float bulletSpeed, float lifeTime)
+    public BulletModel(BulletData data)
     {
-        _nextShoot = nextShoot;
-        _shootDelay = shootDelay;
-        _bulletDestroy = bulletDestroy;
-        _bulletSpeed = bulletSpeed;
-        _lifeTime = lifeTime;
+        _nextShoot = data.NextShoot;
+        _shootDelay = data.ShootDelay;
+        _bulletDestroy = data.BulletDestroy;
+        _bulletSpeed = data.BulletSpeed;
+        _lifeTime = data.LifeTime;
     }
 }

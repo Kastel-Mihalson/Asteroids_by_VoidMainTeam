@@ -14,9 +14,9 @@ public class ShipModel
         private set { _turnSpeed = value; }
     }
 
-    public ShipModel(float moveSpeed, float turnSpeed)
+    public ShipModel(ShipData data)
     {
-        _moveSpeed = moveSpeed;
-        _turnSpeed = turnSpeed;
+        _moveSpeed = data.MoveSpeed;
+        _turnSpeed = data.TurnSpeed;
     }
 }
