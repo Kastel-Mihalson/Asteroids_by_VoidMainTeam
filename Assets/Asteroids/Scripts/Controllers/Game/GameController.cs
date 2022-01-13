@@ -5,11 +5,10 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     // Ship
+    [SerializeField] private ShipData _playerShip;
     private ShipModel _shipModel;
     private ShipView _shipView;
     private ShipController _shipController;
-    private GameObject _shipPrefab;
-    private Vector3 _shipStartPosition;
 
     // Bullet
     private BulletModel _bulletModel;
@@ -80,12 +79,9 @@ public class GameController : MonoBehaviour
 
     private void InitShip()
     {
-        _shipStartPosition = new Vector3(0, 0, -4.5f);
-        _shipPrefab = Resources.Load("PlayerV2") as GameObject;
-        _shipPrefab.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
-        GameObject shipGameObject = Instantiate(_shipPrefab, _shipStartPosition, Quaternion.identity);
+        GameObject shipGameObject = Instantiate(_playerShip.Prefab, _playerShip.StartPosition, Quaternion.identity);
 
-        _shipModel = new ShipModel();
+        _shipModel = new ShipModel(_playerShip.MoveSpeed, _playerShip.TurnSpeed);
         _shipView = shipGameObject.GetComponent<ShipView>();
         _shipController = new ShipController(_shipModel, _shipView);
     }

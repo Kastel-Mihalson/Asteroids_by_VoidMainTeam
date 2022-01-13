@@ -1,16 +1,22 @@
 public class ShipModel
 {
-    private float _moveSpeed = 10f;
-    private float _turn = 4f;
+    private float _moveSpeed;
+    private float _turnSpeed;
 
     public float MoveSpeed
     {
         get => _moveSpeed;
-        set { _moveSpeed = value; }
+        private set { _moveSpeed = value; }
     }
     public float Turn
     {
-        get => _turn;
-        set { _turn = value; }
+        get => _turnSpeed;
+        private set { _turnSpeed = value; }
+    }
+
+    public ShipModel(float moveSpeed, float turnSpeed)
+    {
+        _moveSpeed = moveSpeed;
+        _turnSpeed = turnSpeed;
     }
 }
