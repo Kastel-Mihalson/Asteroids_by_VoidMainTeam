@@ -7,6 +7,7 @@ public class AsteroidModel
     private float _maxDelay;
     private float _nextSpawn;
     private int _damage;
+    private float _lifeTime;
     //private int _size;
 
     public float MinMoveSpeed
@@ -44,6 +45,11 @@ public class AsteroidModel
         get => _damage;
         private set { _damage = value; }
     }
+    public float LifeTime
+    {
+        get => _lifeTime;
+        private set { _lifeTime = value; }
+    }
 
     //public int Size
     //{
@@ -60,5 +66,6 @@ public class AsteroidModel
         _maxDelay = data.MaxDelay;
         _nextSpawn = data.NextSpawn;
         _damage = data.Damage;
+        _lifeTime = data.LifeTime;
     }
 }
