@@ -15,9 +15,7 @@ public class AsteroidView : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "GameController") return;
-
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             GameObject playerExplosion = Instantiate(_explosionEffect, other.transform.position, other.transform.rotation);
             Destroy(playerExplosion, _effectTime);
@@ -27,5 +25,10 @@ public class AsteroidView : MonoBehaviour
         Destroy(asteroidExplosion, _effectTime);
         Destroy(gameObject);
         Destroy(other.gameObject);
+    }
+
+    public void Die(float lifeTime)
+    {
+        Destroy(gameObject, lifeTime);
     }
 }

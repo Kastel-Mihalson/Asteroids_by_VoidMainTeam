@@ -129,13 +129,8 @@ public class GameController : MonoBehaviour
             
             _asteroidView = asteroidGameObject.GetComponent<AsteroidView>();
             _asteroidController = new AsteroidController(_asteroidModel, _asteroidView);
+            _asteroidView.Die(_asteroidModel.LifeTime);
             _asteroidController.AsteroidMove();
         }
-    }
-
-    // Removing objects outside level area
-    private void OnTriggerExit(Collider other)
-    {
-        Destroy(other.gameObject);
     }
 }
