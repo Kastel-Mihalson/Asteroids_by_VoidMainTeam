@@ -1,5 +1,22 @@
-public class ShipModel
+public sealed class ShipModel
 {
-    public float MoveSpeed = 10f;
-    public float Turn = 4f;
+    private float _moveSpeed;
+    private float _turnSpeed;
+
+    public float MoveSpeed
+    {
+        get => _moveSpeed;
+        private set { _moveSpeed = value; }
+    }
+    public float Turn
+    {
+        get => _turnSpeed;
+        private set { _turnSpeed = value; }
+    }
+
+    public ShipModel(ShipData data)
+    {
+        _moveSpeed = data.MoveSpeed;
+        _turnSpeed = data.TurnSpeed;
+    }
 }

@@ -1,10 +1,64 @@
 public class AsteroidModel
 {
-    public float MinMoveSpeed = 4f;
-    public float MaxMoveSpeed = 8f;
-    public float RotationSpeed = 3f;
-    public float MinDelay = 0.5f;
-    public float MaxDelay = 3f;
-    public float NextSpawn = 0;
-    public int Size = 1;
+    private float _minMoveSpeed;
+    private float _maxMoveSpeed;
+    private float _rotationSpeed;
+    private float _minDelay;
+    private float _maxDelay;
+    private float _nextSpawn;
+    private int _damage;
+    //private int _size;
+
+    public float MinMoveSpeed
+    {
+        get => _minMoveSpeed;
+        private set { _minMoveSpeed = value; }
+    }
+    public float MaxMoveSpeed
+    {
+        get => _maxMoveSpeed;
+        private set { _maxMoveSpeed = value; }
+    }
+    public float RotationSpeed
+    {
+        get => _rotationSpeed;
+        private set { _rotationSpeed = value; }
+    }
+    public float MinDelay
+    {
+        get => _minDelay;
+        private set { _minDelay = value; }
+    }
+    public float MaxDelay
+    {
+        get => _maxDelay;
+        private set { _maxDelay = value; }
+    }
+    public float NextSpawn
+    {
+        get => _nextSpawn;
+        set { _nextSpawn = value; } // TODO private
+    }
+    public int Damage
+    {
+        get => _damage;
+        private set { _damage = value; }
+    }
+
+    //public int Size
+    //{
+    //    get => _size;
+    //    private set { _size = value; }
+    //}
+
+    public AsteroidModel(AsteroidData data)
+    {
+         _minMoveSpeed = data.MinMoveSpeed;
+        _maxMoveSpeed = data.MaxMoveSpeed;
+        _rotationSpeed = data.RotationSpeed;
+        _minDelay = data.MinDelay;
+        _maxDelay = data.MaxDelay;
+        _nextSpawn = data.NextSpawn;
+        _damage = data.Damage;
+    }
 }
