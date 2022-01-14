@@ -1,46 +1,64 @@
 public class AsteroidModel
 {
-    private float _minMoveSpeed = 4f;
-    private float _maxMoveSpeed = 8f;
-    private float _rotationSpeed = 3f;
-    private float _minDelay = 0.5f;
-    private float _maxDelay = 3f;
-    private float _nextSpawn = 0f;
-    private int _size = 1;
+    private float _minMoveSpeed;
+    private float _maxMoveSpeed;
+    private float _rotationSpeed;
+    private float _minDelay;
+    private float _maxDelay;
+    private float _nextSpawn;
+    private int _damage;
+    //private int _size;
 
     public float MinMoveSpeed
     {
         get => _minMoveSpeed;
-        set { _minMoveSpeed = value; }
+        private set { _minMoveSpeed = value; }
     }
     public float MaxMoveSpeed
     {
         get => _maxMoveSpeed;
-        set { _maxMoveSpeed = value; }
+        private set { _maxMoveSpeed = value; }
     }
     public float RotationSpeed
     {
         get => _rotationSpeed;
-        set { _rotationSpeed = value; }
+        private set { _rotationSpeed = value; }
     }
     public float MinDelay
     {
         get => _minDelay;
-        set { _minDelay = value; }
+        private set { _minDelay = value; }
     }
     public float MaxDelay
     {
         get => _maxDelay;
-        set { _maxDelay = value; }
+        private set { _maxDelay = value; }
     }
     public float NextSpawn
     {
         get => _nextSpawn;
-        set { _nextSpawn = value; }
+        set { _nextSpawn = value; } // TODO private
     }
-    public int Size
+    public int Damage
     {
-        get => _size;
-        set { _size = value; }
+        get => _damage;
+        private set { _damage = value; }
+    }
+
+    //public int Size
+    //{
+    //    get => _size;
+    //    private set { _size = value; }
+    //}
+
+    public AsteroidModel(AsteroidData data)
+    {
+         _minMoveSpeed = data.MinMoveSpeed;
+        _maxMoveSpeed = data.MaxMoveSpeed;
+        _rotationSpeed = data.RotationSpeed;
+        _minDelay = data.MinDelay;
+        _maxDelay = data.MaxDelay;
+        _nextSpawn = data.NextSpawn;
+        _damage = data.Damage;
     }
 }

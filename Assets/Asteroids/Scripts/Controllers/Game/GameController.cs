@@ -17,10 +17,10 @@ public class GameController : MonoBehaviour
     private BulletController _bulletController;
 
     // Asteroid
+    [SerializeField] private AsteroidData _asteroid;
     private AsteroidModel _asteroidModel;
     private AsteroidView _asteroidView;
     private AsteroidController _asteroidController;
-    private GameObject _asteroidPrefab;
 
     // Game parameters
     private float _leftScreenBorder;
@@ -93,8 +93,7 @@ public class GameController : MonoBehaviour
 
     public void InitAsteroid()
     {
-        _asteroidPrefab = Resources.Load("Asteroid") as GameObject;
-        _asteroidModel = new AsteroidModel();
+        _asteroidModel = new AsteroidModel(_asteroid);
     }
 
     private void Shoot()
@@ -125,7 +124,7 @@ public class GameController : MonoBehaviour
         {
             _asteroidModel.NextSpawn += Random.Range(_asteroidModel.MinDelay, _asteroidModel.MaxDelay);
             
-            GameObject asteroidGameObject = Instantiate(_asteroidPrefab, 
+            GameObject asteroidGameObject = Instantiate(_asteroid.Prefab, 
                 new Vector3(Random.Range(_leftScreenBorder, _rightScreenBorder), 0, 8f), Quaternion.identity);
             
             _asteroidView = asteroidGameObject.GetComponent<AsteroidView>();

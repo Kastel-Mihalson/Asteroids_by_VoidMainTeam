@@ -2,7 +2,7 @@
 
 
 [CreateAssetMenu]
-public class ShipData : ScriptableObject
+public sealed class ShipData : ScriptableObject
 {
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private float _turnSpeed = 4f;

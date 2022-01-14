@@ -1,4 +1,4 @@
-public class ShipModel
+public sealed class ShipModel
 {
     private float _moveSpeed;
     private float _turnSpeed;

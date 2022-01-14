@@ -2,7 +2,7 @@
 
 
 [CreateAssetMenu]
-public class BulletData : ScriptableObject
+public sealed class BulletData : ScriptableObject
 {
     [SerializeField] private float _nextShoot = 0f;
     [SerializeField] private float _shootDelay = 0.2f;
