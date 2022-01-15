@@ -1,7 +1,6 @@
 using UnityEngine;
 
-
-public class AsteroidView : MonoBehaviour
+public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 {
     private GameObject _explosionEffect;
     private float _effectTime = 2f;
@@ -15,14 +14,23 @@ public class AsteroidView : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
+
+        if (interactiveObject is IAsteroid)
+        {
+            return;
+        }
+        if (interactiveObject is IShip)
         {
             GameObject playerExplosion = Instantiate(_explosionEffect, other.transform.position, other.transform.rotation);
             Destroy(playerExplosion, _effectTime);
         }
+        if (interactiveObject is IBullet)
+        {
+            GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
+            Destroy(asteroidExplosion, _effectTime);
+        }
 
-        GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
-        Destroy(asteroidExplosion, _effectTime);
         Destroy(gameObject);
         Destroy(other.gameObject);
     }

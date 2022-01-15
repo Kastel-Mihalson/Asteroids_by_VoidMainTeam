@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public sealed class AsteroidController
 {
     private AsteroidModel _model;
