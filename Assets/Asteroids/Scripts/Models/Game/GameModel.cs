@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class GameModel
+public sealed class GameModel
 {
     private float _leftScreenBorder;
     private float _rightScreenBorder;
@@ -11,9 +12,8 @@ public class GameModel
     private float _minDelay;
     private float _maxDelay;
     private float _nextShoot;
-    private float _shootDelay;
 
-    private string[] _startLoadedPrefabNames;
+    private List<string> _startLoadedPrefabNames;
 
     private LayerMask _enemyMask;
     private Vector3 _movement;
@@ -51,9 +51,8 @@ public class GameModel
         get => _nextShoot;
         set => _nextShoot = value;
     }
-    public float ShootDelay => _shootDelay;
 
-    public string[] StartLoadedPrefabNames => _startLoadedPrefabNames;
+    public List<string> StartLoadedPrefabNames => _startLoadedPrefabNames;
 
     public LayerMask EnemyMask => _enemyMask;
     public Vector3 Movement
@@ -62,20 +61,14 @@ public class GameModel
         set => _movement = value;
     }
 
-    public GameModel()
+    public GameModel(GameData gameData)
     {
-        _nextShoot = 0;
-        _shootDelay = 0.2f;
-        _nextSpawn = 0;
-        _shootingDistance = 9f;
-        _minDelay = 0.5f;
-        _maxDelay = 2f;
-        _startLoadedPrefabNames = new string[]
-        {
-            "PlayerV2",
-            "Bullet",
-            "Asteroid"
-        };
-        _enemyMask = LayerMask.GetMask("Enemy");
+        _nextShoot = gameData.NextShoot;
+        _nextSpawn = gameData.NextSpawn;
+        _shootingDistance = gameData.ShootingDistance;
+        _minDelay = gameData.MinDelay;
+        _maxDelay = gameData.MaxDelay;
+        _startLoadedPrefabNames = gameData.StartLoadedPrefabNames;
+        _enemyMask = gameData.EnemyMask;
     }
 }

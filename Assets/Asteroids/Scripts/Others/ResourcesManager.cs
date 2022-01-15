@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class ResourcesManager
@@ -46,6 +47,14 @@ public static class ResourcesManager
         else
         {
             return;
+        }
+    }
+
+    public static void LoadPrefabsByNameList(List<string> prefabNamesList)
+    {
+        foreach (string _loadedPrefabName in prefabNamesList)
+        {
+            LoadPrefab(_loadedPrefabName);
         }
     }
 }

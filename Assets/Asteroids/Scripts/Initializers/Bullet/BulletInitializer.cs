@@ -12,10 +12,10 @@ public class BulletInitializer
     public BulletView BulletView => _bulletView;
     public BulletController BulletController => _bulletController;
 
-    public BulletInitializer(BulletData bullet, GameObject bulletPrefab)
+    public BulletInitializer(BulletData bullet)
     {
         _bullet = bullet;
-        _bulletPrefab = bulletPrefab;
+        _bulletPrefab = bullet.Prefab;
     }
 
     public void InitBullet(Vector3 spawnPosition)

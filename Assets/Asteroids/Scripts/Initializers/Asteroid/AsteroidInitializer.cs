@@ -15,10 +15,10 @@ public class AsteroidInitializer
     public AsteroidView ShipView => _asteroidView;
     public AsteroidController ShipController => _asteroidController;
 
-    public AsteroidInitializer(AsteroidData asteroid, GameObject asteroidPrefab, float leftScreenBorder, float rightScreenBorder)
+    public AsteroidInitializer(AsteroidData asteroid, float leftScreenBorder, float rightScreenBorder)
     {
         _asteroid = asteroid;
-        _asteroidPrefab = asteroidPrefab;
+        _asteroidPrefab = asteroid.AsteroidPrefab;
         _leftScreenBorder = leftScreenBorder;
         _rightScreenBorder = rightScreenBorder;
     }

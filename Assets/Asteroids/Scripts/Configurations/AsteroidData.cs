@@ -9,6 +9,7 @@ public sealed class AsteroidData : ScriptableObject
     [SerializeField] private float _rotationSpeed = 3f;
     [SerializeField] private int _damage = 1;
     [SerializeField] private float _lifeTime = 1;
+    [SerializeField] private GameObject _asteroidPrefab;
     //[SerializeField] private int _size = 1;
 
     public float MinMoveSpeed => _minMoveSpeed;
@@ -16,5 +17,6 @@ public sealed class AsteroidData : ScriptableObject
     public float RotationSpeed => _rotationSpeed;
     public int Damage => _damage;
     public float LifeTime => _lifeTime;
+    public GameObject AsteroidPrefab => _asteroidPrefab;
     //public int Size => _size;
 }

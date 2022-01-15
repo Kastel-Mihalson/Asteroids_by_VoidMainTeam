@@ -4,7 +4,6 @@ public sealed class ShipController
 {
     private ShipModel _model;
     private Rigidbody _rigidBody;
-    private Vector3 _movement;
     private GameObject _gameObject;
 
     public ShipController(ShipModel model, ShipView view)

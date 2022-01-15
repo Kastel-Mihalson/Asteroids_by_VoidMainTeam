@@ -12,10 +12,10 @@ public class ShipInitializer
     public ShipView ShipView => _shipView;
     public ShipController ShipController => _shipController;
 
-    public ShipInitializer(ShipData shipData, GameObject shipPrefab)
+    public ShipInitializer(ShipData shipData)
     {
         _playerShip = shipData;
-        _shipPrefab = shipPrefab;
+        _shipPrefab = shipData.ShipPrefab;
     }
 
     public void InitShip()

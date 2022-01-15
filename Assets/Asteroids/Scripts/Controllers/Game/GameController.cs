@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] private GameData _gameData;
+
     [SerializeField] private ShipData _playerShip;
     private ShipInitializer _shipInitializer;
 
@@ -12,26 +14,22 @@ public class GameController : MonoBehaviour
     private BulletInitializer _bulletInitializer;
 
     private GameModel _gameModel;
-    private GameObject _bulletSpawnPosition;
 
     private void Awake()
     {
-        _gameModel = new GameModel();
-        LoadStartPrefabs();
+        _gameModel = new GameModel(_gameData);
+        //ResourcesManager.LoadPrefabsByNameList(_gameModel.StartLoadedPrefabNames);
         SetScreenBorders();
     }
 
     private void Start()
     {
-        _shipInitializer = new ShipInitializer(_playerShip, ResourcesManager.ShipPrefab);
+        _shipInitializer = new ShipInitializer(_playerShip);
         _shipInitializer.InitShip();
 
-        // Important! Search must be after ship init
-        _bulletSpawnPosition = FindObjectOfType<BulletSpawnMarker>().gameObject;
-
-        _asteroidInitializer = new AsteroidInitializer(_asteroid, ResourcesManager.AsteroidPrefab, 
+        _asteroidInitializer = new AsteroidInitializer(_asteroid, 
             _gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
-        _bulletInitializer = new BulletInitializer(_bullet, ResourcesManager.BulletPrefab);
+        _bulletInitializer = new BulletInitializer(_bullet);
     }
 
     private void Update()
@@ -60,14 +58,6 @@ public class GameController : MonoBehaviour
         _gameModel.BottomScreenBorder = -screenSize.z;
     }
 
-    private void LoadStartPrefabs()
-    {
-        foreach (string _loadedPrefabName in _gameModel.StartLoadedPrefabNames)
-        {
-            ResourcesManager.LoadPrefab(_loadedPrefabName);
-        }
-    }
-
     private void SpawnAsteroid()
     {
         if (Time.time > _gameModel.NextSpawn)
@@ -90,8 +80,9 @@ public class GameController : MonoBehaviour
 
         if (canShoot && isEnemyDetected)
         {
-            _gameModel.NextShoot = Time.time + _gameModel.ShootDelay;
-            _bulletInitializer.InitBullet(_bulletSpawnPosition.transform.position);
+            _bulletInitializer.InitBullet(_shipInitializer.ShipModel.BulletSpawnPosition.position);
+            // Important! Get ShootDelay must be after InitBullet()
+            _gameModel.NextShoot = Time.time + _bulletInitializer.BulletModel.ShootDelay;
         }
     }
 }
