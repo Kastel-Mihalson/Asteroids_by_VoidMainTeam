@@ -1,12 +1,12 @@
 using UnityEngine;
 
-
-public class AsteroidView : MonoBehaviour
+public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 {
     private GameObject _explosionEffect;
     private float _effectTime = 2f;
 
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
+
 
     private void Start()
     {
@@ -15,7 +15,14 @@ public class AsteroidView : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
+
+        if (interactiveObject is IAsteroid)
+        {
+            return;
+        }
+
+        if (interactiveObject is IShip)
         {
             GameObject playerExplosion = Instantiate(_explosionEffect, other.transform.position, other.transform.rotation);
             Destroy(playerExplosion, _effectTime);

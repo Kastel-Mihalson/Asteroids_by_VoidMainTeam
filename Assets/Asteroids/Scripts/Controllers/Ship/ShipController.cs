@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-
 
 public sealed class ShipController
 {
@@ -34,5 +32,13 @@ public sealed class ShipController
 
             _gameObject.transform.position = new Vector3(x, 0, z);
         }
+    }
+
+    public Vector3 GetMovementDirection()
+    {
+        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+
+        return new Vector3(horizontal, 0, vertical);
     }
 }
