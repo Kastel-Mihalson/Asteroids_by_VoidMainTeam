@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
         _shipInitializer = new ShipInitializer(_playerShip);
         _shipInitializer.InitShip();
         _shootingController = new ShootingController(_shipInitializer.ShipModel.BulletSpawnPoint, _bullet);
-        _enemySpawnController = new EnemySpawnController(_gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
+        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
     }
 
     private void Update()
@@ -36,9 +36,7 @@ public class GameController : MonoBehaviour
             _gameModel.RightScreenBorder,
             _gameModel.TopScreenBorder,
             _gameModel.BottomScreenBorder);
-
-        var asteroidIndex = Random.Range(0, _asteroidDataList.Count); // every frame :(
-        _enemySpawnController.SpawnAsteroid(_asteroidDataList[asteroidIndex]);
+        _enemySpawnController.SpawnAsteroid();
     }
 
     private void FixedUpdate()
