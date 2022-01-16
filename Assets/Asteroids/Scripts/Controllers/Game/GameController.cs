@@ -1,18 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameData _gameData;
-
     [SerializeField] private ShipData _playerShip;
-    private ShipInitializer _shipInitializer;
-
-    [SerializeField] private AsteroidData _asteroid;
-    private AsteroidInitializer _asteroidInitializer;
-
+    //[SerializeField] private AsteroidData _asteroid;
     [SerializeField] private BulletData _bullet;
+
+    private ShipInitializer _shipInitializer;
+    private AsteroidInitializer _asteroidInitializer;
     private BulletInitializer _bulletInitializer;
 
+    [SerializeField] private List<AsteroidData> _asteroidDataList;
     private GameModel _gameModel;
 
     private void Awake()
@@ -27,8 +27,7 @@ public class GameController : MonoBehaviour
         _shipInitializer = new ShipInitializer(_playerShip);
         _shipInitializer.InitShip();
 
-        _asteroidInitializer = new AsteroidInitializer(_asteroid, 
-            _gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
+        _asteroidInitializer = new AsteroidInitializer(_gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
         _bulletInitializer = new BulletInitializer(_bullet);
     }
 
@@ -45,7 +44,8 @@ public class GameController : MonoBehaviour
     private void FixedUpdate()
     {
         Shoot();
-        SpawnAsteroid();
+        var randomAsteroidIndex = Random.Range(0, _asteroidDataList.Count);
+        SpawnAsteroid(_asteroidDataList[randomAsteroidIndex]);
         _shipInitializer.ShipController.MoveWithRigidBody(_gameModel.Movement);
     }
 
@@ -58,11 +58,11 @@ public class GameController : MonoBehaviour
         _gameModel.BottomScreenBorder = -screenSize.z;
     }
 
-    private void SpawnAsteroid()
+    private void SpawnAsteroid(AsteroidData asteroidData)
     {
         if (Time.time > _gameModel.NextSpawn)
         {
-            _asteroidInitializer.InitAsteroid();
+            _asteroidInitializer.InitAsteroid(asteroidData);
             _gameModel.NextSpawn += Random.Range(_gameModel.MinDelay, _gameModel.MaxDelay);
         }
     }

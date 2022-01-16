@@ -154,8 +154,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameData: {fileID: 11400000, guid: c8c6f374d44128c49b311259aa484acf, type: 2}
   _playerShip: {fileID: 11400000, guid: 3ea4ba5563478624a850c20a256cff94, type: 2}
-  _asteroid: {fileID: 11400000, guid: 3f26f99469afe214eada59cf2098969f, type: 2}
   _bullet: {fileID: 11400000, guid: 6864a7eb38b02d04ca6cc775b6ad5d54, type: 2}
+  _asteroidDataList:
+  - {fileID: 11400000, guid: 3f26f99469afe214eada59cf2098969f, type: 2}
+  - {fileID: 11400000, guid: f5f15470656fe084eb3f8bf9aabe8054, type: 2}
 --- !u!4 &323969929
 Transform:
   m_ObjectHideFlags: 0
