@@ -5,13 +5,16 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private GameData _gameData;
     [SerializeField] private ShipData _playerShip;
+    [SerializeField] private ShipData _enemyShip;
     [SerializeField] private BulletData _bullet;
     [SerializeField] private List<AsteroidData> _asteroidDataList;
 
     private GameModel _gameModel;
-    private ShootingController _shootingController;
+    private ShootingController _playerShootingController;
+    private ShootingController _enemyShootingController;
     private EnemySpawnController _enemySpawnController;
-    private ShipController _shipController;
+    private ShipController _playerShipController;
+    private ShipController _enemyShipController;
 
     private Transform _bulletStartPoint;
 
@@ -24,8 +27,8 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        _shipController = new ShipController(_playerShip, _gameModel);
-        _shipController.Init();
+        _playerShipController = new ShipController(_playerShip, _gameModel);
+        _playerShipController.Init();
 
         // TODO remove from there
         var spawnObject = FindObjectOfType<BulletSpawnMarker>().transform;
@@ -35,20 +38,21 @@ public class GameController : MonoBehaviour
         }
         //
 
-        _shootingController = new ShootingController(_bulletStartPoint, _bullet);
-        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _gameModel);
+        _playerShootingController = new ShootingController(_bulletStartPoint, _bullet);
+        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _enemyShip, _gameModel);
+        _enemySpawnController.SpawnEnemyShip();
     }
 
     private void Update()
     {
-        _shipController.Execute();
+        _playerShipController.Execute();
         _enemySpawnController.SpawnAsteroid();
     }
 
     private void FixedUpdate()
     {
-        _shipController.FixedExecute();
-        _shootingController.Shoot();
+        _playerShipController.FixedExecute();
+        _playerShootingController.Shoot();
     }
 
     private void SetScreenBorders()

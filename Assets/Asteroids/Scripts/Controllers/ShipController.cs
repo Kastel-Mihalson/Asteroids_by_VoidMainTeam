@@ -10,20 +10,14 @@ public sealed class ShipController
     private GameObject _prefab;
     private Vector3 _startPosition;
     private Vector3 _movement;
-    private float _leftScrenBorder;
-    private float _rightScrenBorder;
-    private float _topScrenBorder;
-    private float _bottomScrenBorder;
+    private GameModel _gameModel;
 
     public ShipController(ShipData data, GameModel gameModel)
     {
         _data = data;
         _startPosition = data.StartPosition;
         _prefab = data.ShipPrefab;
-        _leftScrenBorder = gameModel.LeftScreenBorder;
-        _rightScrenBorder = gameModel.RightScreenBorder;
-        _topScrenBorder = gameModel.TopScreenBorder;
-        _bottomScrenBorder = gameModel.BottomScreenBorder;
+        _gameModel = gameModel;
     }
 
     public void Init()
@@ -38,13 +32,15 @@ public sealed class ShipController
     public void Execute()
     {
         _movement = GetMovementDirection();
-        LimitFlightArea(_leftScrenBorder, _rightScrenBorder, _topScrenBorder, _bottomScrenBorder);
+        LimitFlightArea(_gameModel.LeftScreenBorder, _gameModel.RightScreenBorder,
+            _gameModel.TopScreenBorder, _gameModel.BottomScreenBorder);
     }
 
     public void FixedExecute()
     {
         MoveWithRigidBody(_movement);
     }
+
     private Vector3 GetMovementDirection()
     {
         float vertical = Input.GetAxis("Vertical");
@@ -60,6 +56,11 @@ public sealed class ShipController
             _rigidBody.velocity = movement * _model.MoveSpeed;
             _rigidBody.rotation = Quaternion.Euler(0, 0, -_rigidBody.velocity.x * _model.Turn);
         }
+    }
+
+    public void MoveRandomHorizontalDirection()
+    {
+
     }
 
     private void LimitFlightArea(float leftLimit, float rightLimit, float topLimit, float bottomLimit)
