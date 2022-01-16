@@ -11,10 +11,10 @@ public class EnemySpawnController
     private float _leftScreenBorder;
     private float _rightScreenBorder;
 
-    public EnemySpawnController(List<AsteroidData> asteroids, float leftScreenBorder, float rightScreenBorder)
+    public EnemySpawnController(List<AsteroidData> asteroids, GameModel gameModel)
     {
-        _leftScreenBorder = leftScreenBorder;
-        _rightScreenBorder = rightScreenBorder;
+        _leftScreenBorder = gameModel.LeftScreenBorder;
+        _rightScreenBorder = gameModel.RightScreenBorder;
         _asteroids = asteroids;
     }
 

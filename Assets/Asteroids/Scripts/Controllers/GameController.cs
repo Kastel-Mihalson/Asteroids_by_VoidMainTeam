@@ -8,10 +8,12 @@ public class GameController : MonoBehaviour
     [SerializeField] private BulletData _bullet;
     [SerializeField] private List<AsteroidData> _asteroidDataList;
 
-    private ShipInitializer _shipInitializer;
     private GameModel _gameModel;
     private ShootingController _shootingController;
     private EnemySpawnController _enemySpawnController;
+    private ShipController _shipController;
+
+    private Transform _bulletStartPoint;
 
     private void Awake()
     {
@@ -22,27 +24,31 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        _shipInitializer = new ShipInitializer(_playerShip);
-        _shipInitializer.InitShip();
-        _shootingController = new ShootingController(_shipInitializer.ShipModel.BulletSpawnPoint, _bullet);
-        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
+        _shipController = new ShipController(_playerShip, _gameModel);
+        _shipController.Init();
+
+        // TODO remove from there
+        var spawnObject = FindObjectOfType<BulletSpawnMarker>().transform;
+        if (spawnObject != null)
+        {
+            _bulletStartPoint = spawnObject;
+        }
+        //
+
+        _shootingController = new ShootingController(_bulletStartPoint, _bullet);
+        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _gameModel);
     }
 
     private void Update()
     {
-        _gameModel.Movement = _shipInitializer.ShipController.GetMovementDirection();
-        _shipInitializer.ShipController.LimitFlightArea(
-            _gameModel.LeftScreenBorder,
-            _gameModel.RightScreenBorder,
-            _gameModel.TopScreenBorder,
-            _gameModel.BottomScreenBorder);
+        _shipController.Execute();
         _enemySpawnController.SpawnAsteroid();
     }
 
     private void FixedUpdate()
     {
+        _shipController.FixedExecute();
         _shootingController.Shoot();
-        _shipInitializer.ShipController.MoveWithRigidBody(_gameModel.Movement);
     }
 
     private void SetScreenBorders()
