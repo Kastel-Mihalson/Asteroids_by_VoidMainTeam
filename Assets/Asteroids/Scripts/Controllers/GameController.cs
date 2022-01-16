@@ -36,13 +36,14 @@ public class GameController : MonoBehaviour
             _gameModel.RightScreenBorder,
             _gameModel.TopScreenBorder,
             _gameModel.BottomScreenBorder);
+
+        var asteroidIndex = Random.Range(0, _asteroidDataList.Count); // every frame :(
+        _enemySpawnController.SpawnAsteroid(_asteroidDataList[asteroidIndex]);
     }
 
     private void FixedUpdate()
     {
         _shootingController.Shoot();
-        var randomAsteroidIndex = Random.Range(0, _asteroidDataList.Count);
-        _enemySpawnController.SpawnAsteroid(_asteroidDataList[randomAsteroidIndex]);
         _shipInitializer.ShipController.MoveWithRigidBody(_gameModel.Movement);
     }
 
