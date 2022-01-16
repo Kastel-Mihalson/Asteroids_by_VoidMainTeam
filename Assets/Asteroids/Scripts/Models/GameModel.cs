@@ -7,15 +7,10 @@ public sealed class GameModel
     private float _rightScreenBorder;
     private float _topScreenBorder;
     private float _bottomScreenBorder;
-    private float _shootingDistance;
-    private float _nextSpawn;
-    private float _minDelay;
-    private float _maxDelay;
-    private float _nextShoot;
-
+    private float _nextSpawnTime;
+    private float _minSpawnDelay;
+    private float _maxSpawnDelay;
     private List<string> _startLoadedPrefabNames;
-
-    private LayerMask _enemyMask;
     private Vector3 _movement;
 
     public float LeftScreenBorder
@@ -38,23 +33,14 @@ public sealed class GameModel
         get => _bottomScreenBorder;
         set => _bottomScreenBorder = value;
     }
-    public float ShootingDistance => _shootingDistance;
-    public float NextSpawn
+    public float NextSpawnTime
     {
-        get => _nextSpawn;
-        set => _nextSpawn = value;
+        get => _nextSpawnTime;
+        set => _nextSpawnTime = value;
     }
-    public float MinDelay => _minDelay;
-    public float MaxDelay => _maxDelay;
-    public float NextShoot
-    {
-        get => _nextShoot;
-        set => _nextShoot = value;
-    }
-
+    public float MinSpawnDelay => _minSpawnDelay;
+    public float MaxSpawnDelay => _maxSpawnDelay;
     public List<string> StartLoadedPrefabNames => _startLoadedPrefabNames;
-
-    public LayerMask EnemyMask => _enemyMask;
     public Vector3 Movement
     {
         get => _movement;
@@ -63,12 +49,9 @@ public sealed class GameModel
 
     public GameModel(GameData gameData)
     {
-        _nextShoot = gameData.NextShoot;
-        _nextSpawn = gameData.NextSpawn;
-        _shootingDistance = gameData.ShootingDistance;
-        _minDelay = gameData.MinDelay;
-        _maxDelay = gameData.MaxDelay;
+        _nextSpawnTime = gameData.NextSpawnTime;
+        _minSpawnDelay = gameData.MinSpawnDelay;
+        _maxSpawnDelay = gameData.MaxSpawnDelay;
         _startLoadedPrefabNames = gameData.StartLoadedPrefabNames;
-        _enemyMask = gameData.EnemyMask;
     }
 }

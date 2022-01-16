@@ -4,11 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameData", menuName = "ScriptableObjects/GameData", order = 1)]
 public class GameData : ScriptableObject
 {
-    [SerializeField] private float _shootingDistance = 7f;
-    [SerializeField] private float _nextSpawn = 0f;
-    [SerializeField] private float _minDelay = 0.5f;
-    [SerializeField] private float _maxDelay = 2f;
-    [SerializeField] private float _nextShoot = 0f;
+    [SerializeField] private float _nextSpawnTime = 0f;
+    [SerializeField] private float _minSpawnDelay = 0.5f;
+    [SerializeField] private float _maxSpawnDelay = 2f;
 
     [SerializeField]
     private List<string> _startLoadedPrefabNames = new List<string>
@@ -18,14 +16,8 @@ public class GameData : ScriptableObject
         "Asteroid"
     };
 
-    [SerializeField] private LayerMask _enemyMask;
-    public float ShootingDistance => _shootingDistance;
-    public float NextSpawn => _nextSpawn;
-    public float MinDelay => _minDelay;
-    public float MaxDelay => _maxDelay;
-    public float NextShoot => _nextShoot;
-
+    public float NextSpawnTime => _nextSpawnTime;
+    public float MinSpawnDelay => _minSpawnDelay;
+    public float MaxSpawnDelay => _maxSpawnDelay;
     public List<string> StartLoadedPrefabNames => _startLoadedPrefabNames;
-
-    public LayerMask EnemyMask => _enemyMask;
 }
