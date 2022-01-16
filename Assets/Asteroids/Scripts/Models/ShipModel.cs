@@ -17,7 +17,7 @@ public sealed class ShipModel
         private set => _turnSpeed = value;
     }
 
-    public Transform BulletSpawnPosition
+    public Transform BulletSpawnPoint
     {
         get => _bulletSpawnPosition;
         set => _bulletSpawnPosition = value; 

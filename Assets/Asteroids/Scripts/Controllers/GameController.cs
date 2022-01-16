@@ -5,15 +5,13 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private GameData _gameData;
     [SerializeField] private ShipData _playerShip;
-    //[SerializeField] private AsteroidData _asteroid;
     [SerializeField] private BulletData _bullet;
+    [SerializeField] private List<AsteroidData> _asteroidDataList;
 
     private ShipInitializer _shipInitializer;
     private AsteroidInitializer _asteroidInitializer;
-    private BulletInitializer _bulletInitializer;
-
-    [SerializeField] private List<AsteroidData> _asteroidDataList;
     private GameModel _gameModel;
+    private ShootingController _shootingController;
 
     private void Awake()
     {
@@ -26,9 +24,8 @@ public class GameController : MonoBehaviour
     {
         _shipInitializer = new ShipInitializer(_playerShip);
         _shipInitializer.InitShip();
-
         _asteroidInitializer = new AsteroidInitializer(_gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
-        _bulletInitializer = new BulletInitializer(_bullet);
+        _shootingController = new ShootingController(_shipInitializer.ShipModel.BulletSpawnPoint, _bullet);
     }
 
     private void Update()
@@ -43,7 +40,7 @@ public class GameController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Shoot();
+        _shootingController.Shoot();
         var randomAsteroidIndex = Random.Range(0, _asteroidDataList.Count);
         SpawnAsteroid(_asteroidDataList[randomAsteroidIndex]);
         _shipInitializer.ShipController.MoveWithRigidBody(_gameModel.Movement);
@@ -60,29 +57,10 @@ public class GameController : MonoBehaviour
 
     private void SpawnAsteroid(AsteroidData asteroidData)
     {
-        if (Time.time > _gameModel.NextSpawn)
+        if (Time.time > _gameModel.NextSpawnTime)
         {
             _asteroidInitializer.InitAsteroid(asteroidData);
-            _gameModel.NextSpawn += Random.Range(_gameModel.MinDelay, _gameModel.MaxDelay);
-        }
-    }
-
-    private void Shoot()
-    {
-        if (!_shipInitializer.ShipView)
-        {
-            return;
-        }
-
-        bool canShoot = Time.time > _gameModel.NextShoot;
-        bool isEnemyDetected = Physics.Raycast(_shipInitializer.ShipView.transform.position, Vector3.forward, 
-            _gameModel.ShootingDistance, _gameModel.EnemyMask);
-
-        if (canShoot && isEnemyDetected)
-        {
-            _bulletInitializer.InitBullet(_shipInitializer.ShipModel.BulletSpawnPosition.position);
-            // Important! Get ShootDelay must be after InitBullet()
-            _gameModel.NextShoot = Time.time + _bulletInitializer.BulletModel.ShootDelay;
+            _gameModel.NextSpawnTime += Random.Range(_gameModel.MinSpawnDelay, _gameModel.MaxSpawnDelay);
         }
     }
 }
