@@ -9,9 +9,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<AsteroidData> _asteroidDataList;
 
     private ShipInitializer _shipInitializer;
-    private AsteroidInitializer _asteroidInitializer;
     private GameModel _gameModel;
     private ShootingController _shootingController;
+    private EnemySpawnController _enemySpawnController;
 
     private void Awake()
     {
@@ -24,8 +24,8 @@ public class GameController : MonoBehaviour
     {
         _shipInitializer = new ShipInitializer(_playerShip);
         _shipInitializer.InitShip();
-        _asteroidInitializer = new AsteroidInitializer(_gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
         _shootingController = new ShootingController(_shipInitializer.ShipModel.BulletSpawnPoint, _bullet);
+        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _gameModel.LeftScreenBorder, _gameModel.RightScreenBorder);
     }
 
     private void Update()
@@ -36,13 +36,12 @@ public class GameController : MonoBehaviour
             _gameModel.RightScreenBorder,
             _gameModel.TopScreenBorder,
             _gameModel.BottomScreenBorder);
+        _enemySpawnController.SpawnAsteroid();
     }
 
     private void FixedUpdate()
     {
         _shootingController.Shoot();
-        var randomAsteroidIndex = Random.Range(0, _asteroidDataList.Count);
-        SpawnAsteroid(_asteroidDataList[randomAsteroidIndex]);
         _shipInitializer.ShipController.MoveWithRigidBody(_gameModel.Movement);
     }
 
@@ -53,14 +52,5 @@ public class GameController : MonoBehaviour
         _gameModel.LeftScreenBorder = -screenSize.x;
         _gameModel.TopScreenBorder = screenSize.z;
         _gameModel.BottomScreenBorder = -screenSize.z;
-    }
-
-    private void SpawnAsteroid(AsteroidData asteroidData)
-    {
-        if (Time.time > _gameModel.NextSpawnTime)
-        {
-            _asteroidInitializer.InitAsteroid(asteroidData);
-            _gameModel.NextSpawnTime += Random.Range(_gameModel.MinSpawnDelay, _gameModel.MaxSpawnDelay);
-        }
     }
 }

@@ -7,9 +7,6 @@ public sealed class GameModel
     private float _rightScreenBorder;
     private float _topScreenBorder;
     private float _bottomScreenBorder;
-    private float _nextSpawnTime;
-    private float _minSpawnDelay;
-    private float _maxSpawnDelay;
     private List<string> _startLoadedPrefabNames;
     private Vector3 _movement;
 
@@ -33,13 +30,6 @@ public sealed class GameModel
         get => _bottomScreenBorder;
         set => _bottomScreenBorder = value;
     }
-    public float NextSpawnTime
-    {
-        get => _nextSpawnTime;
-        set => _nextSpawnTime = value;
-    }
-    public float MinSpawnDelay => _minSpawnDelay;
-    public float MaxSpawnDelay => _maxSpawnDelay;
     public List<string> StartLoadedPrefabNames => _startLoadedPrefabNames;
     public Vector3 Movement
     {
@@ -49,9 +39,6 @@ public sealed class GameModel
 
     public GameModel(GameData gameData)
     {
-        _nextSpawnTime = gameData.NextSpawnTime;
-        _minSpawnDelay = gameData.MinSpawnDelay;
-        _maxSpawnDelay = gameData.MaxSpawnDelay;
         _startLoadedPrefabNames = gameData.StartLoadedPrefabNames;
     }
 }
