@@ -6,8 +6,8 @@ public sealed class ShipController
     private ShipView _view;
     private Rigidbody _rigidBody;
     private GameObject _gameObject;
-    private Vector3 _startPoint;
     private GameObject _prefab;
+    private Vector3 _startPoint;
     private Vector3 _movement;
     private float _leftScrenBorder;
     private float _rightScrenBorder;
