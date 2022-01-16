@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerShip
   m_EditorClassIdentifier: 
   _moveSpeed: 10
-  _turnSpeed: 6
+  _turnSpeed: 4
   _startPosition: {x: 0, y: 0, z: -4.5}
-  _shipPrefab: {fileID: 4608874829272778946, guid: 0859a31ac1831a7429caf7284df8c7ea, type: 3}
+  _shipPrefab: {fileID: 1411103268356311223, guid: 197fefbc66e8da944bb83a5c5411d5dc, type: 3}
