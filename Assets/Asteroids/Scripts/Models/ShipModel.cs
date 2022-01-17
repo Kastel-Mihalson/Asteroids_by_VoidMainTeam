@@ -4,7 +4,6 @@ public sealed class ShipModel
 {
     private float _moveSpeed;
     private float _turnSpeed;
-    private Transform _bulletSpawnPosition;
 
     public float MoveSpeed
     {
@@ -17,22 +16,9 @@ public sealed class ShipModel
         private set => _turnSpeed = value;
     }
 
-    public Transform BulletSpawnPoint
-    {
-        get => _bulletSpawnPosition;
-        set => _bulletSpawnPosition = value; 
-    }
-
     public ShipModel(ShipData data)
     {
         _moveSpeed = data.MoveSpeed;
         _turnSpeed = data.TurnSpeed;
-
-        var spawnObject = Object.FindObjectOfType<BulletSpawnMarker>().gameObject;
-
-        if (spawnObject != null)
-        {
-            _bulletSpawnPosition = spawnObject.transform;
-        }
     }
 }

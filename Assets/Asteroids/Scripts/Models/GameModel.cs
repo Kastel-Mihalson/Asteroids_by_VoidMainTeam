@@ -8,7 +8,6 @@ public sealed class GameModel
     private float _topScreenBorder;
     private float _bottomScreenBorder;
     private List<string> _startLoadedPrefabNames;
-    private Vector3 _movement;
 
     public float LeftScreenBorder
     {
@@ -31,11 +30,6 @@ public sealed class GameModel
         set => _bottomScreenBorder = value;
     }
     public List<string> StartLoadedPrefabNames => _startLoadedPrefabNames;
-    public Vector3 Movement
-    {
-        get => _movement;
-        set => _movement = value;
-    }
 
     public GameModel(GameData gameData)
     {
