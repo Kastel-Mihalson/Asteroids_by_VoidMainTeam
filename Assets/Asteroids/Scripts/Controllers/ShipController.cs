@@ -11,6 +11,10 @@ public sealed class ShipController
     private Vector3 _startPosition;
     private Vector3 _movement;
     private GameModel _gameModel;
+    private float _nextChangeDirectionTime;
+    private Transform _bulletStartPoint;
+
+    public Transform BulletStartPoint => _bulletStartPoint;
 
     public ShipController(ShipData data, GameModel gameModel)
     {
@@ -27,18 +31,28 @@ public sealed class ShipController
         _view = shipGameObject.GetComponent<ShipView>();
         _rigidBody = _view.Rigidbody;
         _gameObject = _view.gameObject;
+        _bulletStartPoint = _view.BulletSpawnPoint;
     }
 
-    public void Execute()
+    public void Execute(ShipType type)
     {
-        _movement = GetMovementDirection();
+        if (type == ShipType.Player)
+        {
+            _movement = GetMovementDirection();
+        }
+        else if (type == ShipType.Enemy && Time.time > _nextChangeDirectionTime)
+        {
+            _movement = GetRandomHorizontalMovementDirection();
+            _nextChangeDirectionTime += Random.Range(1f, 5f);
+        }        
+
         LimitFlightArea(_gameModel.LeftScreenBorder, _gameModel.RightScreenBorder,
             _gameModel.TopScreenBorder, _gameModel.BottomScreenBorder);
     }
 
     public void FixedExecute()
     {
-        MoveWithRigidBody(_movement);
+        Move(_movement);
     }
 
     private Vector3 GetMovementDirection()
@@ -49,21 +63,21 @@ public sealed class ShipController
         return new Vector3(horizontal, 0, vertical);
     }
 
-    private void MoveWithRigidBody(Vector3 movement)
+    private Vector3 GetRandomHorizontalMovementDirection()
+    {
+        return new Vector3(Random.Range(-1f, 1f), 0f, 0f);
+    }
+
+    private void Move(Vector3 movement)
     {
         if (_rigidBody)
         {        
             _rigidBody.velocity = movement * _model.MoveSpeed;
-            _rigidBody.rotation = Quaternion.Euler(0, 0, -_rigidBody.velocity.x * _model.Turn);
+            _rigidBody.rotation = Quaternion.Euler(0, 0, -_rigidBody.velocity.x * _model.TurnSpeed);
         }
     }
 
-    public void MoveRandomHorizontalDirection()
-    {
-
-    }
-
-    private void LimitFlightArea(float leftLimit, float rightLimit, float topLimit, float bottomLimit)
+    public void LimitFlightArea(float leftLimit, float rightLimit, float topLimit, float bottomLimit)
     {
         if (_gameObject)
         {
@@ -73,4 +87,10 @@ public sealed class ShipController
             _gameObject.transform.position = new Vector3(x, 0, z);
         }
     }
+}
+
+public enum ShipType
+{
+    Player = 1,
+    Enemy = 2
 }

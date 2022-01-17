@@ -10,7 +10,7 @@ public sealed class ShipModel
         get => _moveSpeed;
         private set => _moveSpeed = value;
     }
-    public float Turn
+    public float TurnSpeed
     {
         get => _turnSpeed;
         private set => _turnSpeed = value;

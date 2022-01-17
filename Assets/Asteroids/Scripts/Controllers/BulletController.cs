@@ -30,7 +30,7 @@ public class BulletController
     {
         if (_rigidbody)
         {
-            _rigidbody.velocity = Vector3.forward * _model.BulletSpeed;
+            _rigidbody.velocity = _spawnPosition.forward * _model.BulletSpeed;
         }
     }
 }
