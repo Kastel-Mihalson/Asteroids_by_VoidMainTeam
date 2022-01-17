@@ -20,7 +20,6 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
     private void OnTriggerEnter(Collider other)
     {
         int damage = 10;
-        //if (other.TryGetComponent(out IInteractiveObject interactiveObject))
         OnDamaged?.Invoke(damage); // how to get DAMAGE from other collider? DamageProvider?
     }
 

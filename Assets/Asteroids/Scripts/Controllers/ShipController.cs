@@ -33,8 +33,21 @@ public sealed class ShipController
         _gameObject = _view.gameObject;
         _bulletStartPoint = _view.BulletSpawnPoint;
 
+        OnEnable();
+    }
+
+    private void OnEnable()
+    {
         _view.OnDamaged += _model.RecieveDamage;
         _model.OnDied += _view.Die;
+        _model.OnDied += OnDisable;
+    }
+
+    private void OnDisable()
+    {
+        _view.OnDamaged -= _model.RecieveDamage;
+        _model.OnDied -= _view.Die;
+        _model.OnDied -= OnDisable;
     }
 
     public void Execute(ShipType type)
