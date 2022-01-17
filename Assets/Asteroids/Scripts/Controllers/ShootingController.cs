@@ -21,12 +21,18 @@ public class ShootingController
     public void Shoot()
     {
         bool canShoot = Time.time > _nextShotTime;
-        bool isEnemyDetected = Physics.Raycast(_startPoint.position, Vector3.forward, _shootingDistance, _enemyMask);
+        bool isEnemyDetected = false;
+
+        if (_startPoint != null)
+        {
+            isEnemyDetected = Physics.Raycast(_startPoint.position, Vector3.forward, _shootingDistance, _enemyMask);
+        }
 
         if (canShoot && isEnemyDetected)
         {
             _bulletController.Init();
             _bulletController.Move();
+            _bulletController.OnEnable();
             _nextShotTime = Time.time + _shootDelay;
         }
     }
