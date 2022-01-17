@@ -4,10 +4,11 @@ public sealed class ShipController
 {
     private ShipModel _model;
     private ShipView _view;
+    private ShipData _data;
     private Rigidbody _rigidBody;
     private GameObject _gameObject;
     private GameObject _prefab;
-    private Vector3 _startPoint;
+    private Vector3 _startPosition;
     private Vector3 _movement;
     private float _leftScrenBorder;
     private float _rightScrenBorder;
@@ -16,8 +17,8 @@ public sealed class ShipController
 
     public ShipController(ShipData data, GameModel gameModel)
     {
-        _model = new ShipModel(data);
-        _startPoint = data.StartPosition;
+        _data = data;
+        _startPosition = data.StartPosition;
         _prefab = data.ShipPrefab;
         _leftScrenBorder = gameModel.LeftScreenBorder;
         _rightScrenBorder = gameModel.RightScreenBorder;
@@ -27,7 +28,8 @@ public sealed class ShipController
 
     public void Init()
     {
-        GameObject shipGameObject = Object.Instantiate(_prefab, _startPoint, Quaternion.identity);
+        _model = new ShipModel(_data);
+        GameObject shipGameObject = Object.Instantiate(_prefab, _startPosition, Quaternion.identity);
         _view = shipGameObject.GetComponent<ShipView>();
         _rigidBody = _view.Rigidbody;
         _gameObject = _view.gameObject;

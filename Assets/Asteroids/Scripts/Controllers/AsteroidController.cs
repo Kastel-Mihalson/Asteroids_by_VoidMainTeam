@@ -4,17 +4,18 @@ public sealed class AsteroidController
 {
     private AsteroidModel _model;
     private AsteroidView _view;
+    private AsteroidData _data;
     private Rigidbody _rigidBody;
     private GameObject _prefab;
     private float _leftScreenBorder;
     private float _rightScreenBorder;
 
-    public AsteroidController(AsteroidData data, float leftScreenBorder, float rightScreenBorder)
+    public AsteroidController(AsteroidData data, GameModel gameModel)
     {
-        _model = new AsteroidModel(data);
+        _data = data;
         _prefab = data.AsteroidPrefab;
-        _leftScreenBorder = leftScreenBorder;
-        _rightScreenBorder = rightScreenBorder;
+        _leftScreenBorder = gameModel.LeftScreenBorder;
+        _rightScreenBorder = gameModel.RightScreenBorder;
     }
 
     public void Move()
@@ -28,12 +29,13 @@ public sealed class AsteroidController
 
     public void Init()
     {
+        _model = new AsteroidModel(_data);
         GameObject asteroidGameObject = Object.Instantiate(_prefab,
             new Vector3(Random.Range(_leftScreenBorder, _rightScreenBorder), 0, 8f), 
             Quaternion.identity);
+        asteroidGameObject.transform.localScale = Vector3.one * Random.Range(_model.MinSize, _model.MaxSize);
         _view = asteroidGameObject.GetComponent<AsteroidView>();
         _rigidBody = _view.Rigidbody;
-        asteroidGameObject.transform.localScale = Vector3.one * Random.Range(_model.MinSize, _model.MaxSize);
         _view.Die(_model.LifeTime);
     }
 }
