@@ -3,13 +3,12 @@ using System;
 
 public sealed class ShipModel
 {
-    public event Action OnDied;
     private float _moveSpeed;
     private float _turnSpeed;
-    private float _currentHP;
-    private float _maxHP;
-    private float _currentArmor;
-    private float _maxArmor;
+    private int _currentHP;
+    private int _maxHP;
+    private int _currentArmor;
+    private int _maxArmor;
 
     public float MoveSpeed
     {
@@ -22,6 +21,18 @@ public sealed class ShipModel
         private set => _turnSpeed = value;
     }
 
+    public int CurrentHP
+    {
+        get => _currentHP;
+        set => _currentHP = value;
+    }
+
+    public int CurrentArmor
+    {
+        get => _currentArmor;
+        set => _currentArmor = value;
+    }
+
     public ShipModel(ShipData data)
     {
         _moveSpeed = data.MoveSpeed;
@@ -30,29 +41,5 @@ public sealed class ShipModel
         _maxArmor = data.Armor;
         _currentHP = _maxHP;
         _currentArmor = _maxArmor;
-    }
-
-    public void RecieveDamage(int damage)
-    {
-        if (_currentArmor > 0)
-        {
-            _currentArmor -= damage;
-        }
-        else
-        {
-            _currentHP -= damage;
-        }
-
-        Debug.Log($"hp = {_currentHP}, ar = {_currentArmor}");
-
-        if (_currentHP <= 0)
-        {
-            Die();
-        }
-    }
-
-    public void Die()
-    {
-        OnDied?.Invoke();
     }
 }

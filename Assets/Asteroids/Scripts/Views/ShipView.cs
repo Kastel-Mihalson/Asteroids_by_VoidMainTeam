@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShipView : MonoBehaviour, IInteractiveObject, IShip
 {
-    public event Action<int> OnDamaged;
+    public event Action<int> OnDamagedEvent;
 
     private GameObject _explosionEffect;
     private float _effectTime = 2f;
@@ -18,9 +18,19 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        int damage = 10;
-        OnDamaged?.Invoke(damage); // how to get DAMAGE from other collider? DamageProvider?
+    { 
+        if (other.TryGetComponent(out IInteractiveObject interactiveObject))
+        {
+            if(interactiveObject is IBullet)
+            {
+                var bulletView = (BulletView)interactiveObject;
+                int? damage = bulletView.GetBulletDamage();
+                if (damage != null)
+                {
+                    OnDamagedEvent?.Invoke((int)damage);
+                }
+            }
+        }
     }
 
     public void Die()

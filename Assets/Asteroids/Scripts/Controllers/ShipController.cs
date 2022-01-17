@@ -1,7 +1,12 @@
+using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public sealed class ShipController
 {
+    public event Action OnDiedEvent;
+
     private ShipModel _model;
     private ShipView _view;
     private ShipData _data;
@@ -13,6 +18,8 @@ public sealed class ShipController
     private GameModel _gameModel;
     private float _nextChangeDirectionTime;
     private Transform _bulletStartPoint;
+    private float _offsetX;
+    private float _offsetZ;
 
     public Transform BulletStartPoint => _bulletStartPoint;
 
@@ -21,7 +28,7 @@ public sealed class ShipController
         _data = data;
         _startPosition = data.StartPosition;
         _prefab = data.ShipPrefab;
-        _gameModel = gameModel;
+        _gameModel = gameModel;       
     }
 
     public void Init()
@@ -33,21 +40,46 @@ public sealed class ShipController
         _gameObject = _view.gameObject;
         _bulletStartPoint = _view.BulletSpawnPoint;
 
+        _offsetX = _gameObject.GetComponent<CapsuleCollider>().radius;
+        _offsetZ = _gameObject.GetComponent<CapsuleCollider>().height / 2;
+
         OnEnable();
     }
 
     private void OnEnable()
     {
-        _view.OnDamaged += _model.RecieveDamage;
-        _model.OnDied += _view.Die;
-        _model.OnDied += OnDisable;
+        _view.OnDamagedEvent += RecieveDamage;
+        OnDiedEvent += _view.Die;
+        OnDiedEvent += OnDisable;
     }
 
     private void OnDisable()
     {
-        _view.OnDamaged -= _model.RecieveDamage;
-        _model.OnDied -= _view.Die;
-        _model.OnDied -= OnDisable;
+        _view.OnDamagedEvent -= RecieveDamage;
+        OnDiedEvent -= _view.Die;
+        OnDiedEvent -= OnDisable;
+    }
+
+    private void RecieveDamage(int damage)
+    {
+        if (_model.CurrentArmor > 0)
+        {
+            _model.CurrentArmor -= damage;
+        }
+        else
+        {
+            _model.CurrentHP -= damage;
+        }
+
+        if (_model.CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        OnDiedEvent?.Invoke();
     }
 
     public void Execute(ShipType type)
@@ -97,8 +129,8 @@ public sealed class ShipController
     {
         if (_gameObject)
         {
-            float x = Mathf.Clamp(_gameObject.transform.position.x, leftLimit, rightLimit);
-            float z = Mathf.Clamp(_gameObject.transform.position.z, bottomLimit, topLimit);
+            float x = Mathf.Clamp(_gameObject.transform.position.x, leftLimit + _offsetX, rightLimit - _offsetX);
+            float z = Mathf.Clamp(_gameObject.transform.position.z, bottomLimit + _offsetZ, topLimit - _offsetZ);
 
             _gameObject.transform.position = new Vector3(x, 0, z);
         }

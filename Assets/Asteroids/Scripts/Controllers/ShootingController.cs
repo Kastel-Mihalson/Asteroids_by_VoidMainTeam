@@ -19,14 +19,23 @@ public class ShootingController
     public void Shoot()
     {
         bool canShoot = Time.time > _nextShotTime;
-        bool isEnemyDetected = Physics.Raycast(_startPoint.position, _startPoint.forward, _shootingDistance);
+        bool isEnemyDetected = false;
 
-        Debug.DrawRay(_startPoint.position, _startPoint.forward);
+        if (_startPoint != null)
+        {
+            isEnemyDetected = Physics.Raycast(_startPoint.position, _startPoint.forward, out RaycastHit hit, _shootingDistance);
+            // TODO shoot on bullet
+            if (hit.transform.gameObject.TryGetComponent<IBullet>(out _))
+            {
+                return;
+            }
+        }
 
         if (canShoot && isEnemyDetected)
         {
             _bulletController.Init();
             _bulletController.Move();
+            _bulletController.OnEnable();
             _nextShotTime = Time.time + _shootDelay;
         }
     }

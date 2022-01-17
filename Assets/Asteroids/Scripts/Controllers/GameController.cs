@@ -20,7 +20,6 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         _gameModel = new GameModel(_gameData);
-        //ResourcesManager.LoadPrefabsByNameList(_gameModel.StartLoadedPrefabNames);
         SetScreenBorders();
     }
 
