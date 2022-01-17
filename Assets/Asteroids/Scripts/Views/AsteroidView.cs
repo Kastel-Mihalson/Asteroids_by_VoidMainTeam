@@ -13,7 +13,7 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {        
         var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
 
         if (interactiveObject is IAsteroid)
