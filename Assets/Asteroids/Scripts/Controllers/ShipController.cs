@@ -32,6 +32,9 @@ public sealed class ShipController
         _rigidBody = _view.Rigidbody;
         _gameObject = _view.gameObject;
         _bulletStartPoint = _view.BulletSpawnPoint;
+
+        _view.OnDamaged += _model.RecieveDamage;
+        _model.OnDied += _view.Die;
     }
 
     public void Execute(ShipType type)

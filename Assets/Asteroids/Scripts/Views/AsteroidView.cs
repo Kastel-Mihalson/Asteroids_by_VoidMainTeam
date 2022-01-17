@@ -20,11 +20,6 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
         {
             return;
         }
-        if (interactiveObject is IShip)
-        {
-            GameObject playerExplosion = Instantiate(_explosionEffect, other.transform.position, other.transform.rotation);
-            Destroy(playerExplosion, _effectTime);
-        }
         if (interactiveObject is IBullet)
         {
             GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
@@ -32,7 +27,6 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
         }
 
         Destroy(gameObject);
-        Destroy(other.gameObject);
     }
 
     public void Die(float lifeTime)

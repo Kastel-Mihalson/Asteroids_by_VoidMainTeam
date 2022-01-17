@@ -1,9 +1,15 @@
 using UnityEngine;
+using System;
 
 public sealed class ShipModel
 {
+    public event Action OnDied;
     private float _moveSpeed;
     private float _turnSpeed;
+    private float _currentHP;
+    private float _maxHP;
+    private float _currentArmor;
+    private float _maxArmor;
 
     public float MoveSpeed
     {
@@ -20,5 +26,33 @@ public sealed class ShipModel
     {
         _moveSpeed = data.MoveSpeed;
         _turnSpeed = data.TurnSpeed;
+        _maxHP = data.HP;
+        _maxArmor = data.Armor;
+        _currentHP = _maxHP;
+        _currentArmor = _maxArmor;
+    }
+
+    public void RecieveDamage(int damage)
+    {
+        if (_currentArmor > 0)
+        {
+            _currentArmor -= damage;
+        }
+        else
+        {
+            _currentHP -= damage;
+        }
+
+        Debug.Log($"hp = {_currentHP}, ar = {_currentArmor}");
+
+        if (_currentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        OnDied?.Invoke();
     }
 }
