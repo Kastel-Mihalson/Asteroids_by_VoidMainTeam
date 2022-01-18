@@ -16,5 +16,6 @@ MonoBehaviour:
   _turnSpeed: 4
   _hp: 30
   _armor: 30
+  _type: 1
   _startPosition: {x: 0, y: 0, z: -4.5}
   _shipPrefab: {fileID: 1411103268356311223, guid: 197fefbc66e8da944bb83a5c5411d5dc, type: 3}
