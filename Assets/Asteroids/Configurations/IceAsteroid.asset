@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minMoveSpeed: 3
   _maxMoveSpeed: 5
+  _moveSpeed: 4
   _rotationSpeed: 3
+  _hp: 20
   _damage: 1
   _lifeTime: 8
   _asteroidPrefab: {fileID: 7205921297374128390, guid: e8bfa83ef8243934d8303480a281459a, type: 3}
-  _minSize: 0.4
-  _maxSize: 1.1
+  _minSize: 1
+  _maxSize: 3
+  _size: 1.6
