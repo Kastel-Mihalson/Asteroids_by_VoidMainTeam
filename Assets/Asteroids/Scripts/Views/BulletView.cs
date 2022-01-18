@@ -17,11 +17,14 @@ public class BulletView : MonoBehaviour, IInteractiveObject, IBullet
 
     public void Die(float lifeTime)
     {
-        if (transform.position.z > 7f || transform.position.z < -7f)
-        {
-            ReturnBulletToPool(gameObject);
-        }
-        // Destroy(gameObject, lifeTime);
+        StartCoroutine(nameof(ReturnBulletToPoolTimer), lifeTime);
+    }
+
+    private IEnumerator ReturnBulletToPoolTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ReturnBulletToPool(gameObject);
+        StopCoroutine(nameof(ReturnBulletToPoolTimer));
     }
 
     public void ReturnBulletToPool(GameObject bullet) => ReturnBulletToPoolEvent?.Invoke(bullet);
