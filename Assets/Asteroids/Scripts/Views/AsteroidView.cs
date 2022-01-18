@@ -31,13 +31,10 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
             {
                 OnDamagedEvent?.Invoke((int)damage);
             }
-            //
-            GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
-            Destroy(asteroidExplosion, _effectTime);
         }
         else
         {
-            Destroy(gameObject);
+            Die();
         }
 
     }
@@ -46,8 +43,11 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     {
         Destroy(gameObject, lifeTime);
     }
+
     public void Die()
     {
         Destroy(gameObject);
+        GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
+        Destroy(asteroidExplosion, _effectTime);
     }
 }

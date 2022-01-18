@@ -26,6 +26,7 @@ public class BulletController
         bulletGameObject.transform.position = _spawnPosition.position;
         _view = bulletGameObject.GetComponent<BulletView>();
         _rigidbody = _view.Rigidbody;
+        _view.Die(_model.LifeTime);
     }
 
     public void Move()
@@ -33,7 +34,6 @@ public class BulletController
         if (_rigidbody)
         {
             _rigidbody.velocity = _spawnPosition.forward * _model.BulletSpeed;
-            //_view.Die(_model.LifeTime);
         }
     }
 
