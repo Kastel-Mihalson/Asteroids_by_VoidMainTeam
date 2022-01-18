@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,10 @@ public class GameController : MonoBehaviour
     private ShipController _playerShipController;
     private ShipController _enemyShipController;
 
+    private BackgroundStars _bgStars;
+    [Range(1, 10)]
+    public float speed = 2f;
+
     private void Awake()
     {
         GameModel.SetScreenBorders();
@@ -22,6 +27,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        _bgStars = new BackgroundStars(50);
         _spawnController = new SpawnController();
         _playerShipController = _spawnController.SpawnShip(_playerShip);
         _enemyShipController = _spawnController.SpawnShip(_enemyShip);
@@ -30,7 +36,7 @@ public class GameController : MonoBehaviour
     }
 
     private void Update()
-    {
+    {   
         _playerShipController.Execute();
         _enemyShipController.Execute();
         _spawnController.SpawnAsteroid(_asteroidDataList);
@@ -38,6 +44,7 @@ public class GameController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _bgStars.MoveStars(speed);
         _playerShipController.FixedExecute();
         _enemyShipController.FixedExecute();
         _playerShootingController.Shoot();

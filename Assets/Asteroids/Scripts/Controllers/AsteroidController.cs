@@ -13,13 +13,14 @@ public sealed class AsteroidController
     private Rigidbody _rigidBody;
     private GameObject _prefab;
     private float _sizeMultiplier;
+    private float _borderSpawnOffset;
     private int _speedMultiplier;
     private int _healthMultiplier;
-
     public AsteroidController(AsteroidData data)
     {
         _data = data;
         _prefab = data.AsteroidPrefab;
+        _borderSpawnOffset = 0.5f;
         _sizeMultiplier = 0.5f;
         _speedMultiplier = 3;
         _healthMultiplier = 10;
@@ -38,7 +39,7 @@ public sealed class AsteroidController
     {
         _model = new AsteroidModel(_data);
 
-        var xAxisAsteroidSpawn = Random.Range(GameModel.ScreenBorder[Border.Left], GameModel.ScreenBorder[Border.Right]);
+        var xAxisAsteroidSpawn = Random.Range(GameModel.ScreenBorder[Border.Left] + _borderSpawnOffset, GameModel.ScreenBorder[Border.Right] - _borderSpawnOffset);
         var asteroidGameObject = Object.Instantiate(_prefab, new Vector3(xAxisAsteroidSpawn, 0, 8f), Quaternion.identity);
         var asteroidParamValue = Random.Range(_model.MinSize, _model.MaxSize + 1);
 
