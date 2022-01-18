@@ -15,20 +15,22 @@ public sealed class ShipController
     private GameObject _prefab;
     private Vector3 _startPosition;
     private Vector3 _movement;
-    private GameModel _gameModel;
     private float _nextChangeDirectionTime;
     private Transform _bulletStartPoint;
     private float _offsetX;
     private float _offsetZ;
+    private float _leftMovementLimit;
+    private float _rightMovementLimit;
+    private float _topMovementLimit;
+    private float _bottomMovementLimit;
 
     public Transform BulletStartPoint => _bulletStartPoint;
 
-    public ShipController(ShipData data, GameModel gameModel)
+    public ShipController(ShipData data)
     {
         _data = data;
         _startPosition = data.StartPosition;
-        _prefab = data.ShipPrefab;
-        _gameModel = gameModel;       
+        _prefab = data.ShipPrefab;      
     }
 
     public void Init()
@@ -43,6 +45,10 @@ public sealed class ShipController
         var collider = _transform.GetComponent<CapsuleCollider>();
         _offsetX = collider.radius;
         _offsetZ = collider.height / 2;
+        _leftMovementLimit = GameModel.ScreenBorder[Border.Left] + _offsetX;
+        _rightMovementLimit = GameModel.ScreenBorder[Border.Right] - _offsetX;
+        _topMovementLimit = GameModel.ScreenBorder[Border.Top] - _offsetZ;
+        _bottomMovementLimit = GameModel.ScreenBorder[Border.Bottom] + _offsetZ;
 
         OnEnable();
     }
@@ -95,8 +101,7 @@ public sealed class ShipController
             _nextChangeDirectionTime += Random.Range(1f, 5f);
         }        
 
-        LimitFlightArea(_gameModel.LeftScreenBorder, _gameModel.RightScreenBorder,
-            _gameModel.TopScreenBorder, _gameModel.BottomScreenBorder);
+        LimitFlightArea();
     }
 
     public void FixedExecute()
@@ -126,20 +131,13 @@ public sealed class ShipController
         }
     }
 
-    public void LimitFlightArea(float leftLimit, float rightLimit, float topLimit, float bottomLimit)
+    public void LimitFlightArea()
     {
         if (_transform)
         {
-            float x = Mathf.Clamp(_transform.position.x, leftLimit + _offsetX, rightLimit - _offsetX);
-            float z = Mathf.Clamp(_transform.position.z, bottomLimit + _offsetZ, topLimit - _offsetZ);
-
+            float x = Mathf.Clamp(_transform.position.x, _leftMovementLimit, _rightMovementLimit);
+            float z = Mathf.Clamp(_transform.position.z, _bottomMovementLimit, _topMovementLimit);
             _transform.position = new Vector3(x, 0, z);
         }
     }
-}
-
-public enum ShipType
-{
-    Player = 1,
-    Enemy = 2
 }
