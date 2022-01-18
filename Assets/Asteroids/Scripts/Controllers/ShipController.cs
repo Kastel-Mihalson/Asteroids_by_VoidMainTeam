@@ -11,7 +11,7 @@ public sealed class ShipController
     private ShipView _view;
     private ShipData _data;
     private Rigidbody _rigidBody;
-    private GameObject _gameObject;
+    private Transform _transform;
     private GameObject _prefab;
     private Vector3 _startPosition;
     private Vector3 _movement;
@@ -37,11 +37,12 @@ public sealed class ShipController
         GameObject shipGameObject = Object.Instantiate(_prefab, _startPosition, Quaternion.identity);
         _view = shipGameObject.GetComponent<ShipView>();
         _rigidBody = _view.Rigidbody;
-        _gameObject = _view.gameObject;
+        _transform = _rigidBody.transform;
         _bulletStartPoint = _view.BulletSpawnPoint;
 
-        _offsetX = _gameObject.GetComponent<CapsuleCollider>().radius;
-        _offsetZ = _gameObject.GetComponent<CapsuleCollider>().height / 2;
+        var collider = _transform.GetComponent<CapsuleCollider>();
+        _offsetX = collider.radius;
+        _offsetZ = collider.height / 2;
 
         OnEnable();
     }
@@ -127,12 +128,12 @@ public sealed class ShipController
 
     public void LimitFlightArea(float leftLimit, float rightLimit, float topLimit, float bottomLimit)
     {
-        if (_gameObject)
+        if (_transform)
         {
-            float x = Mathf.Clamp(_gameObject.transform.position.x, leftLimit + _offsetX, rightLimit - _offsetX);
-            float z = Mathf.Clamp(_gameObject.transform.position.z, bottomLimit + _offsetZ, topLimit - _offsetZ);
+            float x = Mathf.Clamp(_transform.position.x, leftLimit + _offsetX, rightLimit - _offsetX);
+            float z = Mathf.Clamp(_transform.position.z, bottomLimit + _offsetZ, topLimit - _offsetZ);
 
-            _gameObject.transform.position = new Vector3(x, 0, z);
+            _transform.position = new Vector3(x, 0, z);
         }
     }
 }
