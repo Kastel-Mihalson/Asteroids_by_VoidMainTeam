@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 116810517258489525}
   - component: {fileID: -3622230579062147697}
   - component: {fileID: 8231453264093224901}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GreenLaserBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

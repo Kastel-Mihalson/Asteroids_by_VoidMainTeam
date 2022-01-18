@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 10
   _turnSpeed: 4
+  _hp: 50
+  _armor: 50
   _startPosition: {x: 0, y: 0, z: 4.5}
   _shipPrefab: {fileID: 6167145655644469725, guid: f5774e87427683149964771fcbc8b74b, type: 3}

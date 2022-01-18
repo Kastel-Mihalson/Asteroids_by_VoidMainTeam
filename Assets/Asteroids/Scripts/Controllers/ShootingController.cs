@@ -23,12 +23,7 @@ public class ShootingController
 
         if (_startPoint != null)
         {
-            isEnemyDetected = Physics.Raycast(_startPoint.position, _startPoint.forward, out RaycastHit hit, _shootingDistance);
-            // TODO shoot on bullet
-            if (hit.transform.gameObject.TryGetComponent<IBullet>(out _))
-            {
-                return;
-            }
+            isEnemyDetected = Physics.Raycast(_startPoint.position, _startPoint.forward, _shootingDistance);
         }
 
         if (canShoot && isEnemyDetected)
