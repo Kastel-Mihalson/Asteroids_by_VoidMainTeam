@@ -12,15 +12,11 @@ public sealed class AsteroidController
     private AsteroidData _data;
     private Rigidbody _rigidBody;
     private GameObject _prefab;
-    private float _leftScreenBorder;
-    private float _rightScreenBorder;
 
-    public AsteroidController(AsteroidData data, GameModel gameModel)
+    public AsteroidController(AsteroidData data)
     {
         _data = data;
         _prefab = data.AsteroidPrefab;
-        _leftScreenBorder = gameModel.LeftScreenBorder;
-        _rightScreenBorder = gameModel.RightScreenBorder;
     }
 
     public void Move()
@@ -36,7 +32,7 @@ public sealed class AsteroidController
     {
         _model = new AsteroidModel(_data);
         GameObject asteroidGameObject = Object.Instantiate(_prefab,
-            new Vector3(Random.Range(_leftScreenBorder, _rightScreenBorder), 0, 8f), 
+            new Vector3(Random.Range(GameModel.ScreenBorder[Border.Left], GameModel.ScreenBorder[Border.Right]), 0, 8f), 
             Quaternion.identity);
         _model.Size = Random.Range(_model.MinSize, _model.MaxSize+1f);
         _model.Damage = (int)_model.Size;
