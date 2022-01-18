@@ -3,29 +3,35 @@
 
 public class ShootingController
 {
+    private BulletController _bulletController;
     private float _nextShotTime;
     private float _shootingDistance = 10f;
-    private LayerMask _enemyMask;
     private Transform _startPoint;
-    private BulletInitializer _bulletInitializer;
+    private float _shootDelay;
 
     public ShootingController(Transform startPoint, BulletData bullet)
     {
-        _enemyMask = LayerMask.GetMask("Enemy");
         _startPoint = startPoint;
-        _bulletInitializer = new BulletInitializer(bullet);
+        _bulletController = new BulletController(bullet, _startPoint);
+        _shootDelay = bullet.ShootDelay;
     }
 
     public void Shoot()
     {
         bool canShoot = Time.time > _nextShotTime;
-        bool isEnemyDetected = Physics.Raycast(_startPoint.position, Vector3.forward, _shootingDistance, _enemyMask);
+        bool isEnemyDetected = false;
+
+        if (_startPoint != null)
+        {
+            isEnemyDetected = Physics.Raycast(_startPoint.position, _startPoint.forward, _shootingDistance);
+        }
 
         if (canShoot && isEnemyDetected)
         {
-            _bulletInitializer.InitBullet(_startPoint.position);
-            // Important! Get ShootDelay must be after InitBullet()
-            _nextShotTime = Time.time + _bulletInitializer.BulletModel.ShootDelay;
+            _bulletController.Init();
+            _bulletController.Move();
+            _bulletController.OnEnable();
+            _nextShotTime = Time.time + _shootDelay;
         }
     }
 }

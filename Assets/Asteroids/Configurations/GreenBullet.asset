@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb9b52f3193c06c419ead4eb0749a7b8, type: 3}
-  m_Name: Bullet
+  m_Name: GreenBullet
   m_EditorClassIdentifier: 
-  _bulletSpeed: 14
+  _bulletSpeed: 10
   _lifeTime: 1
-  _shootDelay: 0.2
+  _shootDelay: 0.6
+  _damage: 10
   _bulletPrefab: {fileID: 1125088734451264766, guid: f1ceb875811c98046a26c54d84c5a893, type: 3}

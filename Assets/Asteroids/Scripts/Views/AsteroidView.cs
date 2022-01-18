@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 {
+    public event Action<int> OnDamagedEvent;
+
     private GameObject _explosionEffect;
     private float _effectTime = 2f;
 
@@ -13,30 +16,38 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {        
         var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
 
         if (interactiveObject is IAsteroid)
         {
             return;
         }
-        if (interactiveObject is IShip)
-        {
-            GameObject playerExplosion = Instantiate(_explosionEffect, other.transform.position, other.transform.rotation);
-            Destroy(playerExplosion, _effectTime);
-        }
         if (interactiveObject is IBullet)
         {
+            var bulletView = (BulletView)interactiveObject;
+            int? damage = bulletView.GetBulletDamage();
+            if (damage != null)
+            {
+                OnDamagedEvent?.Invoke((int)damage);
+            }
+            //
             GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
             Destroy(asteroidExplosion, _effectTime);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
 
-        Destroy(gameObject);
-        Destroy(other.gameObject);
     }
 
     public void Die(float lifeTime)
     {
         Destroy(gameObject, lifeTime);
+    }
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }
