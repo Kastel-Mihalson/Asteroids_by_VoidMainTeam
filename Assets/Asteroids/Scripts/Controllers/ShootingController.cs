@@ -29,8 +29,9 @@ public class ShootingController
         if (canShoot && isEnemyDetected)
         {
             _bulletController.Init();
-            _bulletController.Move();
             _bulletController.OnEnable();
+            _bulletController.Move();
+            
             _nextShotTime = Time.time + _shootDelay;
         }
     }

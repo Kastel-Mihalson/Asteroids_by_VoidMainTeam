@@ -8,23 +8,25 @@ public sealed class AsteroidData : ScriptableObject
     [SerializeField] private float _maxMoveSpeed = 8f;
     [SerializeField] private float _moveSpeed = 4f;
     [SerializeField] private float _rotationSpeed = 3f;
+    [SerializeField] private float _lifeTime = 1;
+
     [SerializeField] private int _hp = 1;
     [SerializeField] private int _damage = 1;
-    [SerializeField] private float _lifeTime = 1;
-    [SerializeField] private GameObject _asteroidPrefab;
-    [SerializeField] private float _minSize = 0.4f;
-    [SerializeField] private float _maxSize = 1f;
-    [SerializeField] private float _size = 3f;
+    [SerializeField] private int _minSize = 1;
+    [SerializeField] private int _maxSize = 3;
+    [SerializeField] private int _size = 1;
 
+    [SerializeField] private GameObject _asteroidPrefab;
+
+    public GameObject AsteroidPrefab => _asteroidPrefab;
     public float MinMoveSpeed => _minMoveSpeed;
     public float MaxMoveSpeed => _maxMoveSpeed;
     public float MoveSpeed => _moveSpeed;
     public float RotationSpeed => _rotationSpeed;
+    public float LifeTime => _lifeTime;
     public int HP => _hp;
     public int Damage => _damage;
-    public float LifeTime => _lifeTime;
-    public GameObject AsteroidPrefab => _asteroidPrefab;
-    public float MinSize => _minSize;
-    public float MaxSize => _maxSize;
-    public float Size => _size;
+    public int MinSize => _minSize;
+    public int MaxSize => _maxSize;
+    public int Size => _size;
 }

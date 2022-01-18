@@ -18,13 +18,17 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     private void OnTriggerEnter(Collider other)
     {        
         var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
-
+        
         if (interactiveObject is IAsteroid)
         {
             return;
         }
         if (interactiveObject is IBullet)
         {
+            var asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
+            asteroidExplosion.transform.localScale = Vector3.one * 0.2f;
+            Destroy(asteroidExplosion, _effectTime);
+
             var bulletView = (BulletView)interactiveObject;
             int? damage = bulletView.GetBulletDamage();
             if (damage != null)

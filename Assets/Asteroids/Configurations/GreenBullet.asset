@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletSpeed: 10
   _lifeTime: 3
-  _shootDelay: 0.6
+  _shootDelay: 0.2
   _damage: 10
   _bulletPrefab: {fileID: 1125088734451264766, guid: f1ceb875811c98046a26c54d84c5a893, type: 3}
