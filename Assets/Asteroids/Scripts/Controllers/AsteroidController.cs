@@ -12,11 +12,17 @@ public sealed class AsteroidController
     private AsteroidData _data;
     private Rigidbody _rigidBody;
     private GameObject _prefab;
+    private float _sizeMultiplier;
+    private int _speedMultiplier;
+    private int _healthMultiplier;
 
     public AsteroidController(AsteroidData data)
     {
         _data = data;
         _prefab = data.AsteroidPrefab;
+        _sizeMultiplier = 0.5f;
+        _speedMultiplier = 3;
+        _healthMultiplier = 10;
     }
 
     public void Move()
@@ -24,20 +30,24 @@ public sealed class AsteroidController
         if (_rigidBody)
         {
             _rigidBody.angularVelocity = Random.insideUnitSphere * _model.RotationSpeed;
-            _rigidBody.velocity = Vector3.back * Mathf.Abs((_model.Size - (_model.MaxSize)) * 2);
+            _rigidBody.velocity = Vector3.back * _model.MoveSpeed;
         }
     }
 
     public void Init()
     {
         _model = new AsteroidModel(_data);
-        GameObject asteroidGameObject = Object.Instantiate(_prefab,
-            new Vector3(Random.Range(GameModel.ScreenBorder[Border.Left], GameModel.ScreenBorder[Border.Right]), 0, 8f), 
-            Quaternion.identity);
-        _model.Size = Random.Range(_model.MinSize, _model.MaxSize+1f);
-        _model.Damage = (int)_model.Size;
-        _model.CurrentHP = (int)_model.Size * 10;
-        asteroidGameObject.transform.localScale = Vector3.one * (_model.Size*0.5f);
+
+        var xAxisAsteroidSpawn = Random.Range(GameModel.ScreenBorder[Border.Left], GameModel.ScreenBorder[Border.Right]);
+        var asteroidGameObject = Object.Instantiate(_prefab, new Vector3(xAxisAsteroidSpawn, 0, 8f), Quaternion.identity);
+        var asteroidParamValue = Random.Range(_model.MinSize, _model.MaxSize + 1);
+
+        _model.Size = asteroidParamValue;
+        _model.Damage = asteroidParamValue;
+        _model.CurrentHP = asteroidParamValue * _healthMultiplier;
+        _model.MoveSpeed = Mathf.Abs(asteroidParamValue - (_model.MaxSize + 1)) * _speedMultiplier;
+
+        asteroidGameObject.transform.localScale = Vector3.one * asteroidParamValue * _sizeMultiplier;
         _view = asteroidGameObject.GetComponent<AsteroidView>();
         _rigidBody = _view.Rigidbody;
         _view.Die(_model.LifeTime);

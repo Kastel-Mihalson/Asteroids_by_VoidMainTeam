@@ -6,13 +6,14 @@ public class AsteroidModel
     private float _maxMoveSpeed;
     private float _moveSpeed;
     private float _rotationSpeed;
+    private float _lifeTime;
+
     private int _currentHP;
     private int _maxHP;
     private int _damage;
-    private float _lifeTime;
-    private float _minSize;
-    private float _maxSize;
-    private float _size;
+    private int _minSize;
+    private int _maxSize;
+    private int _size;
 
     public float MinMoveSpeed
     {
@@ -27,7 +28,7 @@ public class AsteroidModel
     public float MoveSpeed
     {
         get => _moveSpeed;
-        private set => _moveSpeed = value;
+        set => _moveSpeed = value;
     }
     public float RotationSpeed
     {
@@ -50,18 +51,18 @@ public class AsteroidModel
         private set => _lifeTime = value;
     }
 
-    public float MinSize
+    public int MinSize
     {
         get => _minSize;
         private set => _minSize = value;
     }
 
-    public float MaxSize
+    public int MaxSize
     {
         get => _maxSize;
         private set => _maxSize = value;
     }
-    public float Size
+    public int Size
     {
         get => _size;
         set => _size = value;
