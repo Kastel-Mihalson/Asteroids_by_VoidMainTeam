@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
 
     private ShootingController _playerShootingController;
     private ShootingController _enemyShootingController;
-    private EnemySpawnController _enemySpawnController;
+    private SpawnController _spawnController;
     private ShipController _playerShipController;
     private ShipController _enemyShipController;
 
@@ -22,19 +22,18 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        _playerShipController = new ShipController(_playerShip);
-        _playerShipController.Init();
+        _spawnController = new SpawnController();
+        _playerShipController = _spawnController.SpawnShip(_playerShip);
+        _enemyShipController = _spawnController.SpawnShip(_enemyShip);
         _playerShootingController = new ShootingController(_playerShipController.BulletStartPoint, _playerBullet);
-        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _enemyShip);
-        _enemyShipController = _enemySpawnController.SpawnShip();
         _enemyShootingController = new ShootingController(_enemyShipController.BulletStartPoint, _enemyBullet);
     }
 
     private void Update()
     {
-        _playerShipController.Execute(ShipType.Player);
-        _enemyShipController.Execute(ShipType.Enemy);
-        _enemySpawnController.SpawnAsteroid();
+        _playerShipController.Execute();
+        _enemyShipController.Execute();
+        _spawnController.SpawnAsteroid(_asteroidDataList);
     }
 
     private void FixedUpdate()
