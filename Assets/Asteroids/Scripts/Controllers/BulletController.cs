@@ -24,17 +24,16 @@ public class BulletController
         _model = new BulletModel(_data);
         GameObject bulletGameObject = _bulletPool.GetGameObject();
         bulletGameObject.transform.position = _spawnPosition.position;
-            //Object.Instantiate(_prefab, _spawnPosition.position, Quaternion.identity);
         _view = bulletGameObject.GetComponent<BulletView>();
         _rigidbody = _view.Rigidbody;
-        _view.Die(_model.LifeTime);
     }
 
     public void Move()
     {
         if (_rigidbody)
         {
-            _rigidbody.velocity = Vector3.forward * _model.BulletSpeed;
+            _rigidbody.velocity = _spawnPosition.forward * _model.BulletSpeed;
+            //_view.Die(_model.LifeTime);
         }
     }
 
@@ -46,11 +45,17 @@ public class BulletController
     public void OnEnable()
     {
         _view.ReturnBulletToPoolEvent += AddToQueue;
+        _view.GetBulletDamageEvent += GetDamage;
     }
 
     public void OnDisable()
     {
         _view.ReturnBulletToPoolEvent -= AddToQueue;
+        _view.GetBulletDamageEvent -= GetDamage;
     }
 
+    private int? GetDamage()
+    {        
+        return _model.Damage;
+    }
 }

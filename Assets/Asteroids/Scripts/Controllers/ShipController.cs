@@ -1,7 +1,12 @@
+using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public sealed class ShipController
 {
+    public event Action OnDiedEvent;
+
     private ShipModel _model;
     private ShipView _view;
     private ShipData _data;
@@ -10,20 +15,20 @@ public sealed class ShipController
     private GameObject _prefab;
     private Vector3 _startPosition;
     private Vector3 _movement;
-    private float _leftScrenBorder;
-    private float _rightScrenBorder;
-    private float _topScrenBorder;
-    private float _bottomScrenBorder;
+    private GameModel _gameModel;
+    private float _nextChangeDirectionTime;
+    private Transform _bulletStartPoint;
+    private float _offsetX;
+    private float _offsetZ;
+
+    public Transform BulletStartPoint => _bulletStartPoint;
 
     public ShipController(ShipData data, GameModel gameModel)
     {
         _data = data;
         _startPosition = data.StartPosition;
         _prefab = data.ShipPrefab;
-        _leftScrenBorder = gameModel.LeftScreenBorder;
-        _rightScrenBorder = gameModel.RightScreenBorder;
-        _topScrenBorder = gameModel.TopScreenBorder;
-        _bottomScrenBorder = gameModel.BottomScreenBorder;
+        _gameModel = gameModel;       
     }
 
     public void Init()
@@ -33,18 +38,71 @@ public sealed class ShipController
         _view = shipGameObject.GetComponent<ShipView>();
         _rigidBody = _view.Rigidbody;
         _gameObject = _view.gameObject;
+        _bulletStartPoint = _view.BulletSpawnPoint;
+
+        _offsetX = _gameObject.GetComponent<CapsuleCollider>().radius;
+        _offsetZ = _gameObject.GetComponent<CapsuleCollider>().height / 2;
+
+        OnEnable();
     }
 
-    public void Execute()
+    private void OnEnable()
     {
-        _movement = GetMovementDirection();
-        LimitFlightArea(_leftScrenBorder, _rightScrenBorder, _topScrenBorder, _bottomScrenBorder);
+        _view.OnDamagedEvent += RecieveDamage;
+        OnDiedEvent += _view.Die;
+        OnDiedEvent += OnDisable;
+    }
+
+    private void OnDisable()
+    {
+        _view.OnDamagedEvent -= RecieveDamage;
+        OnDiedEvent -= _view.Die;
+        OnDiedEvent -= OnDisable;
+    }
+
+    private void RecieveDamage(int damage)
+    {
+        if (_model.CurrentArmor > 0)
+        {
+            _model.CurrentArmor -= damage;
+        }
+        else
+        {
+            _model.CurrentHP -= damage;
+        }
+
+        if (_model.CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        OnDiedEvent?.Invoke();
+    }
+
+    public void Execute(ShipType type)
+    {
+        if (type == ShipType.Player)
+        {
+            _movement = GetMovementDirection();
+        }
+        else if (type == ShipType.Enemy && Time.time > _nextChangeDirectionTime)
+        {
+            _movement = GetRandomHorizontalMovementDirection();
+            _nextChangeDirectionTime += Random.Range(1f, 5f);
+        }        
+
+        LimitFlightArea(_gameModel.LeftScreenBorder, _gameModel.RightScreenBorder,
+            _gameModel.TopScreenBorder, _gameModel.BottomScreenBorder);
     }
 
     public void FixedExecute()
     {
-        MoveWithRigidBody(_movement);
+        Move(_movement);
     }
+
     private Vector3 GetMovementDirection()
     {
         float vertical = Input.GetAxis("Vertical");
@@ -53,23 +111,34 @@ public sealed class ShipController
         return new Vector3(horizontal, 0, vertical);
     }
 
-    private void MoveWithRigidBody(Vector3 movement)
+    private Vector3 GetRandomHorizontalMovementDirection()
+    {
+        return new Vector3(Random.Range(-1f, 1f), 0f, 0f);
+    }
+
+    private void Move(Vector3 movement)
     {
         if (_rigidBody)
         {        
             _rigidBody.velocity = movement * _model.MoveSpeed;
-            _rigidBody.rotation = Quaternion.Euler(0, 0, -_rigidBody.velocity.x * _model.Turn);
+            _rigidBody.rotation = Quaternion.Euler(0, 0, -_rigidBody.velocity.x * _model.TurnSpeed);
         }
     }
 
-    private void LimitFlightArea(float leftLimit, float rightLimit, float topLimit, float bottomLimit)
+    public void LimitFlightArea(float leftLimit, float rightLimit, float topLimit, float bottomLimit)
     {
         if (_gameObject)
         {
-            float x = Mathf.Clamp(_gameObject.transform.position.x, leftLimit, rightLimit);
-            float z = Mathf.Clamp(_gameObject.transform.position.z, bottomLimit, topLimit);
+            float x = Mathf.Clamp(_gameObject.transform.position.x, leftLimit + _offsetX, rightLimit - _offsetX);
+            float z = Mathf.Clamp(_gameObject.transform.position.z, bottomLimit + _offsetZ, topLimit - _offsetZ);
 
             _gameObject.transform.position = new Vector3(x, 0, z);
         }
     }
+}
+
+public enum ShipType
+{
+    Player = 1,
+    Enemy = 2
 }

@@ -6,13 +6,11 @@ public class ShootingController
     private BulletController _bulletController;
     private float _nextShotTime;
     private float _shootingDistance = 10f;
-    private LayerMask _enemyMask;
     private Transform _startPoint;
     private float _shootDelay;
 
     public ShootingController(Transform startPoint, BulletData bullet)
     {
-        _enemyMask = LayerMask.GetMask("Enemy");
         _startPoint = startPoint;
         _bulletController = new BulletController(bullet, _startPoint);
         _shootDelay = bullet.ShootDelay;
@@ -25,7 +23,12 @@ public class ShootingController
 
         if (_startPoint != null)
         {
-            isEnemyDetected = Physics.Raycast(_startPoint.position, Vector3.forward, _shootingDistance, _enemyMask);
+            isEnemyDetected = Physics.Raycast(_startPoint.position, _startPoint.forward, out RaycastHit hit, _shootingDistance);
+            // TODO shoot on bullet
+            if (hit.transform.gameObject.TryGetComponent<IBullet>(out _))
+            {
+                return;
+            }
         }
 
         if (canShoot && isEnemyDetected)

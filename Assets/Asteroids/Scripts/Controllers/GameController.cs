@@ -5,50 +5,47 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private GameData _gameData;
     [SerializeField] private ShipData _playerShip;
-    [SerializeField] private BulletData _bullet;
+    [SerializeField] private ShipData _enemyShip;
+    [SerializeField] private BulletData _playerBullet;
+    [SerializeField] private BulletData _enemyBullet;
     [SerializeField] private List<AsteroidData> _asteroidDataList;
 
     private GameModel _gameModel;
-    private ShootingController _shootingController;
+    private ShootingController _playerShootingController;
+    private ShootingController _enemyShootingController;
     private EnemySpawnController _enemySpawnController;
-    private ShipController _shipController;
-
-    private Transform _bulletStartPoint;
+    private ShipController _playerShipController;
+    private ShipController _enemyShipController;
 
     private void Awake()
     {
         _gameModel = new GameModel(_gameData);
-        //ResourcesManager.LoadPrefabsByNameList(_gameModel.StartLoadedPrefabNames);
         SetScreenBorders();
     }
 
     private void Start()
     {
-        _shipController = new ShipController(_playerShip, _gameModel);
-        _shipController.Init();
-
-        // TODO remove from there
-        var spawnObject = FindObjectOfType<BulletSpawnMarker>().transform;
-        if (spawnObject != null)
-        {
-            _bulletStartPoint = spawnObject;
-        }
-        //
-
-        _shootingController = new ShootingController(_bulletStartPoint, _bullet);
-        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _gameModel);
+        _playerShipController = new ShipController(_playerShip, _gameModel);
+        _playerShipController.Init();
+        _playerShootingController = new ShootingController(_playerShipController.BulletStartPoint, _playerBullet);
+        _enemySpawnController = new EnemySpawnController(_asteroidDataList, _enemyShip, _gameModel);
+        _enemyShipController = _enemySpawnController.SpawnShip();
+        _enemyShootingController = new ShootingController(_enemyShipController.BulletStartPoint, _enemyBullet);
     }
 
     private void Update()
     {
-        _shipController.Execute();
+        _playerShipController.Execute(ShipType.Player);
+        _enemyShipController.Execute(ShipType.Enemy);
         _enemySpawnController.SpawnAsteroid();
     }
 
     private void FixedUpdate()
     {
-        _shipController.FixedExecute();
-        _shootingController.Shoot();
+        _playerShipController.FixedExecute();
+        _enemyShipController.FixedExecute();
+        _playerShootingController.Shoot();
+        _enemyShootingController.Shoot();
     }
 
     private void SetScreenBorders()

@@ -13,29 +13,20 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {        
         var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
 
         if (interactiveObject is IAsteroid)
         {
             return;
         }
-        if (interactiveObject is IShip)
-        {
-            GameObject playerExplosion = Instantiate(_explosionEffect, other.transform.position, other.transform.rotation);
-            Destroy(playerExplosion, _effectTime);
-            Destroy(gameObject);
-            Destroy(other.gameObject);
-        }
         if (interactiveObject is IBullet)
         {
             GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
             Destroy(asteroidExplosion, _effectTime);
-            Destroy(gameObject);
         }
 
-        //Destroy(gameObject);
-        //Destroy(other.gameObject);
+        Destroy(gameObject);
     }
 
     public void Die(float lifeTime)
