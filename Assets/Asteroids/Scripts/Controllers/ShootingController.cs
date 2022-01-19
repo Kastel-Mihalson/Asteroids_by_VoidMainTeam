@@ -31,6 +31,7 @@ public class ShootingController
         if (canShoot && isEnemyDetected)
         {
             _bulletController.Init();
+            _bulletController.OnDisable();
             _bulletController.OnEnable();
             _bulletController.Move();
             

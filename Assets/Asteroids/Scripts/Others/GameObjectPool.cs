@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public sealed class GameObjectPool 
+public sealed class GameObjectPool
 {
 	private readonly Queue<GameObject> _queue = new Queue<GameObject>();
 	private readonly GameObject _prefab;
@@ -25,8 +25,8 @@ public sealed class GameObjectPool
 		else
 		{
 			_index++;
-            _gameObject = Object.Instantiate(_prefab);
-            _gameObject.name = $"{_prefab.name}({_index})";
+			_gameObject = Object.Instantiate(_prefab);
+			_gameObject.name = $"{_prefab.name}({_index})";
 		}
 
 		_gameObject.SetActive(true);
@@ -36,10 +36,10 @@ public sealed class GameObjectPool
 
 	public void AddToQueue(GameObject gameObject)
 	{
-		if(_queue.Contains(gameObject))
-        {
+		if (_queue.Contains(gameObject))
+		{
 			return;
-        }
+		}
 
 		_queue.Enqueue(gameObject);
 		gameObject.transform.SetParent(_root);
