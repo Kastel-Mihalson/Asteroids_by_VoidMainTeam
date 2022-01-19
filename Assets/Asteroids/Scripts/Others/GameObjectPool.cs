@@ -7,6 +7,7 @@ public sealed class GameObjectPool
 	private readonly Queue<GameObject> _queue = new Queue<GameObject>();
 	private readonly GameObject _prefab;
 	private readonly Transform _root;
+	private int _index = 0;
 
 	public GameObjectPool(GameObject prefab)
 	{
@@ -23,8 +24,9 @@ public sealed class GameObjectPool
 		}
 		else
 		{
-			_gameObject = Object.Instantiate(_prefab);
-			_gameObject.name = _prefab.name;
+			_index++;
+            _gameObject = Object.Instantiate(_prefab);
+            _gameObject.name = $"{_prefab.name}({_index})";
 		}
 
 		_gameObject.SetActive(true);
@@ -32,11 +34,16 @@ public sealed class GameObjectPool
 		return _gameObject;
 	}
 
-	public void AddToQueue(GameObject bullet)
+	public void AddToQueue(GameObject gameObject)
 	{
-		_queue.Enqueue(bullet);
-		bullet.transform.SetParent(_root);
-		bullet.SetActive(false);
+		if(_queue.Contains(gameObject))
+        {
+			return;
+        }
+
+		_queue.Enqueue(gameObject);
+		gameObject.transform.SetParent(_root);
+		gameObject.SetActive(false);
 	}
 
 	public void Dispose()

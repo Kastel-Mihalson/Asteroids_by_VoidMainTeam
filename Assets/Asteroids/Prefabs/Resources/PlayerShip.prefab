@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 160851528935110236}
   - component: {fileID: 8722118402556179095}
   - component: {fileID: 8571582601360512352}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3016501429995794751}
   - component: {fileID: 6258307814818454044}
   - component: {fileID: 1092302157525070849}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ai_low1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 8282748963061813685}
   - component: {fileID: 1554054279244717868}
   - component: {fileID: 5404151871274119540}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: p_low3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 4343948259554181552}
   - component: {fileID: 5733014922145301452}
   - component: {fileID: 516366274978832770}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: g_low1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 3897630135098425735}
   - component: {fileID: 4130126975326802532}
   - component: {fileID: 3502085887157489379}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: b_low1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -419,7 +419,7 @@ GameObject:
   - component: {fileID: 3155439274966067339}
   - component: {fileID: 4482098567263017271}
   - component: {fileID: 1682057049307829037}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: v_low1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 180694620619299873}
   - component: {fileID: 3539297004251072288}
   - component: {fileID: 6809844392145690464}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: s_low1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 810958216624523666}
   - component: {fileID: 512915011113812862}
   - component: {fileID: 3796117278748793799}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: m_low1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 7393413829679027750}
   - component: {fileID: 2474288987165673792}
   - component: {fileID: 7886208324824709381}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: t_low1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -744,7 +744,7 @@ GameObject:
   - component: {fileID: 690410508704845922}
   - component: {fileID: 959884310045922223}
   - component: {fileID: 4724404787658607590}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: r_low1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,7 +824,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4609727462382684396}
   - component: {fileID: 7094834394922494953}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
