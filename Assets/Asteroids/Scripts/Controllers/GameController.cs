@@ -31,8 +31,10 @@ public class GameController : MonoBehaviour
         _spawnController = new SpawnController();
         _playerShipController = _spawnController.SpawnShip(_playerShip);
         _enemyShipController = _spawnController.SpawnShip(_enemyShip);
-        _playerShootingController = new ShootingController(_playerShipController.BulletStartPoint, _playerBullet);
-        _enemyShootingController = new ShootingController(_enemyShipController.BulletStartPoint, _enemyBullet);
+        _playerShootingController =
+            new ShootingController(_playerShipController.BulletStartPoint, _playerBullet, _playerShip.ShootingLayer);
+        _enemyShootingController =
+            new ShootingController(_enemyShipController.BulletStartPoint, _enemyBullet, _enemyShip.ShootingLayer);
     }
 
     private void Update()
