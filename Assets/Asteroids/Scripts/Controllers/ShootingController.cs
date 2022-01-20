@@ -34,7 +34,7 @@ public class ShootingController
             _bulletController.OnDisable();
             _bulletController.OnEnable();
             _bulletController.Move();
-            AudioController.PlayShot();
+            AudioController.Play(AudioClipManager.Shot);
             _nextShotTime = Time.time + _shootDelay;
         }
     }

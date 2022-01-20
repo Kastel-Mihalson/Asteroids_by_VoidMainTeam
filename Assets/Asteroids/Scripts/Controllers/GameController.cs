@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
         _enemyShootingController =
             new ShootingController(_enemyShipController.BulletStartPoint, _enemyBullet, _enemyShip.ShootingLayer);
         _audioController = new AudioController(_audioData);
+        AudioController.Play(AudioClipManager.BackgroundMusic, true);
     }
 
     private void Update()

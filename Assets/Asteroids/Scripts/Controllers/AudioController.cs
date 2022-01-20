@@ -2,43 +2,30 @@
 
 public sealed class AudioController
 {
+    private const string SOUND = "Sound";
     private static AudioData _audioData;
+    private static GameObject _root;
 
     public AudioController(AudioData audioData)
     {
         _audioData = audioData;
+        _root = new GameObject($"[{SOUND}]");
     }
 
-    public static void PlayShot()
+    public static void Play(AudioClipManager audioClip, bool isLoop = false)
     {
-        Play(_audioData.EnemyShot);
-    }
-
-    public static void PlayAsteroidExplosion()
-    {
-        Play(_audioData.AsteroidExplosion);
-    }
-
-    public static void PlayAsteroidHitting()
-    {
-        Play(_audioData.AsteroidHitting);
-    }
-
-    public static void PlayShipExplosion()
-    {
-        Play(_audioData.ShipExplosion);
-    }
-
-    public static void PlayShipHitting()
-    {
-        Play(_audioData.ShipHitting);
-    }
-
-    private static void Play(AudioClip clip)
-    {
-        GameObject soundSource = new GameObject();
+        // TODO pool
+        GameObject soundSource = new GameObject(SOUND);
+        soundSource.transform.SetParent(_root.transform);
         AudioSource audioSource = soundSource.AddComponent<AudioSource>();
-        audioSource.PlayOneShot(clip);
-        Object.Destroy(soundSource, clip.length);
+        AudioClip clip = _audioData.Sounds.GetAudioClip(audioClip);
+        audioSource.clip = clip;
+        audioSource.loop = isLoop;
+        audioSource.Play();
+
+        if (!isLoop)
+        {
+            Object.Destroy(soundSource, clip.length);
+        }
     }
 }
