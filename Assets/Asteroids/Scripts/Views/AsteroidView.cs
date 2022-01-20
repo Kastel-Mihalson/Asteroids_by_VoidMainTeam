@@ -5,15 +5,7 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 {
     public event Action<int> OnDamagedEvent;
 
-    private GameObject _explosionEffect;
-    private float _effectTime = 2f;
-
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
-
-    private void Start()
-    {
-        _explosionEffect = Resources.Load("Explosion/Explosion") as GameObject;
-    }
 
     private void OnTriggerEnter(Collider other)
     {        
@@ -25,10 +17,6 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
         }
         if (interactiveObject is IBullet)
         {
-            var asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
-            asteroidExplosion.transform.localScale = Vector3.one * 0.2f;
-            Destroy(asteroidExplosion, _effectTime);
-
             var bulletView = (BulletView)interactiveObject;
             int? damage = bulletView.GetBulletDamage();
             if (damage != null)
@@ -36,6 +24,7 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
                 OnDamagedEvent?.Invoke((int)damage);
             }
             AudioController.Play(AudioClipManager.AsteroidHitting);
+            EffectController.Init(EffectManager.AsteroidHitting, gameObject.transform);
         }
         else
         {
@@ -51,9 +40,8 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 
     public void Die()
     {
-        Destroy(gameObject);
-        GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
-        Destroy(asteroidExplosion, _effectTime);
         AudioController.Play(AudioClipManager.AsteroidExplosion);
+        EffectController.Init(EffectManager.AsteroidExplosion, gameObject.transform);
+        Destroy(gameObject);
     }
 }

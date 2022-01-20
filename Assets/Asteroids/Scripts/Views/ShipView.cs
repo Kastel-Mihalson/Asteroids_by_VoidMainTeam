@@ -6,16 +6,8 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
 {
     public event Action<int> OnDamagedEvent;
 
-    private GameObject _explosionEffect;
-    private float _effectTime = 2f;
-
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
     public Transform BulletSpawnPoint => gameObject.GetComponentInChildren<BulletSpawnMarker>().transform;
-
-    private void Start()
-    {
-        _explosionEffect = Resources.Load("Explosion/Explosion") as GameObject;
-    }
 
     private void OnTriggerEnter(Collider other)
     { 
@@ -30,14 +22,15 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
                     OnDamagedEvent?.Invoke((int)damage);
                 }
                 AudioController.Play(AudioClipManager.ShipHitting);
+                EffectController.Init(EffectManager.ShipHitting, gameObject.transform);
             }
         }
     }
 
     public void Die()
     {
-        Destroy(gameObject);
-        GameObject explosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
         AudioController.Play(AudioClipManager.ShipExplosion);
+        EffectController.Init(EffectManager.ShipExplosion, gameObject.transform);
+        Destroy(gameObject);
     }
 }

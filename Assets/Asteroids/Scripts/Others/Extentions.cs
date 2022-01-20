@@ -14,4 +14,30 @@ public static class Extentions
 
         return default;
     }
+
+    public static GameObject GetEffectPrefab(this Effect[] effect, EffectManager action)
+    {
+        foreach (var currentEffect in effect)
+        {
+            if (currentEffect.Action == action)
+            {
+                return currentEffect.Prefab;
+            }
+        }
+
+        return default;
+    }
+
+    public static float GetEffectTime(this Effect[] effect, EffectManager action)
+    {
+        foreach (var currentEffect in effect)
+        {
+            if (currentEffect.Action == action)
+            {
+                return currentEffect.LifeTime;
+            }
+        }
+
+        return default;
+    }
 }

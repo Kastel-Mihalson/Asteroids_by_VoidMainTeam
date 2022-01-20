@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private BulletData _enemyBullet;
     [SerializeField] private List<AsteroidData> _asteroidDataList;
     [SerializeField] private AudioData _audioData;
+    [SerializeField] private EffectData _effectData;
 
     private ShootingController _playerShootingController;
     private ShootingController _enemyShootingController;
@@ -16,6 +17,7 @@ public class GameController : MonoBehaviour
     private ShipController _playerShipController;
     private ShipController _enemyShipController;
     private AudioController _audioController;
+    private EffectController _effectController;
 
     private BackgroundStars _bgStars;
     [Range(1, 10)]
@@ -38,6 +40,7 @@ public class GameController : MonoBehaviour
             new ShootingController(_enemyShipController.BulletStartPoint, _enemyBullet, _enemyShip.ShootingLayer);
         _audioController = new AudioController(_audioData);
         AudioController.Play(AudioClipManager.BackgroundMusic, true);
+        _effectController = new EffectController(_effectData);
     }
 
     private void Update()
