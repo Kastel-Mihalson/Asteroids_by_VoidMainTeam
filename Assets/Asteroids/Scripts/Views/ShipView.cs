@@ -21,10 +21,19 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
     { 
         if (other.TryGetComponent(out IInteractiveObject interactiveObject))
         {
-            if(interactiveObject is IBullet)
+            if (interactiveObject is IBullet)
             {
                 var bulletView = (BulletView)interactiveObject;
                 int? damage = bulletView.GetBulletDamage();
+                if (damage != null)
+                {
+                    OnDamagedEvent?.Invoke((int)damage);
+                }
+            }
+            else if (interactiveObject is IAsteroid)
+            {
+                var asteroidView = (AsteroidView)interactiveObject;
+                int? damage = asteroidView.GetAsteroidDamage();
                 if (damage != null)
                 {
                     OnDamagedEvent?.Invoke((int)damage);
