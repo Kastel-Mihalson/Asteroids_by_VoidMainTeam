@@ -22,7 +22,7 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
                     OnDamagedEvent?.Invoke((int)damage);
                 }
                 AudioController.Play(AudioClipManager.ShipHitting);
-                EffectController.Init(EffectManager.ShipHitting, gameObject.transform);
+                EffectController.Create(EffectManager.ShipHitting, gameObject.transform);
             }
         }
     }
@@ -30,7 +30,7 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
     public void Die()
     {
         AudioController.Play(AudioClipManager.ShipExplosion);
-        EffectController.Init(EffectManager.ShipExplosion, gameObject.transform);
+        EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
         Destroy(gameObject);
     }
 }

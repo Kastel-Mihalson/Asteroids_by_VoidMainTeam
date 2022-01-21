@@ -12,10 +12,16 @@ public sealed class EffectController
         _root = new GameObject($"[{EFFECT}]");
     }
 
-    public static void Init(EffectManager effect, Transform root)
+    public static void Create(EffectManager effect, Transform root)
     {
-        // TODO pool
         GameObject prefab = _effectData.Effects.GetEffectPrefab(effect);
+        if (prefab == null)
+        {
+            Debug.Log($"{effect} is missing in {nameof(EffectData)}.");
+            return;
+        }
+
+        // TODO pool
         GameObject effectGameObject = Object.Instantiate(prefab);        
         effectGameObject.transform.position = root.transform.position;
         effectGameObject.transform.rotation = root.transform.rotation;

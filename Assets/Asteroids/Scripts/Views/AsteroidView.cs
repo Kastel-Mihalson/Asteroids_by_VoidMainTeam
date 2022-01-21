@@ -24,7 +24,7 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
                 OnDamagedEvent?.Invoke((int)damage);
             }
             AudioController.Play(AudioClipManager.AsteroidHitting);
-            EffectController.Init(EffectManager.AsteroidHitting, gameObject.transform);
+            EffectController.Create(EffectManager.AsteroidHitting, gameObject.transform);
         }
         else
         {
@@ -41,7 +41,7 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     public void Die()
     {
         AudioController.Play(AudioClipManager.AsteroidExplosion);
-        EffectController.Init(EffectManager.AsteroidExplosion, gameObject.transform);
+        EffectController.Create(EffectManager.AsteroidExplosion, gameObject.transform);
         Destroy(gameObject);
     }
 }
