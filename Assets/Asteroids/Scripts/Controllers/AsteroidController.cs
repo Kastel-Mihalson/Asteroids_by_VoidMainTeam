@@ -58,6 +58,7 @@ public sealed class AsteroidController
 
     private void OnEnable()
     {
+        _view.GetAsteroidDamageEvent += GetDamage;
         _view.OnDamagedEvent += RecieveDamage;
         OnDiedEvent += _view.Die;
         OnDiedEvent += OnDisable;
@@ -65,6 +66,7 @@ public sealed class AsteroidController
 
     private void OnDisable()
     {
+        _view.GetAsteroidDamageEvent -= GetDamage;
         _view.OnDamagedEvent -= RecieveDamage;
         OnDiedEvent -= _view.Die;
         OnDiedEvent -= OnDisable;
@@ -78,6 +80,11 @@ public sealed class AsteroidController
         {
             Die();
         }
+    }
+
+    private int? GetDamage()
+    {
+        return _model.Damage;
     }
     private void Die()
     {

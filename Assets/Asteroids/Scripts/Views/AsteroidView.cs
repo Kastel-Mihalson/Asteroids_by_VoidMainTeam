@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 {
+    public event Func<int?> GetAsteroidDamageEvent;
     public event Action<int> OnDamagedEvent;
 
     private GameObject _explosionEffect;
@@ -54,4 +55,6 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
         GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
         Destroy(asteroidExplosion, _effectTime);
     }
+
+    public int? GetAsteroidDamage() => GetAsteroidDamageEvent?.Invoke();
 }
