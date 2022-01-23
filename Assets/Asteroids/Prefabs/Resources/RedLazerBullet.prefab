@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7723931622195806731}
   - component: {fileID: 6974376090190845337}
   - component: {fileID: 5027712293879505944}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 140946012147348926}
   - component: {fileID: 3433906672596530496}
   - component: {fileID: 8279612074142818066}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: RedLazerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

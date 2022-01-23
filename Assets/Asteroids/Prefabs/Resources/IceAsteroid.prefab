@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7205921296268305589}
   - component: {fileID: 7205921296268305591}
   - component: {fileID: 7205921296268305588}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 7205921296855093772}
   - component: {fileID: 7205921296855093774}
   - component: {fileID: 7205921296855093775}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 7205921297041893527}
   - component: {fileID: 7205921297041893609}
   - component: {fileID: 7205921297041893526}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 7205921297137276031}
   - component: {fileID: 7205921297137276017}
   - component: {fileID: 7205921297137276030}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 7205921297374128409}
   - component: {fileID: 6430953719229333477}
   - component: {fileID: 7179328196586015971}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: IceAsteroid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 7205921297427120222}
   - component: {fileID: 7205921297427120208}
   - component: {fileID: 7205921297427120209}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -501,7 +501,7 @@ GameObject:
   - component: {fileID: 7205921297565312764}
   - component: {fileID: 7205921297565312766}
   - component: {fileID: 7205921297565312767}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 7205921297669029505}
   - component: {fileID: 7205921297669029507}
   - component: {fileID: 7205921297669029504}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 7205921297841467393}
   - component: {fileID: 7205921297841467395}
   - component: {fileID: 7205921297841467392}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -744,7 +744,7 @@ GameObject:
   - component: {fileID: 7205921297856193920}
   - component: {fileID: 7205921297856193922}
   - component: {fileID: 7205921297856193923}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -825,7 +825,7 @@ GameObject:
   - component: {fileID: 7205921298038024203}
   - component: {fileID: 7205921298038024205}
   - component: {fileID: 7205921298038024202}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -961,6 +961,10 @@ PrefabInstance:
     - target: {fileID: 4624808504429909630, guid: 9a22980dcc4eecd4d83ebf6742679f0c, type: 3}
       propertyPath: m_Name
       value: Ice
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624808504429909630, guid: 9a22980dcc4eecd4d83ebf6742679f0c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a22980dcc4eecd4d83ebf6742679f0c, type: 3}
