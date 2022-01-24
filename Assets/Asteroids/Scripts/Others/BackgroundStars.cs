@@ -10,8 +10,9 @@ public sealed class BackgroundStars
     private List<Transform> _starList;
     private float _minStarScale;
     private float _maxStarScale;
-    private float _timerCounter;
     private float _time;
+    private float _yPosition = -5f;
+    private const string STAR = "Star";
 
     public BackgroundStars(int starCount, float minStarScale = 0.1f, float maxStarScale = 1.2f)
     {
@@ -19,8 +20,8 @@ public sealed class BackgroundStars
         _maxStarScale = maxStarScale;
         _time = Random.Range(0, 0.2f);
         _starList = new List<Transform>();
-        _starPrefab = Resources.Load<GameObject>("Star");
-        _starParentGO = new GameObject("StarGO_Root").transform;
+        _starPrefab = Resources.Load<GameObject>(STAR);
+        _starParentGO = new GameObject($"[{STAR}]").transform;
         _screenBorder = GameModel.ScreenBorder;
 
         GenerateStars(starCount);
@@ -29,7 +30,7 @@ public sealed class BackgroundStars
     private Transform InitStar()
     {
         var position = new Vector3(
-                Random.Range(_screenBorder[Border.Left], _screenBorder[Border.Right]), 0f,
+                Random.Range(_screenBorder[Border.Left], _screenBorder[Border.Right]), _yPosition,
                 Random.Range(_screenBorder[Border.Top], _screenBorder[Border.Bottom]));
 
         var star = Object.Instantiate(_starPrefab, position, Quaternion.AngleAxis(90, Vector3.right)).transform;
