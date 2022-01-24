@@ -32,7 +32,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmisColor: {r: 0.2, g: 0.2, b: 0.2, a: 0}
-    - _TintColor: {r: 0.7238806, g: 0.7238806, b: 0.7238806, a: 0.79607844}
+    - _TintColor: {r: 0.3443396, g: 0.6002603, b: 1, a: 0.79607844}
   m_BuildTextureStacks: []
 --- !u!1002 &2100001
 EditorExtensionImpl:
