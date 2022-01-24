@@ -21,4 +21,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _startPosition: {x: 5, y: 0, z: 4.5}
-  _shipPrefab: {fileID: 6167145655644469725, guid: f5774e87427683149964771fcbc8b74b, type: 3}
+  _shipPrefab: {fileID: 6167145655644469725, guid: 1371232f16ce8ae418960ce510b49af6, type: 3}
