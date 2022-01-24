@@ -45,7 +45,16 @@ public sealed class ShipController
 
         if (shipGameObject.TryGetComponent(out CapsuleCollider collider))
         {
-            _movementController = new MovementController(_view.Rigidbody, _model, collider, type);
+            if (type == ShipType.Enemy)
+            {
+                _movementController = new EnemyShipMovement();
+            }
+            else
+            {
+                _movementController = new PlayerShipMovement();
+            }
+
+            _movementController.Init(_view.Rigidbody, _model, collider);
         }
 
         OnEnable();
