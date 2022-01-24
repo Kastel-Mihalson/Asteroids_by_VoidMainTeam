@@ -58,6 +58,7 @@ public sealed class AsteroidController
 
     private void OnEnable()
     {
+        _view.GetAsteroidHealthEvent += GetHealth;
         _view.GetAsteroidDamageEvent += GetDamage;
         _view.OnDamagedEvent += RecieveDamage;
         OnDiedEvent += _view.Die;
@@ -66,6 +67,7 @@ public sealed class AsteroidController
 
     private void OnDisable()
     {
+        _view.GetAsteroidHealthEvent -= GetHealth;
         _view.GetAsteroidDamageEvent -= GetDamage;
         _view.OnDamagedEvent -= RecieveDamage;
         OnDiedEvent -= _view.Die;
@@ -80,6 +82,11 @@ public sealed class AsteroidController
         {
             Die();
         }
+    }
+
+    private int? GetHealth()
+    {
+        return _model.CurrentHP;
     }
 
     private int? GetDamage()

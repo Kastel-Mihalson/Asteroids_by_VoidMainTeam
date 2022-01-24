@@ -16,17 +16,17 @@ public sealed class ShipController
 
     public Transform BulletStartPoint => _bulletStartPoint;
 
-    private HealthBar _health;
-    private ArmorBar _armor;
+    private PlayerHUDView _playerHUD;
+    private HealthBar _enemyHealth;
+    private ArmorBar _enemyArmor;
     private ShipType _shipType;
 
-    public ShipController(ShipData data)
+    public ShipController(ShipData data, PlayerHUDView viewHUD)
     {
         _data = data;
         _startPosition = data.StartPosition;
         _prefab = data.ShipPrefab;
-        _health = Object.FindObjectOfType<HealthBar>();
-        _armor = Object.FindObjectOfType<ArmorBar>();
+        _playerHUD = viewHUD;
     }
 
     public void Init(ShipType type)
@@ -35,12 +35,19 @@ public sealed class ShipController
         _model = new ShipModel(_data);
         GameObject shipGameObject = Object.Instantiate(_prefab, _startPosition, Quaternion.identity);
         _view = shipGameObject.GetComponent<ShipView>();
+        _enemyHealth = Object.FindObjectOfType<EnemyHealthBar>();
+        _enemyArmor = Object.FindObjectOfType<EnemyArmorBar>();
+
         _bulletStartPoint = _view.BulletSpawnPoint;
 
         if (_shipType == ShipType.Player)
         {
-            _health.SetMaxHealth(_model.MaxHP);
-            _armor.SetMaxArmor(_model.MaxArmor);
+            _playerHUD.SetMaxHealth(_model.MaxHP);
+            _playerHUD.SetMaxArmor(_model.MaxArmor);
+        }
+        if (_shipType == ShipType.Enemy)
+        {
+            _enemyHealth.SetMaxHealth(_model.MaxHP);
         }
 
         if (shipGameObject.TryGetComponent(out CapsuleCollider collider))
@@ -75,6 +82,11 @@ public sealed class ShipController
         OnDiedEvent -= OnDisable;
     }
 
+    private void SetGameScore(int value)
+    {
+        _playerHUD.SetScore(value);
+    }
+
     private void RecieveDamage(int damage)
     {
         if (_model.CurrentArmor > 0)
@@ -83,7 +95,7 @@ public sealed class ShipController
 
             if (_shipType == ShipType.Player)
             {
-                _armor.SetArmor(_model.CurrentArmor);
+                _playerHUD.SetArmor(_model.CurrentArmor);
             }
         }
         else
@@ -92,7 +104,11 @@ public sealed class ShipController
 
             if (_shipType == ShipType.Player)
             {
-                _health.SetHealth(_model.CurrentHP);
+                _playerHUD.SetHealth(_model.CurrentHP);
+            }
+            if (_shipType == ShipType.Enemy)
+            {
+                _enemyHealth.SetHealth(_model.CurrentHP);
             }
         }
 

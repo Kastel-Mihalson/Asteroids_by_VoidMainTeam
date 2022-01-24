@@ -4,6 +4,7 @@ using UnityEngine;
 public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 {
     public event Func<int?> GetAsteroidDamageEvent;
+    public event Func<int?> GetAsteroidHealthEvent;
     public event Action<int> OnDamagedEvent;
 
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
@@ -47,4 +48,5 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     }
 
     public int? GetAsteroidDamage() => GetAsteroidDamageEvent?.Invoke();
+    public int? GetAsteroidHealth() => GetAsteroidHealthEvent?.Invoke();
 }

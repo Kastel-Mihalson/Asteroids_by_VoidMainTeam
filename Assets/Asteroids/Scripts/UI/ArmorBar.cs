@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ArmorBar : MonoBehaviour
+public abstract class ArmorBar : MonoBehaviour
 {
     public Slider slider;
 
