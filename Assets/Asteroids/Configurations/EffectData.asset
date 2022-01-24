@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: EffectData
   m_EditorClassIdentifier: 
   _effects:
-  - Prefab: {fileID: 159918, guid: a0040bf7072bc2f4e82d887d50a9c5e2, type: 3}
+  - Prefab: {fileID: 100006, guid: 4cb9e60cec25f644394b8588bc1943bb, type: 3}
     Action: 0
     LifeTime: 2
-  - Prefab: {fileID: 5353376410823387767, guid: d2e93d40a8aa24a41aeddcc3e838f834, type: 3}
+  - Prefab: {fileID: 100000, guid: 3d4c5d075dec2a04f9ca277c5103d937, type: 3}
     Action: 1
     LifeTime: 2
-  - Prefab: {fileID: 159918, guid: f504b1e629fde9348a5777adea8d0950, type: 3}
+  - Prefab: {fileID: 100008, guid: c0c7cf5465f9c674f9847eb7f881a71f, type: 3}
     Action: 2
     LifeTime: 2
-  - Prefab: {fileID: 5353376410823387767, guid: 3235a6bb0e66c4a41a98b28897e723fc, type: 3}
+  - Prefab: {fileID: 100000, guid: 826b35e9a9ac54f4b91ab120804c2c65, type: 3}
     Action: 3
     LifeTime: 2
