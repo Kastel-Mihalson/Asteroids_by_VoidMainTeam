@@ -8,6 +8,11 @@ public class PlayerHUDView : MonoBehaviour
     public Slider armorSlider;
     public Text scoreValue;
 
+    public void SetScreenActive(bool flag)
+    {
+        gameObject.SetActive(flag);
+    }
+
     public void SetMaxHealth(int health)
     {
         healthSlider.maxValue = health;
