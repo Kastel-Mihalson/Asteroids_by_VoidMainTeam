@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SCORE
+  m_Text: 'SCORE:'
 --- !u!222 &15648080
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -214,13 +214,14 @@ GameObject:
   - component: {fileID: 68023377}
   - component: {fileID: 68023376}
   - component: {fileID: 68023375}
+  - component: {fileID: 68023379}
   m_Layer: 5
   m_Name: CanvasLose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &68023375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +299,6 @@ RectTransform:
   - {fileID: 1495572023}
   - {fileID: 15648078}
   - {fileID: 930994844}
-  - {fileID: 568249652}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -307,6 +307,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &68023379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68023374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd1e3928ca3bc864ca095ea69ffaf20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _homeButton: {fileID: 716702776}
+  _restartButton: {fileID: 888727263}
+  _exitButton: {fileID: 1495572024}
 --- !u!1 &323969927
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +359,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f26f99469afe214eada59cf2098969f, type: 2}
   - {fileID: 11400000, guid: f5f15470656fe084eb3f8bf9aabe8054, type: 2}
   - {fileID: 11400000, guid: 9f717502a63645c4e921a8c9dbd22c0c, type: 2}
-  UI_lose: {fileID: 68023374}
   speed: 10
 --- !u!4 &323969929
 Transform:
@@ -360,78 +374,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &568249651
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 568249652}
-  - component: {fileID: 568249654}
-  - component: {fileID: 568249653}
-  m_Layer: 5
-  m_Name: LooseImage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &568249652
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568249651}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10779.059}
-  m_LocalScale: {x: 14.078482, y: 14.078485, z: 14.078485}
-  m_Children: []
-  m_Father: {fileID: 68023378}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -95.49014, y: -6.2901764}
-  m_SizeDelta: {x: 103.18, y: 122.77}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &568249653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568249651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 0}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
---- !u!222 &568249654
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568249651}
-  m_CullTransparentMesh: 1
 --- !u!1 &716702774
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,19 +456,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 716702777}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 716702774}
-        m_TargetAssemblyTypeName: CanvasButtons, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &716702777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,19 +590,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 888727264}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 888727262}
-        m_TargetAssemblyTypeName: CanvasButtons, Assembly-CSharp
-        m_MethodName: RestartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &888727264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,7 +765,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: YOU LOSE
+  m_Text: YOU LOSE!
 --- !u!222 &930994846
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1249,7 +1167,6 @@ GameObject:
   - component: {fileID: 1495572026}
   - component: {fileID: 1495572025}
   - component: {fileID: 1495572024}
-  - component: {fileID: 1495572027}
   m_Layer: 5
   m_Name: ButtonExit
   m_TagString: Untagged
@@ -1320,19 +1237,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1495572025}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1495572027}
-        m_TargetAssemblyTypeName: CanvasButtons, Assembly-CSharp
-        m_MethodName: ExitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1495572025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1371,18 +1276,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495572022}
   m_CullTransparentMesh: 1
---- !u!114 &1495572027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495572022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf8d00d8a87e1894bbd3550ee4e4a575, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1733993125
 GameObject:
   m_ObjectHideFlags: 0
