@@ -21,9 +21,9 @@ public class SpawnController
         }
     }
 
-    public ShipController SpawnShip(ShipData shipData)
+    public ShipController SpawnShip(ShipData shipData, PlayerHUDView viewHUD)
     {
-        _shipController = new ShipController(shipData);
+        _shipController = new ShipController(shipData, viewHUD);
         _shipController.Init(shipData.Type);
         return _shipController;
     }
