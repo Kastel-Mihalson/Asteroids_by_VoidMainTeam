@@ -10,7 +10,8 @@ public class ShootingController
     private float _shootDelay;
     private LayerMask _layer;
 
-    public ShootingController(Transform startPoint, BulletData bullet, LayerMask layer)
+    public ShootingController(
+        Transform startPoint, BulletData bullet, LayerMask layer)
     {
         _startPoint = startPoint;
         _bulletController = new BulletController(bullet, _startPoint);
@@ -34,7 +35,7 @@ public class ShootingController
             _bulletController.OnDisable();
             _bulletController.OnEnable();
             _bulletController.Move();
-            
+            AudioController.Play(AudioClipManager.Shot);
             _nextShotTime = Time.time + _shootDelay;
         }
     }

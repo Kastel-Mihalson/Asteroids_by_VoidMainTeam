@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 {
+    public event Func<int?> GetAsteroidDamageEvent;
+    public event Func<int?> GetAsteroidHealthEvent;
     public event Action<int> OnDamagedEvent;
     public event Action<GameObject> ReturnAsteroidToPoolEvent;
 
-    private GameObject _explosionEffect;
-    private float _effectTime = 2f;
-
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
-
-    private void Start()
-    {
-        _explosionEffect = Resources.Load("Explosion/Explosion") as GameObject;
-    }
 
     private void OnTriggerEnter(Collider other)
     {        
@@ -27,17 +21,14 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
         }
         if (interactiveObject is IBullet)
         {
-            var asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
-            asteroidExplosion.transform.localScale = Vector3.one * 0.2f;
-            Destroy(asteroidExplosion, _effectTime);
-
             var bulletView = (BulletView)interactiveObject;
             int? damage = bulletView.GetBulletDamage();
             if (damage != null)
             {
                 OnDamagedEvent?.Invoke((int)damage);
             }
-            ReturnAsteroidToPool(gameObject);
+            AudioController.Play(AudioClipManager.AsteroidHitting);
+            EffectController.Create(EffectManager.AsteroidHitting, gameObject.transform);
         }
         else
         {
@@ -62,12 +53,11 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 
     public void Die()
     {
+        AudioController.Play(AudioClipManager.AsteroidExplosion);
+        EffectController.Create(EffectManager.AsteroidExplosion, gameObject.transform);
         Destroy(gameObject);
-
-        StartCoroutine(nameof(ReturnAsteroidToPoolTimer));
-        GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
-        Destroy(asteroidExplosion, _effectTime);
     }
 
-    public void ReturnAsteroidToPool(GameObject asteroid) => ReturnAsteroidToPoolEvent?.Invoke(asteroid);
+    public int? GetAsteroidDamage() => GetAsteroidDamageEvent?.Invoke();
+    public int? GetAsteroidHealth() => GetAsteroidHealthEvent?.Invoke();
 }

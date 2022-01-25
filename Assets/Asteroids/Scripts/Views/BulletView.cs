@@ -8,13 +8,27 @@ public class BulletView : MonoBehaviour, IInteractiveObject, IBullet
     public event Action<GameObject> ReturnBulletToPoolEvent;
     
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
+    public PlayerHUDView _playerHUD => FindObjectOfType<PlayerHUDView>();
 
     private void OnTriggerEnter(Collider other)
     {
         var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
-        if(interactiveObject is IBullet)
+        if (interactiveObject is IBullet)
         {
             return;
+        }
+        if (interactiveObject is IAsteroid)
+        {
+            var asteroid = (AsteroidView)interactiveObject;
+            var asteroidHP = asteroid.GetAsteroidHealth();
+
+            _playerHUD.SetScore(asteroidHP);
+        }
+        if (interactiveObject is IShip)
+        {
+            var ship = (ShipView)interactiveObject;
+
+            _playerHUD.SetScore(20);
         }
 
         ReturnBulletToPool(gameObject);
@@ -33,5 +47,5 @@ public class BulletView : MonoBehaviour, IInteractiveObject, IBullet
     }
 
     public void ReturnBulletToPool(GameObject bullet) => ReturnBulletToPoolEvent?.Invoke(bullet);
-    public int? GetBulletDamage() => GetBulletDamageEvent?.Invoke();    
+    public int? GetBulletDamage() => GetBulletDamageEvent?.Invoke();
 }

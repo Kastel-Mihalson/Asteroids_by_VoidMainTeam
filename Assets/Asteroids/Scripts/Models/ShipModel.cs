@@ -21,6 +21,18 @@ public sealed class ShipModel
         private set => _turnSpeed = value;
     }
 
+    public int MaxHP
+    {
+        get => _maxHP;
+        set => _maxHP = value;
+    }
+
+    public int MaxArmor
+    {
+        get => _maxArmor;
+        set => _maxArmor = value;
+    }
+
     public int CurrentHP
     {
         get => _currentHP;

@@ -19,6 +19,6 @@ MonoBehaviour:
   _type: 1
   _shootingLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 264
   _startPosition: {x: 0, y: 0, z: -4.5}
-  _shipPrefab: {fileID: 1411103268356311223, guid: 197fefbc66e8da944bb83a5c5411d5dc, type: 3}
+  _shipPrefab: {fileID: 1411103268356311223, guid: 0d4d4b9e719d3464299fd499022f1b04, type: 3}
