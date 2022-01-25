@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 {
     public event Action<int> OnDamagedEvent;
+    public event Action<GameObject> ReturnAsteroidToPoolEvent;
 
     private GameObject _explosionEffect;
     private float _effectTime = 2f;
@@ -35,6 +37,7 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
             {
                 OnDamagedEvent?.Invoke((int)damage);
             }
+            ReturnAsteroidToPool(gameObject);
         }
         else
         {
@@ -45,13 +48,26 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 
     public void Die(float lifeTime)
     {
+        StartCoroutine(nameof(ReturnAsteroidToPoolTimer), lifeTime);
+
         Destroy(gameObject, lifeTime);
+    }
+
+    private IEnumerator ReturnAsteroidToPoolTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ReturnAsteroidToPool(gameObject);
+        StopCoroutine(nameof(ReturnAsteroidToPoolTimer));
     }
 
     public void Die()
     {
         Destroy(gameObject);
+
+        StartCoroutine(nameof(ReturnAsteroidToPoolTimer));
         GameObject asteroidExplosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
         Destroy(asteroidExplosion, _effectTime);
     }
+
+    public void ReturnAsteroidToPool(GameObject asteroid) => ReturnAsteroidToPoolEvent?.Invoke(asteroid);
 }

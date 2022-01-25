@@ -9,6 +9,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private BulletData _playerBullet;
     [SerializeField] private BulletData _enemyBullet;
     [SerializeField] private List<AsteroidData> _asteroidDataList;
+    [Header("UI")] 
+    public GameObject UI_lose;
+    public GameObject UI_pause;
 
     private ShootingController _playerShootingController;
     private ShootingController _enemyShootingController;
@@ -35,6 +38,9 @@ public class GameController : MonoBehaviour
             new ShootingController(_playerShipController.BulletStartPoint, _playerBullet, _playerShip.ShootingLayer);
         _enemyShootingController =
             new ShootingController(_enemyShipController.BulletStartPoint, _enemyBullet, _enemyShip.ShootingLayer);
+        UI_lose.SetActive(false);
+        UI_pause.SetActive(false);
+
     }
 
     private void Update()
@@ -42,6 +48,13 @@ public class GameController : MonoBehaviour
         _playerShipController.Execute();
         _enemyShipController.Execute();
         _spawnController.SpawnAsteroid(_asteroidDataList);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UI_pause.SetActive(true);
+            UnityEditor.EditorApplication.isPaused = true;
+        }
+
     }
 
     private void FixedUpdate()

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShipView : MonoBehaviour, IInteractiveObject, IShip
 {
     public event Action<int> OnDamagedEvent;
+    public GameObject UI_lose;
 
     private GameObject _explosionEffect;
     private float _effectTime = 2f;
@@ -38,5 +39,6 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
         Destroy(gameObject);
         GameObject explosion = Instantiate(_explosionEffect, transform.position, transform.rotation);
         Destroy(explosion, _effectTime);
+
     }
 }
