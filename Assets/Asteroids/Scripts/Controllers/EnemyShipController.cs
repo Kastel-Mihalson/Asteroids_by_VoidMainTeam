@@ -19,6 +19,9 @@ public sealed class EnemyShipController : ShipController
 
         BulletStartPoint = _view.BulletSpawnPoint;
 
+        _view.SetMaxHealth(_model.MaxHP);
+        _view.SetMaxArmor(_model.MaxArmor);
+
         if (shipGameObject.TryGetComponent(out CapsuleCollider collider))
         {
             _movementController = new EnemyShipMovement();
@@ -31,6 +34,8 @@ public sealed class EnemyShipController : ShipController
     public override void OnEnable()
     {
         _view.OnDamagedEvent += _model.RecieveDamage;
+        _model.OnHpChangedEvent += _view.SetHealth;
+        _model.OnArmorChangedEvent += _view.SetArmor;
         _model.OnDiedEvent += _view.Die;
         _model.OnDiedEvent += OnDisable;
     }
@@ -38,6 +43,8 @@ public sealed class EnemyShipController : ShipController
     public override void OnDisable()
     {
         _view.OnDamagedEvent -= _model.RecieveDamage;
+        _model.OnHpChangedEvent -= _view.SetHealth;
+        _model.OnArmorChangedEvent -= _view.SetArmor;
         _model.OnDiedEvent -= _view.Die;
         _model.OnDiedEvent -= OnDisable;
     }

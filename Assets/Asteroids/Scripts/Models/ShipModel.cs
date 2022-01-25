@@ -27,13 +27,13 @@ public abstract class ShipModel
     public int MaxHP
     {
         get => _maxHP;
-        set => _maxHP = value;
+        private set => _maxHP = value;
     }
 
     public int MaxArmor
     {
         get => _maxArmor;
-        set => _maxArmor = value;
+        private set => _maxArmor = value;
     }
 
     public int CurrentHP

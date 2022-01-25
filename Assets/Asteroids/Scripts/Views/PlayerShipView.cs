@@ -5,7 +5,7 @@ public sealed class PlayerShipView : ShipView
 {
     //public event Action<int> OnScoreChangedEvent;
 
-    private PlayerHUDView _playerHUDView;
+    private PlayerHUDView _hudView;
 
     public override void Interact(Collider other)
     {
@@ -44,31 +44,31 @@ public sealed class PlayerShipView : ShipView
     // TODO remove awake
     private void Awake()
     {
-        _playerHUDView = FindObjectOfType<PlayerHUDView>();
+        _hudView = FindObjectOfType<PlayerHUDView>();
     }
 
     public void SetMaxHealth(int health)
     {
-        _playerHUDView.SetMaxHealth(health);
+        _hudView.SetMaxHealth(health);
     }
 
     public void SetHealth(int health)
     {
-        _playerHUDView.SetHealth(health);
+        _hudView.SetHealth(health);
     }
 
     public void SetMaxArmor(int armor)
     {
-        _playerHUDView.SetMaxArmor(armor);
+        _hudView.SetMaxArmor(armor);
     }
 
     public void SetArmor(int armor)
     {
-        _playerHUDView.SetArmor(armor);
+        _hudView.SetArmor(armor);
     }
 
     public void SetScore(int? value)
     {
-        _playerHUDView.SetScore(value);
+        _hudView.SetScore(value);
     }
 }
