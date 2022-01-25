@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class LoseMenu : MonoBehaviour
 {
@@ -15,7 +12,7 @@ public class LoseMenu : MonoBehaviour
         _homeButton.onClick.AddListener(ToMainMenu);
         _restartButton.onClick.AddListener(RestartGame);
         _exitButton.onClick.AddListener(ExitGame);
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     private void Update()
@@ -23,23 +20,27 @@ public class LoseMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             gameObject.SetActive(true);
-            UnityEditor.EditorApplication.isPaused = true;
+            Time.timeScale = 0;
+            //UnityEditor.EditorApplication.isPaused = true;
         }
     }
 
     private void ToMainMenu()
     {
+        Debug.Log("Load main menu screen");
         //SceneManager.LoadScene(SceneManager.GetSceneByName("MainMenu"));
     }
 
     private void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("Restart game");
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void ExitGame()
     {
-        gameObject.SetActive(false);
-        UnityEditor.EditorApplication.isPlaying = false;
+        Debug.Log("Exit game");
+        //gameObject.SetActive(false);
+        //UnityEditor.EditorApplication.isPlaying = false;
     }
  }
