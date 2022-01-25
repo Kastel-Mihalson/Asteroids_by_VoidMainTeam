@@ -33,6 +33,10 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
                     OnDamagedEvent?.Invoke((int)damage);
                 }
             }
+            else if (interactiveObject is IShip)
+            {
+                Die();
+            }
         }
     }
 

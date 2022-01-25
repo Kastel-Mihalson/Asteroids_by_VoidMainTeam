@@ -30,8 +30,8 @@ public sealed class AsteroidController
     {
         if (_rigidBody)
         {
-            _rigidBody.angularVelocity = Random.insideUnitSphere * _model.RotationSpeed;
-            _rigidBody.velocity = Vector3.back * _model.MoveSpeed;
+            _rigidBody.angularVelocity = Random.insideUnitSphere * _model.RotationSpeed * Time.deltaTime * 60;
+            _rigidBody.velocity = Vector3.back * _model.MoveSpeed * Time.deltaTime* 60;
         }
     }
 
