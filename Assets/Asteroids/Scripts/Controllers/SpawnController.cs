@@ -4,7 +4,8 @@ using UnityEngine;
 public class SpawnController
 {
     private AsteroidController _asteroidController;
-    private ShipController _shipController;
+    private PlayerShipController _playerShipController;
+    private EnemyShipController _enemyShipController;
     private float _nextSpawnTime;
     private float _minSpawnDelay = 0.5f;
     private float _maxSpawnDelay = 2f;
@@ -21,10 +22,17 @@ public class SpawnController
         }
     }
 
-    public ShipController SpawnShip(ShipData shipData, PlayerHUDView viewHUD)
+    public PlayerShipController SpawnPlayerShip(ShipData shipData)
     {
-        _shipController = new ShipController(shipData, viewHUD);
-        _shipController.Init(shipData.Type);
-        return _shipController;
+        _playerShipController = new PlayerShipController(shipData);
+        _playerShipController.Init();
+        return _playerShipController;
+    }
+
+    public EnemyShipController SpawnEnemyShip(ShipData shipData)
+    {
+        _enemyShipController = new EnemyShipController(shipData);
+        _enemyShipController.Init();
+        return _enemyShipController;
     }
 }

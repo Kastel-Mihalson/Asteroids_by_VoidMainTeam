@@ -12,6 +12,11 @@ public class BulletView : MonoBehaviour, IInteractiveObject, IBullet
 
     private void OnTriggerEnter(Collider other)
     {
+        Interact(other);
+    }
+
+    public void Interact(Collider other)
+    {
         var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
         if (interactiveObject is IBullet)
         {

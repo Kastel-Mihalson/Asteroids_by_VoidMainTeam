@@ -14,11 +14,10 @@ public class GameController : MonoBehaviour
     private ShootingController _playerShootingController;
     private ShootingController _enemyShootingController;
     private SpawnController _spawnController;
-    private ShipController _playerShipController;
-    private ShipController _enemyShipController;
+    private PlayerShipController _playerShipController;
+    private EnemyShipController _enemyShipController;
     private AudioController _audioController;
     private EffectController _effectController;
-    private PlayerHUDView _playerHUD;
 
     private BackgroundStars _bgStars;
     [Range(1, 10)]
@@ -33,10 +32,9 @@ public class GameController : MonoBehaviour
     {
         _bgStars = new BackgroundStars(50);
         _spawnController = new SpawnController();
-        _playerHUD = FindObjectOfType<PlayerHUDView>();
 
-        _playerShipController = _spawnController.SpawnShip(_playerShip, _playerHUD);
-        _enemyShipController = _spawnController.SpawnShip(_enemyShip, _playerHUD);
+        _playerShipController = _spawnController.SpawnPlayerShip(_playerShip);
+        _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
 
         _playerShootingController = new ShootingController(
             _playerShipController.BulletStartPoint, _playerBullet, 

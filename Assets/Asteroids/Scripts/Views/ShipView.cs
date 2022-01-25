@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-
-public class ShipView : MonoBehaviour, IInteractiveObject, IShip
+public abstract class ShipView : MonoBehaviour, IInteractiveObject, IShip
 {
     public event Action<int> OnDamagedEvent;
 
@@ -10,36 +9,16 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
     public Transform BulletSpawnPoint => gameObject.GetComponentInChildren<BulletSpawnMarker>().transform;
 
     private void OnTriggerEnter(Collider other)
-    { 
-        if (other.TryGetComponent(out IInteractiveObject interactiveObject))
-        {
-            if (interactiveObject is IBullet)
-            {
-                var bulletView = (BulletView)interactiveObject;
-                int? damage = bulletView.GetBulletDamage();
-                if (damage != null)
-                {
-                    OnDamagedEvent?.Invoke((int)damage);
-                }
-                AudioController.Play(AudioClipManager.ShipHitting);
-                EffectController.Create(EffectManager.ShipHitting, gameObject.transform);
-            }
-            else if (interactiveObject is IAsteroid)
-            {
-                var asteroidView = (AsteroidView)interactiveObject;
-                int? damage = asteroidView.GetAsteroidDamage();
-                if (damage != null)
-                {
-                    OnDamagedEvent?.Invoke((int)damage);
-                }
-            }
-        }
+    {
+        Interact(other);
     }
 
-    public void Die()
+    public abstract void Interact(Collider other);
+
+    public abstract void Die();
+
+    public void GetDamage(int damage)
     {
-        AudioController.Play(AudioClipManager.ShipExplosion);
-        EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
-        Destroy(gameObject);
+        OnDamagedEvent?.Invoke(damage);
     }
 }

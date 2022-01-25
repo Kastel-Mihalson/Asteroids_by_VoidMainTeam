@@ -10,9 +10,14 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
 
     private void OnTriggerEnter(Collider other)
-    {        
+    {
+        Interact(other);
+    }
+
+    public void Interact(Collider other)
+    {
         var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
-        
+
         if (interactiveObject is IAsteroid)
         {
             return;
@@ -32,7 +37,6 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
         {
             Die();
         }
-
     }
 
     public void Die(float lifeTime)
@@ -48,5 +52,5 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     }
 
     public int? GetAsteroidDamage() => GetAsteroidDamageEvent?.Invoke();
-    public int? GetAsteroidHealth() => GetAsteroidHealthEvent?.Invoke();
+    public int? GetAsteroidHealth() => GetAsteroidHealthEvent?.Invoke();    
 }
