@@ -15,7 +15,7 @@ public class LoseMenu : MonoBehaviour
         _homeButton.onClick.AddListener(ToMainMenu);
         _restartButton.onClick.AddListener(RestartGame);
         _exitButton.onClick.AddListener(ExitGame);
-        gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     private void Update()
