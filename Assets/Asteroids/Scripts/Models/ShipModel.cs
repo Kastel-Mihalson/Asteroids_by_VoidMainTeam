@@ -13,40 +13,10 @@ public abstract class ShipModel
     private int _currentArmor;
     private int _maxArmor;
 
-    public float MoveSpeed
-    {
-        get => _moveSpeed;
-        private set => _moveSpeed = value;
-    }
-    public float TurnSpeed
-    {
-        get => _turnSpeed;
-        private set => _turnSpeed = value;
-    }
-
-    public int MaxHP
-    {
-        get => _maxHP;
-        private set => _maxHP = value;
-    }
-
-    public int MaxArmor
-    {
-        get => _maxArmor;
-        private set => _maxArmor = value;
-    }
-
-    public int CurrentHP
-    {
-        get => _currentHP;
-        set => _currentHP = value;
-    }
-
-    public int CurrentArmor
-    {
-        get => _currentArmor;
-        set => _currentArmor = value;
-    }
+    public float MoveSpeed=> _moveSpeed;
+    public float TurnSpeed=> _turnSpeed;
+    public int MaxHP => _maxHP;
+    public int MaxArmor=> _maxArmor;
 
     public ShipModel(ShipData data)
     {
@@ -60,18 +30,18 @@ public abstract class ShipModel
 
     public void RecieveDamage(int damage)
     {
-        if (CurrentArmor > 0)
+        if (_currentArmor > 0)
         {
-            CurrentArmor -= damage;
-            OnArmorChangedEvent?.Invoke(CurrentArmor);
+            _currentArmor -= damage;
+            OnArmorChangedEvent?.Invoke(_currentArmor);
         }
         else
         {
-            CurrentHP -= damage;
-            OnHpChangedEvent?.Invoke(CurrentHP);
+            _currentHP -= damage;
+            OnHpChangedEvent?.Invoke(_currentHP);
         }
 
-        if (CurrentHP <= 0)
+        if (_currentHP <= 0)
         {
             Die();
         }

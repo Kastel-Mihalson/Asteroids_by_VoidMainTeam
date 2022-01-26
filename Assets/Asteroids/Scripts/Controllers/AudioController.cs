@@ -35,4 +35,13 @@ public sealed class AudioController
             Object.Destroy(soundSource, clip.length);
         }
     }
+
+    public static void Clear()
+    {
+        AudioSource[] audioSource = Object.FindObjectsOfType<AudioSource>();
+        foreach (var source in audioSource)
+        {
+            Object.Destroy(source.gameObject);
+        }
+    }
 }

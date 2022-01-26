@@ -3,6 +3,7 @@
 public sealed class EnemyShipView : ShipView
 {
     private EnemyHUDView _hudView;
+    private EndGameMenuView _loseMenu;
 
     public override void Interact(Collider other)
     {
@@ -25,6 +26,12 @@ public sealed class EnemyShipView : ShipView
 
     public override void Die()
     {
+        if (_loseMenu)
+        {
+            _loseMenu.SetGameEndParams(true);
+            _loseMenu.SetScreenActive(true);
+        }
+
         AudioController.Play(AudioClipManager.ShipExplosion);
         EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
         Destroy(gameObject);
@@ -33,6 +40,15 @@ public sealed class EnemyShipView : ShipView
     private void Awake()
     {
         _hudView = FindObjectOfType<EnemyHUDView>();
+        _loseMenu = FindObjectOfType<EndGameMenuView>();
+    }
+
+    private void Start()
+    {
+        if (_loseMenu)
+        {
+            _loseMenu.gameObject.SetActive(false);
+        }
     }
 
     public void SetMaxHealth(int health)

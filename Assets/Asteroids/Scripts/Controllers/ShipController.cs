@@ -31,9 +31,4 @@ public abstract class ShipController
     public abstract void OnEnable();
 
     public abstract void OnDisable();
-
-    public void Die()
-    {
-        OnDiedEvent?.Invoke();
-    }
 }

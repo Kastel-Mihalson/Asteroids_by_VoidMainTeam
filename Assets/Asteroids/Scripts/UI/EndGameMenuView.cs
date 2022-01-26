@@ -11,13 +11,12 @@ public class EndGameMenuView : MonoBehaviour
     [SerializeField] private Text _scoreValue;
 
     private PlayerHUDView _playerHUD;
-    private int _enemyLayer;
     private const string WIN_GAME = "<color=#17D133>YOU WIN :)</color>";
     private const string LOSE_GAME = "<color=#D13817>YOU LOSE :(</color>";
+    private AudioClipManager _audioClipType;
 
     private void Start()
     {
-        _enemyLayer = LayerMask.NameToLayer("Enemy");
         _playerHUD = FindObjectOfType<PlayerHUDView>();
 
         _homeButton.onClick.AddListener(ToMainMenu);
@@ -31,11 +30,29 @@ public class EndGameMenuView : MonoBehaviour
         gameObject.SetActive(flag);
 
         Time.timeScale = flag ? 0 : 1;
+
+        if (flag)
+        {
+            AudioController.Clear();
+            AudioController.Play(_audioClipType, true);
+        }
     }
 
-    public void SetGameEndParams(int gameObjectLayer)
+    public void SetGameEndParams(bool isVictory)
     {
-        var endGameText = gameObjectLayer == _enemyLayer ? WIN_GAME : LOSE_GAME;
+        string endGameText;
+
+        if (isVictory)
+        {
+            endGameText = WIN_GAME;
+            _audioClipType = AudioClipManager.VictoryMusic;
+        }
+        else
+        {
+            endGameText = LOSE_GAME;
+            _audioClipType = AudioClipManager.GameOverMusic;
+        }
+
         var score = _playerHUD.GetScore();
 
         _scoreValue.text = $"SCORE: {score}";
@@ -44,12 +61,14 @@ public class EndGameMenuView : MonoBehaviour
 
     private void ToMainMenu()
     {
+        AudioController.Clear();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     private void RestartGame()
     {
         SetScreenActive(false);
+        AudioController.Clear();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

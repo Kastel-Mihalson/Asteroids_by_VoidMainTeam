@@ -2031,9 +2031,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 581a82f172542414481e90bd9272317c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider: {fileID: 475505946}
-  armorSlider: {fileID: 501055453}
-  scoreValue: {fileID: 1027353820}
+  HealthSlider: {fileID: 475505946}
+  ArmorSlider: {fileID: 501055453}
+  ScoreValue: {fileID: 1027353820}
 --- !u!1 &1993548317
 GameObject:
   m_ObjectHideFlags: 0

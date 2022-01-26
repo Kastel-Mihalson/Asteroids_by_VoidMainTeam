@@ -36,7 +36,6 @@ public sealed class PlayerShipController : ShipController
         _view.OnDamagedEvent += _model.RecieveDamage;
         _model.OnHpChangedEvent += _view.SetHealth;
         _model.OnArmorChangedEvent += _view.SetArmor;
-        //_view.OnScoreChangedEvent += _model.ChangeScore; // ?
         _model.OnDiedEvent += _view.Die;
         _model.OnDiedEvent += OnDisable;
     }
@@ -46,10 +45,10 @@ public sealed class PlayerShipController : ShipController
         _view.OnDamagedEvent -= _model.RecieveDamage;
         _model.OnHpChangedEvent -= _view.SetHealth;
         _model.OnArmorChangedEvent -= _view.SetArmor;
-        //_view.OnScoreChangedEvent -= _model.ChangeScore; // ?
         _model.OnDiedEvent -= _view.Die;
         _model.OnDiedEvent -= OnDisable;
     }
+
     public override void Execute()
     {
         _movementController.Execute();

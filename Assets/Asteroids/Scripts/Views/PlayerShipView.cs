@@ -6,6 +6,7 @@ public sealed class PlayerShipView : ShipView
     //public event Action<int> OnScoreChangedEvent;
 
     private PlayerHUDView _hudView;
+    private EndGameMenuView _loseMenu;
 
     public override void Interact(Collider other)
     {
@@ -17,14 +18,18 @@ public sealed class PlayerShipView : ShipView
             {
                 var bulletView = (BulletView)interactiveObject;
                 damage = bulletView.GetBulletDamage();
-                
+
                 AudioController.Play(AudioClipManager.ShipHitting);
                 EffectController.Create(EffectManager.ShipHitting, gameObject.transform);
             }
             else if (interactiveObject is IAsteroid)
             {
                 var asteroidView = (AsteroidView)interactiveObject;
-                damage = asteroidView.GetAsteroidDamage();                
+                damage = asteroidView.GetAsteroidDamage();
+            }
+            else if (interactiveObject is IShip)
+            {
+                Die();
             }
 
             if (damage != null)
@@ -36,6 +41,12 @@ public sealed class PlayerShipView : ShipView
 
     public override void Die()
     {
+        if (_loseMenu)
+        {
+            _loseMenu.SetGameEndParams(false);
+            _loseMenu.SetScreenActive(true);
+        }
+
         AudioController.Play(AudioClipManager.ShipExplosion);
         EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
         Destroy(gameObject);
@@ -45,6 +56,15 @@ public sealed class PlayerShipView : ShipView
     private void Awake()
     {
         _hudView = FindObjectOfType<PlayerHUDView>();
+        _loseMenu = FindObjectOfType<EndGameMenuView>();
+    }
+
+    private void Start()
+    {
+        if (_loseMenu)
+        {
+            _loseMenu.gameObject.SetActive(false);
+        }
     }
 
     public void SetMaxHealth(int health)

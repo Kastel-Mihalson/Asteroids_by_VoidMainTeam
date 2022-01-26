@@ -7,5 +7,6 @@
     AsteroidHitting,
     GameOverMusic,
     NewGameMusic,
-    BackgroundMusic
+    BackgroundMusic,
+    VictoryMusic
 }

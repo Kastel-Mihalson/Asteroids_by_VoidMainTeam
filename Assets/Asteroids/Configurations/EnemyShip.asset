@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 10
   _turnSpeed: 4
-  _hp: 300
+  _hp: 100
   _armor: 0
-  _type: 2
   _shootingLayer:
     serializedVersion: 2
     m_Bits: 128

@@ -1,40 +1,17 @@
-using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHUDView : MonoBehaviour
+public sealed class PlayerHUDView : HUDView
 {
-    public Slider healthSlider;
-    public Slider armorSlider;
-    public Text scoreValue;
+    public Text ScoreValue;
 
     public void SetScreenActive(bool flag)
     {
         gameObject.SetActive(flag);
-    }
-
-    public void SetMaxHealth(int health)
-    {
-        healthSlider.maxValue = health;
-        healthSlider.value = health;
-    }
-    public void SetHealth(int health)
-    {
-        healthSlider.value = health;
-    }
-
-    public void SetMaxArmor(int armor)
-    {
-        armorSlider.maxValue = armor;
-        armorSlider.value = armor;
-    }
-    public void SetArmor(int armor)
-    {
-        armorSlider.value = armor;
-    }
+    } 
 
     public int GetScore()
     {
-        string stringScoreValue = scoreValue.text;
+        string stringScoreValue = ScoreValue.text;
         int intScoreValue;
         bool tryGetValue = int.TryParse(stringScoreValue, out intScoreValue);
 
@@ -46,7 +23,7 @@ public class PlayerHUDView : MonoBehaviour
         if (value != null && value > 0)
         {
             var oldScoreValue = GetScore();
-            scoreValue.text = (oldScoreValue + value).ToString();
+            ScoreValue.text = (oldScoreValue + value).ToString();
         }
     }
 }

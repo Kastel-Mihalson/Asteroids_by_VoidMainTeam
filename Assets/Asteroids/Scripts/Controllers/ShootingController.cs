@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 
-
 public class ShootingController
 {
     private BulletController _bulletController;
     private float _nextShotTime;
+    private float _shootDelay;
     private float _shootingDistance = 10f;
     private Transform _startPoint;
-    private float _shootDelay;
     private LayerMask _layer;
 
-    public ShootingController(
-        Transform startPoint, BulletData bullet, LayerMask layer)
+    public ShootingController(Transform startPoint, BulletData bullet, LayerMask layer)
     {
         _startPoint = startPoint;
         _bulletController = new BulletController(bullet, _startPoint);
