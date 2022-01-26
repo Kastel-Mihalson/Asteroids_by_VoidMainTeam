@@ -7,6 +7,7 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     public event Func<int?> GetAsteroidDamageEvent;
     public event Func<int?> GetAsteroidHealthEvent;
     public event Action<int> OnDamagedEvent;
+    public event Action<GameObject> ReturnObjectToPoolEvent;
 
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
 
@@ -34,24 +35,34 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
             AudioController.Play(AudioClipManager.AsteroidHitting);
             EffectController.Create(EffectManager.AsteroidHitting, gameObject.transform);
         }
-        else
-        {
+        if (interactiveObject is IShip)
+        {            
             Die();
         }
     }
 
     public void Die(float lifeTime)
     {
-        Destroy(gameObject, lifeTime);
+        StartCoroutine(nameof(ReturnObjectToPoolTimer), lifeTime);
+    }
+
+    private IEnumerator ReturnObjectToPoolTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ReturnObjectToPool(gameObject);
+        StopCoroutine(nameof(ReturnObjectToPoolTimer));
     }
 
     public void Die()
     {
         AudioController.Play(AudioClipManager.AsteroidExplosion);
         EffectController.Create(EffectManager.AsteroidExplosion, gameObject.transform);
-        Destroy(gameObject);
+        ReturnObjectToPool(gameObject);
     }
 
     public int? GetAsteroidDamage() => GetAsteroidDamageEvent?.Invoke();
-    public int? GetAsteroidHealth() => GetAsteroidHealthEvent?.Invoke();    
+
+    public int? GetAsteroidHealth() => GetAsteroidHealthEvent?.Invoke();
+    
+    public void ReturnObjectToPool(GameObject asteroid) => ReturnObjectToPoolEvent?.Invoke(asteroid);
 }
