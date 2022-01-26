@@ -537,8 +537,8 @@ MonoBehaviour:
   _enemyBullet: {fileID: 11400000, guid: 6af0672382d27cd4fafdf0f9e6d51977, type: 2}
   _asteroidDataList:
   - {fileID: 11400000, guid: 3f26f99469afe214eada59cf2098969f, type: 2}
-  - {fileID: 11400000, guid: f5f15470656fe084eb3f8bf9aabe8054, type: 2}
   - {fileID: 11400000, guid: 9f717502a63645c4e921a8c9dbd22c0c, type: 2}
+  - {fileID: 11400000, guid: f5f15470656fe084eb3f8bf9aabe8054, type: 2}
   _audioData: {fileID: 11400000, guid: c5b24dc2d08ed0b42a9424a487b3654e, type: 2}
   _effectData: {fileID: 11400000, guid: 83deb9c807c1c8448bdf829ddb96f3d7, type: 2}
   speed: 10
@@ -591,7 +591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 104.69995, y: 75.643}
+  m_AnchoredPosition: {x: 104.700195, y: 75.64307}
   m_SizeDelta: {x: 180, y: 36.713}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &475505946
@@ -680,7 +680,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 104.69995, y: 125.549}
+  m_AnchoredPosition: {x: 104.700195, y: 125.54907}
   m_SizeDelta: {x: 180, y: 38.298}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &501055453

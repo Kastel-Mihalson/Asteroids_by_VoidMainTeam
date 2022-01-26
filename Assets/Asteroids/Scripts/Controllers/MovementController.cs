@@ -46,8 +46,9 @@ public sealed class MovementController
     {
         if (_rigidbody)
         {
-            _rigidbody.velocity = _movement * _shipModel.MoveSpeed * Time.deltaTime * 60;
-            _rigidbody.rotation = Quaternion.Euler(0, 0, -_rigidbody.velocity.x * _shipModel.TurnSpeed * Time.deltaTime * 60);
+            _rigidbody.velocity = _movement * _shipModel.MoveSpeed * Time.fixedDeltaTime * 60;
+            _rigidbody.rotation = 
+                Quaternion.Euler(0, 0, -_rigidbody.velocity.x * _shipModel.TurnSpeed * Time.fixedDeltaTime * 60);
         }
     }
 

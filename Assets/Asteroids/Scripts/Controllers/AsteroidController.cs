@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public sealed class AsteroidController
@@ -17,6 +16,7 @@ public sealed class AsteroidController
     private int _speedMultiplier;
     private int _healthMultiplier;
     private GameObjectPool _asteroidPool;
+    private float _yAxisAsteroidSpawn;
 
     public AsteroidController(AsteroidData data)
     {
@@ -27,14 +27,15 @@ public sealed class AsteroidController
         _speedMultiplier = 3;
         _healthMultiplier = 10;
         _asteroidPool = new GameObjectPool(_prefab);
+        _yAxisAsteroidSpawn = 8f;
     }
 
     public void Move()
     {
         if (_rigidBody)
         {
-            _rigidBody.angularVelocity = Random.insideUnitSphere * _model.RotationSpeed * Time.deltaTime * 60;
-            _rigidBody.velocity = Vector3.back * _model.MoveSpeed * Time.deltaTime* 60;
+            _rigidBody.angularVelocity = Random.insideUnitSphere * _model.RotationSpeed;
+            _rigidBody.velocity = Vector3.back * _model.MoveSpeed;
         }
     }
 
@@ -42,25 +43,21 @@ public sealed class AsteroidController
     {
         _model = new AsteroidModel(_data);
 
-        var xAxisAsteroidSpawn = Random.Range(GameModel.ScreenBorder[Border.Left] + _borderSpawnOffset, GameModel.ScreenBorder[Border.Right] - _borderSpawnOffset);
         GameObject asteroidGameObject = _asteroidPool.GetGameObject();
-        asteroidGameObject.transform.position = new Vector3(xAxisAsteroidSpawn, 0, 8f);
-           
-        //Object.Instantiate(_prefab, new Vector3(xAxisAsteroidSpawn, 0, 8f), Quaternion.identity);
-        
-        var asteroidParamValue = Random.Range(_model.MinSize, _model.MaxSize + 1);
 
+        var xAxisAsteroidSpawn = Random.Range(GameModel.ScreenBorder[Border.Left] + _borderSpawnOffset, GameModel.ScreenBorder[Border.Right] - _borderSpawnOffset);
+        asteroidGameObject.transform.position = new Vector3(xAxisAsteroidSpawn, 0, _yAxisAsteroidSpawn);          
+       
+        var asteroidParamValue = Random.Range(_model.MinSize, _model.MaxSize + 1);
         _model.Size = asteroidParamValue;
         _model.Damage = asteroidParamValue;
         _model.CurrentHP = asteroidParamValue * _healthMultiplier;
         _model.MoveSpeed = Mathf.Abs(asteroidParamValue - (_model.MaxSize + 1)) * _speedMultiplier;
-
         asteroidGameObject.transform.localScale = Vector3.one * asteroidParamValue * _sizeMultiplier;
+
         _view = asteroidGameObject.GetComponent<AsteroidView>();
         _rigidBody = _view.Rigidbody;
         _view.Die(_model.LifeTime);
-
-        OnEnable();
     }
 
     public void AddToQueue(GameObject asteroid)
@@ -69,22 +66,24 @@ public sealed class AsteroidController
     }
 
 
-    private void OnEnable()
+    public void OnEnable()
     {
         _view.GetAsteroidHealthEvent += GetHealth;
         _view.GetAsteroidDamageEvent += GetDamage;
         _view.OnDamagedEvent += RecieveDamage;
         OnDiedEvent += _view.Die;
         OnDiedEvent += OnDisable;
+        _view.ReturnObjectToPoolEvent += AddToQueue;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         _view.GetAsteroidHealthEvent -= GetHealth;
         _view.GetAsteroidDamageEvent -= GetDamage;
         _view.OnDamagedEvent -= RecieveDamage;
         OnDiedEvent -= _view.Die;
         OnDiedEvent -= OnDisable;
+        _view.ReturnObjectToPoolEvent -= AddToQueue;
     }
 
     private void RecieveDamage(int damage)
