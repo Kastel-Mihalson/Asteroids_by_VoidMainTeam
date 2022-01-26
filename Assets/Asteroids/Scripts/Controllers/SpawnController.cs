@@ -16,6 +16,8 @@ public class SpawnController
             var asteroidIndex = Random.Range(0, asteroids.Count);
             _asteroidController = new AsteroidController(asteroids[asteroidIndex]);
             _asteroidController.Init();
+            _asteroidController.OnDisable();
+            _asteroidController.OnEnable();
             _asteroidController.Move();
             _nextSpawnTime += Random.Range(_minSpawnDelay, _maxSpawnDelay);
         }
