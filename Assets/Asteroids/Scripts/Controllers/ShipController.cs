@@ -118,7 +118,7 @@ public sealed class ShipController
         }
     }
 
-    private void Die()
+    public void Die()
     {
         OnDiedEvent?.Invoke();
     }

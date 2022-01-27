@@ -6,8 +6,24 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
 {
     public event Action<int> OnDamagedEvent;
 
+    public EndGameMenuView loseMenu;
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
     public Transform BulletSpawnPoint => gameObject.GetComponentInChildren<BulletSpawnMarker>().transform;
+    private int gameObjectLayer;
+
+    private void Awake()
+    {
+        gameObjectLayer = gameObject.layer;
+        loseMenu = FindObjectOfType<EndGameMenuView>();
+    }
+
+    private void Start()
+    {
+        if (loseMenu)
+        {
+            loseMenu.gameObject.SetActive(false);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     { 
@@ -33,11 +49,21 @@ public class ShipView : MonoBehaviour, IInteractiveObject, IShip
                     OnDamagedEvent?.Invoke((int)damage);
                 }
             }
+            else if (interactiveObject is IShip)
+            {
+                Die();
+            }
         }
     }
 
     public void Die()
     {
+        if (loseMenu)
+        {
+            loseMenu.SetScreenActive(true);
+            loseMenu.SetGameEndParams(gameObjectLayer);
+        }
+
         AudioController.Play(AudioClipManager.ShipExplosion);
         EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
         Destroy(gameObject);

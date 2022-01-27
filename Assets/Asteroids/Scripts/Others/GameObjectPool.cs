@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public sealed class GameObjectPool
 {
 	private readonly Queue<GameObject> _queue = new Queue<GameObject>();
