@@ -44,9 +44,9 @@ public sealed class PlayerShipController : ShipController
         OnHpChangedEvent += _view.SetHealth;
         OnArmorChangedEvent += _view.SetArmor;
         OnDiedEvent += _view.Die;
-        OnDiedEvent += OnDisable;
         OnDiedEvent += PlayExplosionAudioClip;
         _view.OnDamagedEvent += PlayHittingAudioClip;
+        OnDiedEvent += OnDisable;
     }
 
     public override void OnDisable()
@@ -55,9 +55,9 @@ public sealed class PlayerShipController : ShipController
         OnHpChangedEvent -= _view.SetHealth;
         OnArmorChangedEvent -= _view.SetArmor;
         OnDiedEvent -= _view.Die;
-        OnDiedEvent -= OnDisable;
         OnDiedEvent -= PlayExplosionAudioClip;
         _view.OnDamagedEvent -= PlayHittingAudioClip;
+        OnDiedEvent -= OnDisable;
     }
 
     public override void Execute()

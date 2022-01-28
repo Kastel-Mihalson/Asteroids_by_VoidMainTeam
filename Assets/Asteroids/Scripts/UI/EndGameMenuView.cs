@@ -7,6 +7,7 @@ public sealed class EndGameMenuView : MonoBehaviour
     public event Action OnMainMenuButtonClickEvent;
     public event Action OnRestartButtonClickEvent;
     public event Action OnExitButtonClickEvent;
+    public event Action<bool> OnSetScreenParamsEvent;
 
     [SerializeField] private Button _homeButton;
     [SerializeField] private Button _restartButton;
@@ -42,5 +43,10 @@ public sealed class EndGameMenuView : MonoBehaviour
     {
         _scoreValue.text = $"SCORE: {score}";
         _screenText.text = $"{text}";
+    }
+
+    public void ShowResult(bool isVictory)
+    {
+        OnSetScreenParamsEvent?.Invoke(isVictory);
     }
 }

@@ -15,6 +15,8 @@ public sealed class EndGameMenuController
         _audioController = audioController;
         _view = Object.FindObjectOfType<EndGameMenuView>();
         _playerHUD = Object.FindObjectOfType<PlayerHUDView>();
+
+        SetScreenActive(false);
     }
 
     public void SetScreenActive(bool flag)
@@ -73,10 +75,25 @@ public sealed class EndGameMenuController
 #endif
     }
 
-    public void OnEnabled()
+    public void OnEnable()
     {
         _view.OnMainMenuButtonClickEvent += ToMainMenu;
         _view.OnExitButtonClickEvent += ExitGame;
         _view.OnRestartButtonClickEvent += RestartGame;
+        _view.OnSetScreenParamsEvent += ShowEndGameMenu;
+    }
+
+    public void OnDisable()
+    {
+        _view.OnMainMenuButtonClickEvent -= ToMainMenu;
+        _view.OnExitButtonClickEvent -= ExitGame;
+        _view.OnRestartButtonClickEvent -= RestartGame;
+        _view.OnSetScreenParamsEvent -= ShowEndGameMenu;
+    }
+    
+    private void ShowEndGameMenu(bool isVictory)
+    {
+        SetScreenActive(true);
+        SetGameEndParams(isVictory);
     }
 }

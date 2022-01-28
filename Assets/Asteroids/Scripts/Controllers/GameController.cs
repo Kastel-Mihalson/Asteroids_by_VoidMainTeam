@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour
         _effectController = new EffectController(_effectData);
 
         _endGameMenuController = new EndGameMenuController(_audioController);
-        _endGameMenuController.OnEnabled();
+        _endGameMenuController.OnEnable();
     }
 
     private void Update()
