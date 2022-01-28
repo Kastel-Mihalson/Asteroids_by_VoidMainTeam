@@ -1,30 +1,40 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public sealed class AudioController
 {
     private const string SOUND = "Sound";
+    private const string AUDIO_DATA = "AudioData";
     private static AudioData _audioData;
-    private static GameObject _root;
+    //private static GameObject _root;
+    private List<GameObject> _soundSource;
 
-    public AudioController(AudioData audioData)
+    public AudioController()
     {
-        _audioData = audioData;
-        _root = new GameObject($"[{SOUND}]");
+        _audioData = Resources.Load<AudioData>(AUDIO_DATA);
+        //_root = new GameObject($"[{SOUND}]");
+        _soundSource = new List<GameObject>();
     }
 
-    public static void Play(AudioClipManager audioClip, bool isLoop = false)
+    public void Play(AudioClipManager clipType, bool isLoop = false)
     {
-        AudioClip clip = _audioData.Sounds.GetAudioClip(audioClip);
+        AudioClip clip = _audioData.Sounds.GetAudioClip(clipType);
         if (clip == null)
         {
-            Debug.Log($"{audioClip} is missing in {nameof(AudioData)}.");
+            Debug.Log($"{clipType} is missing in {nameof(AudioData)}.");
             return;
         }
 
+        Play(clip, isLoop);
+    }
+
+    private void Play(AudioClip clip, bool isLoop)
+    {
         // TODO pool
         GameObject soundSource = new GameObject(SOUND);
-        soundSource.transform.SetParent(_root.transform);
+        //soundSource.transform.SetParent(_root.transform);
         AudioSource audioSource = soundSource.AddComponent<AudioSource>();
+        _soundSource.Add(soundSource);
 
         audioSource.clip = clip;
         audioSource.loop = isLoop;
@@ -32,16 +42,16 @@ public sealed class AudioController
 
         if (!isLoop)
         {
+            _soundSource.Remove(soundSource);
             Object.Destroy(soundSource, clip.length);
         }
     }
 
-    public static void Clear()
-    {
-        AudioSource[] audioSource = Object.FindObjectsOfType<AudioSource>();
-        foreach (var source in audioSource)
+    public void Clear()
+    {        
+        foreach (var source in _soundSource)
         {
-            Object.Destroy(source.gameObject);
+            Object.Destroy(source);
         }
     }
 }

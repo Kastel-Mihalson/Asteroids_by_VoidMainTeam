@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public sealed class PlayerShipView : ShipView
 {
-    //public event Action<int> OnScoreChangedEvent;
-
     private PlayerHUDView _hudView;
     private EndGameMenuView _loseMenu;
 
@@ -19,7 +16,6 @@ public sealed class PlayerShipView : ShipView
                 var bulletView = (BulletView)interactiveObject;
                 damage = bulletView.GetBulletDamage();
 
-                AudioController.Play(AudioClipManager.ShipHitting);
                 EffectController.Create(EffectManager.ShipHitting, gameObject.transform);
             }
             else if (interactiveObject is IAsteroid)
@@ -47,7 +43,6 @@ public sealed class PlayerShipView : ShipView
             _loseMenu.SetScreenActive(true);
         }
 
-        AudioController.Play(AudioClipManager.ShipExplosion);
         EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
         Destroy(gameObject);
     }

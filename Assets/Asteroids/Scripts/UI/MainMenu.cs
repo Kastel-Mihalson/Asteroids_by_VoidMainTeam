@@ -9,13 +9,16 @@ public sealed class MainMenu : MonoBehaviour
     [SerializeField] private Button _quitButton;
     [SerializeField] private GameObject _settingsPanel;
 
+    private AudioController _audioController;
+
     private void Start()
     {
         _startButton.onClick.AddListener(StartGame);
         _settingsButton.onClick.AddListener(OpenSettings);
         _quitButton.onClick.AddListener(QuitGame);
 
-        // AudioController.Play(AudioClipManager.NewGameMusic, true);
+        _audioController = new AudioController();
+        _audioController.Play(AudioClipManager.NewGameMusic, true);
     }
 
     private void StartGame()

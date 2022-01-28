@@ -14,6 +14,7 @@ public class EndGameMenuView : MonoBehaviour
     private const string WIN_GAME = "<color=#17D133>YOU WIN :)</color>";
     private const string LOSE_GAME = "<color=#D13817>YOU LOSE :(</color>";
     private AudioClipManager _audioClipType;
+    private AudioController _audioController;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class EndGameMenuView : MonoBehaviour
         _homeButton.onClick.AddListener(ToMainMenu);
         _restartButton.onClick.AddListener(RestartGame);
         _exitButton.onClick.AddListener(ExitGame);
+        _audioController = new AudioController();
     }
 
     public void SetScreenActive(bool flag)
@@ -33,8 +35,8 @@ public class EndGameMenuView : MonoBehaviour
 
         if (flag)
         {
-            AudioController.Clear();
-            AudioController.Play(_audioClipType, true);
+            _audioController.Clear();
+            _audioController.Play(_audioClipType, true);
         }
     }
 
@@ -61,14 +63,14 @@ public class EndGameMenuView : MonoBehaviour
 
     private void ToMainMenu()
     {
-        AudioController.Clear();
+        _audioController.Clear();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     private void RestartGame()
     {
         SetScreenActive(false);
-        AudioController.Clear();
+        _audioController.Clear();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

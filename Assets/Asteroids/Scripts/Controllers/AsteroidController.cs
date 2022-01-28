@@ -14,6 +14,7 @@ public sealed class AsteroidController
     private GameObjectPool _asteroidPool;
     private float _borderSpawnOffset;
     private float _ySpawnPosition;
+    private AudioController _audioController;
 
     public AsteroidController(AsteroidData data)
     {
@@ -22,6 +23,7 @@ public sealed class AsteroidController
         _asteroidPool = new GameObjectPool(_prefab);
         _borderSpawnOffset = 0.5f;
         _ySpawnPosition = 8f;
+        _audioController = new AudioController();
     }
 
     public void Move()
@@ -62,6 +64,8 @@ public sealed class AsteroidController
         OnDiedEvent += _view.Die;
         OnDiedEvent += OnDisable;
         _view.ReturnObjectToPoolEvent += AddToQueue;
+        _view.OnDamagedEvent += PlayHittingAudioClip;
+        OnDiedEvent += PlayExplosionAudioClip;
     }
 
     public void OnDisable()
@@ -72,6 +76,8 @@ public sealed class AsteroidController
         OnDiedEvent -= _view.Die;
         OnDiedEvent -= OnDisable;
         _view.ReturnObjectToPoolEvent -= AddToQueue;
+        _view.OnDamagedEvent -= PlayHittingAudioClip;
+        OnDiedEvent -= PlayExplosionAudioClip;
     }
 
     private int? GetHealth() => _model.CurrentHP;
@@ -92,4 +98,7 @@ public sealed class AsteroidController
     {
         OnDiedEvent?.Invoke();
     }
+
+    private void PlayHittingAudioClip(int _) => _audioController.Play(AudioClipManager.AsteroidHitting);
+    private void PlayExplosionAudioClip() => _audioController.Play(AudioClipManager.AsteroidExplosion);
 }

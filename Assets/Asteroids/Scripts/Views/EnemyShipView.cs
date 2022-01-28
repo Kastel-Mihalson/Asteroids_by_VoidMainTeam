@@ -18,7 +18,6 @@ public sealed class EnemyShipView : ShipView
                     GetDamage((int)damage);
                 }
 
-                AudioController.Play(AudioClipManager.ShipHitting);
                 EffectController.Create(EffectManager.ShipHitting, gameObject.transform);
             }
         }
@@ -32,7 +31,6 @@ public sealed class EnemyShipView : ShipView
             _loseMenu.SetScreenActive(true);
         }
 
-        AudioController.Play(AudioClipManager.ShipExplosion);
         EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
         Destroy(gameObject);
     }

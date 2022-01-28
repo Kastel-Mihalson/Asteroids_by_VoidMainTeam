@@ -11,10 +11,12 @@ public sealed class EnemyShipController : ShipController
     private EnemyShipModel _model;
     private EnemyShipView _view;
     private EnemyShipMovement _movementController;
+    private AudioController _audioController;
 
     public EnemyShipController(ShipData data) : base(data)
     {
         _model = new EnemyShipModel(data);
+        _audioController = new AudioController();
     }
 
     public override void Init()
@@ -43,6 +45,8 @@ public sealed class EnemyShipController : ShipController
         OnArmorChangedEvent += _view.SetArmor;
         OnDiedEvent += _view.Die;
         OnDiedEvent += OnDisable;
+        OnDiedEvent += PlayExplosionAudioClip;
+        _view.OnDamagedEvent += PlayHittingAudioClip;
     }
 
     public override void OnDisable()
@@ -52,6 +56,8 @@ public sealed class EnemyShipController : ShipController
         OnArmorChangedEvent -= _view.SetArmor;
         OnDiedEvent -= _view.Die;
         OnDiedEvent -= OnDisable;
+        OnDiedEvent -= PlayExplosionAudioClip;
+        _view.OnDamagedEvent -= PlayHittingAudioClip;
     }
 
     public override void Execute()
@@ -87,4 +93,7 @@ public sealed class EnemyShipController : ShipController
     {
         OnDiedEvent?.Invoke();
     }
+
+    private void PlayHittingAudioClip(int _) => _audioController.Play(AudioClipManager.ShipHitting);
+    private void PlayExplosionAudioClip() => _audioController.Play(AudioClipManager.ShipExplosion);
 }
