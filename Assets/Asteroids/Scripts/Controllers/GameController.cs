@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     private AudioController _audioController;
     private EffectController _effectController;
     private EndGameMenuController _endGameMenuController;
+    private MainMenuController _mainMenuController;
 
     private BackgroundStars _bgStars;
     [Range(1, 10)]
@@ -50,6 +51,9 @@ public class GameController : MonoBehaviour
 
         _endGameMenuController = new EndGameMenuController(_audioController);
         _endGameMenuController.OnEnable();
+
+        _mainMenuController = new MainMenuController(_audioController);
+        _mainMenuController.OnEnable();
     }
 
     private void Update()
