@@ -25,12 +25,6 @@ public sealed class EndGameMenuController
         _view.GameObject.SetActive(flag);
 
         Time.timeScale = flag ? 0 : 1;
-
-        if (flag)
-        {
-            _audioController.Clear();
-            _audioController.Play(_audioClipType, true);
-        }
     }
 
     public void SetGameEndParams(bool isVictory)
@@ -90,10 +84,13 @@ public sealed class EndGameMenuController
         _view.OnRestartButtonClickEvent -= RestartGame;
         _view.OnSetScreenParamsEvent -= ShowEndGameMenu;
     }
-    
+
     private void ShowEndGameMenu(bool isVictory)
     {
-        SetScreenActive(true);
         SetGameEndParams(isVictory);
+        SetScreenActive(true);
+
+        _audioController.Clear();
+        _audioController.Play(_audioClipType, true);
     }
 }
