@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public sealed class AsteroidController
 {
+    public event Action OnDiedEvent;
+
     private AsteroidModel _model;
     private AsteroidView _view;
     private AsteroidData _data;
@@ -37,7 +40,7 @@ public sealed class AsteroidController
         GameObject asteroidGameObject = _asteroidPool.GetGameObject();
 
         var xSpawnPosition = Random.Range(GameModel.ScreenBorder[Border.Left] + _borderSpawnOffset, GameModel.ScreenBorder[Border.Right] - _borderSpawnOffset);
-        asteroidGameObject.transform.position = new Vector3(xSpawnPosition, 0, _ySpawnPosition);    
+        asteroidGameObject.transform.position = new Vector3(xSpawnPosition, 0, _ySpawnPosition);
         asteroidGameObject.transform.localScale = Vector3.one * _model.Size;
 
         _view = asteroidGameObject.GetComponent<AsteroidView>();
@@ -55,9 +58,9 @@ public sealed class AsteroidController
     {
         _view.GetAsteroidHealthEvent += GetHealth;
         _view.GetAsteroidDamageEvent += GetDamage;
-        _view.OnDamagedEvent += _model.RecieveDamage;
-        _model.OnDiedEvent += _view.Die;
-        _model.OnDiedEvent += OnDisable;
+        _view.OnDamagedEvent += RecieveDamage;
+        OnDiedEvent += _view.Die;
+        OnDiedEvent += OnDisable;
         _view.ReturnObjectToPoolEvent += AddToQueue;
     }
 
@@ -65,13 +68,28 @@ public sealed class AsteroidController
     {
         _view.GetAsteroidHealthEvent -= GetHealth;
         _view.GetAsteroidDamageEvent -= GetDamage;
-        _view.OnDamagedEvent -= _model.RecieveDamage;
-        _model.OnDiedEvent -= _view.Die;
-        _model.OnDiedEvent -= OnDisable;
+        _view.OnDamagedEvent -= RecieveDamage;
+        OnDiedEvent -= _view.Die;
+        OnDiedEvent -= OnDisable;
         _view.ReturnObjectToPoolEvent -= AddToQueue;
     }
 
     private int? GetHealth() => _model.CurrentHP;
 
-    private int? GetDamage()=> _model.Damage;
+    private int? GetDamage() => _model.Damage;
+
+    private void RecieveDamage(int damage)
+    {
+        _model.CurrentHP -= damage;
+
+        if (_model.CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        OnDiedEvent?.Invoke();
+    }
 }
