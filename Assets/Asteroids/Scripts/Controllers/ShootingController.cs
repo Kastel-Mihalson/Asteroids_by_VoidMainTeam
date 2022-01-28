@@ -10,13 +10,13 @@ public class ShootingController
     private LayerMask _layer;
     private AudioController _audioController;
 
-    public ShootingController(Transform startPoint, BulletData bullet, LayerMask layer)
+    public ShootingController(Transform startPoint, BulletData bullet, LayerMask layer, AudioController audioController)
     {
         _startPoint = startPoint;
         _bulletController = new BulletController(bullet, _startPoint);
         _shootDelay = bullet.ShootDelay;
         _layer = layer;
-        _audioController = new AudioController();
+        _audioController = audioController;
     }
 
     public void Shoot()

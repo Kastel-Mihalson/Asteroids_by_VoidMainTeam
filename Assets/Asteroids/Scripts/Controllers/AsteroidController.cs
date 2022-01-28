@@ -16,14 +16,14 @@ public sealed class AsteroidController
     private float _ySpawnPosition;
     private AudioController _audioController;
 
-    public AsteroidController(AsteroidData data)
+    public AsteroidController(AsteroidData data, AudioController audioController)
     {
         _data = data;
         _prefab = data.AsteroidPrefab;
         _asteroidPool = new GameObjectPool(_prefab);
         _borderSpawnOffset = 0.5f;
         _ySpawnPosition = 8f;
-        _audioController = new AudioController();
+        _audioController = audioController;
     }
 
     public void Move()

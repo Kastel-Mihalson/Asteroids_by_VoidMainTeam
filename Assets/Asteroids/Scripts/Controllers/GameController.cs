@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     private EnemyShipController _enemyShipController;
     private AudioController _audioController;
     private EffectController _effectController;
+    private EndGameMenuController _endGameMenuController;
 
     private BackgroundStars _bgStars;
     [Range(1, 10)]
@@ -32,20 +33,23 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 1;
         _bgStars = new BackgroundStars(50);
-        _spawnController = new SpawnController();
+        _audioController = new AudioController(_audioData);
+        _spawnController = new SpawnController(_audioController);
 
         _playerShipController = _spawnController.SpawnPlayerShip(_playerShip);
         _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
 
         _playerShootingController = new ShootingController(
-            _playerShipController.BulletStartPoint, _playerBullet, _playerShip.ShootingLayer);
+            _playerShipController.BulletStartPoint, _playerBullet, _playerShip.ShootingLayer, _audioController);
         _enemyShootingController = new ShootingController(
-            _enemyShipController.BulletStartPoint, _enemyBullet,  _enemyShip.ShootingLayer);
+            _enemyShipController.BulletStartPoint, _enemyBullet,  _enemyShip.ShootingLayer, _audioController);
 
-        _audioController = new AudioController();
         _audioController.Play(AudioClipManager.BackgroundMusic, true);
 
         _effectController = new EffectController(_effectData);
+
+        _endGameMenuController = new EndGameMenuController(_audioController);
+        _endGameMenuController.OnEnabled();
     }
 
     private void Update()

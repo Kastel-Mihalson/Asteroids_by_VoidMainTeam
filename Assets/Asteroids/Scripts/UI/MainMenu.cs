@@ -9,7 +9,7 @@ public sealed class MainMenu : MonoBehaviour
     [SerializeField] private Button _quitButton;
     [SerializeField] private GameObject _settingsPanel;
 
-    private AudioController _audioController;
+    //private AudioController _audioController;
 
     private void Start()
     {
@@ -17,8 +17,8 @@ public sealed class MainMenu : MonoBehaviour
         _settingsButton.onClick.AddListener(OpenSettings);
         _quitButton.onClick.AddListener(QuitGame);
 
-        _audioController = new AudioController();
-        _audioController.Play(AudioClipManager.NewGameMusic, true);
+        //_audioController = new AudioController();
+        //_audioController.Play(AudioClipManager.NewGameMusic, true);
     }
 
     private void StartGame()

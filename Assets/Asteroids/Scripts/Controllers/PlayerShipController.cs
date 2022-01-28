@@ -13,10 +13,10 @@ public sealed class PlayerShipController : ShipController
     private PlayerShipMovement _movementController;
     private AudioController _audioController;
 
-    public PlayerShipController(ShipData data) : base(data)
+    public PlayerShipController(ShipData data, AudioController auidoController) : base(data)
     {
         _model = new PlayerShipModel(data);
-        _audioController = new AudioController();
+        _audioController = auidoController;
     }
 
     public override void Init()

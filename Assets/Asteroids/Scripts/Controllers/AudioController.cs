@@ -4,15 +4,16 @@ using System.Collections.Generic;
 public sealed class AudioController
 {
     private const string SOUND = "Sound";
-    private const string AUDIO_DATA = "AudioData";
-    private static AudioData _audioData;
-    //private static GameObject _root;
+    //private const string AUDIO_DATA = "AudioData";
+    private AudioData _audioData;
+    private GameObject _root;
     private List<GameObject> _soundSource;
 
-    public AudioController()
+    public AudioController(AudioData data)
     {
-        _audioData = Resources.Load<AudioData>(AUDIO_DATA);
-        //_root = new GameObject($"[{SOUND}]");
+        _audioData = data;
+        //_audioData = Resources.Load<AudioData>(AUDIO_DATA);
+        _root = new GameObject($"[{SOUND}]");
         _soundSource = new List<GameObject>();
     }
 
@@ -32,7 +33,7 @@ public sealed class AudioController
     {
         // TODO pool
         GameObject soundSource = new GameObject(SOUND);
-        //soundSource.transform.SetParent(_root.transform);
+        soundSource.transform.SetParent(_root.transform);
         AudioSource audioSource = soundSource.AddComponent<AudioSource>();
         _soundSource.Add(soundSource);
 

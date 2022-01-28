@@ -13,10 +13,10 @@ public sealed class EnemyShipController : ShipController
     private EnemyShipMovement _movementController;
     private AudioController _audioController;
 
-    public EnemyShipController(ShipData data) : base(data)
+    public EnemyShipController(ShipData data, AudioController audioController) : base(data)
     {
         _model = new EnemyShipModel(data);
-        _audioController = new AudioController();
+        _audioController = audioController;
     }
 
     public override void Init()
