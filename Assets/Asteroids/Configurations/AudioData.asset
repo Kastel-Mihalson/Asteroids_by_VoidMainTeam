@@ -29,3 +29,5 @@ MonoBehaviour:
     Action: 5
   - Audio: {fileID: 8300000, guid: 3425cdd2f9eb78145b92179851ad8ef8, type: 3}
     Action: 8
+  - Audio: {fileID: 8300000, guid: 8eb91415ea62e6a4faa7b0004850685b, type: 3}
+    Action: 6

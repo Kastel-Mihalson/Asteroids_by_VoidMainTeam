@@ -27,6 +27,7 @@ public sealed class MainMenuController
 
     private void StartGame()
     {
+        _audioController.Clear();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

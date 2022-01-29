@@ -12,11 +12,13 @@ public sealed class PlayerShipController : ShipController
     private PlayerShipView _view;
     private PlayerShipMovement _movementController;
     private AudioController _audioController;
+    private EffectController _effectController;
 
-    public PlayerShipController(ShipData data, AudioController auidoController) : base(data)
+    public PlayerShipController(ShipData data, AudioController auidoController, EffectController effectController) : base(data)
     {
         _model = new PlayerShipModel(data);
         _audioController = auidoController;
+        _effectController = effectController;
     }
 
     public override void Init()
@@ -41,22 +43,22 @@ public sealed class PlayerShipController : ShipController
     public override void OnEnable()
     {
         _view.OnDamagedEvent += RecieveDamage;
+        _view.OnDamagedEvent += CreateHittingEffects;
         OnHpChangedEvent += _view.SetHealth;
         OnArmorChangedEvent += _view.SetArmor;
         OnDiedEvent += _view.Die;
-        OnDiedEvent += PlayExplosionAudioClip;
-        _view.OnDamagedEvent += PlayHittingAudioClip;
+        OnDiedEvent += CreateExplosionEffects;
         OnDiedEvent += OnDisable;
     }
 
     public override void OnDisable()
     {
         _view.OnDamagedEvent -= RecieveDamage;
+        _view.OnDamagedEvent -= CreateHittingEffects;
         OnHpChangedEvent -= _view.SetHealth;
         OnArmorChangedEvent -= _view.SetArmor;
         OnDiedEvent -= _view.Die;
-        OnDiedEvent -= PlayExplosionAudioClip;
-        _view.OnDamagedEvent -= PlayHittingAudioClip;
+        OnDiedEvent -= CreateExplosionEffects;
         OnDiedEvent -= OnDisable;
     }
 
@@ -93,7 +95,16 @@ public sealed class PlayerShipController : ShipController
     {
         OnDiedEvent?.Invoke();
     }
+    
+    private void CreateHittingEffects(int _)
+    {
+        _audioController.Play(AudioClipManager.ShipHitting);
+        _effectController.Create(EffectManager.ShipHitting, _view.transform);
+    }
 
-    private void PlayHittingAudioClip(int _) => _audioController.Play(AudioClipManager.ShipHitting);
-    private void PlayExplosionAudioClip() => _audioController.Play(AudioClipManager.ShipExplosion);
+    private void CreateExplosionEffects()
+    {
+        _audioController.Play(AudioClipManager.ShipExplosion);
+        _effectController.Create(EffectManager.ShipExplosion, _view.transform);
+    }
 }

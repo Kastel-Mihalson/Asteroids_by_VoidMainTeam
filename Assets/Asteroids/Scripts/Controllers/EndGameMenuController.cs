@@ -55,8 +55,8 @@ public sealed class EndGameMenuController
 
     private void RestartGame()
     {
-        SetScreenActive(false);
         _audioController.Clear();
+        SetScreenActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -88,9 +88,10 @@ public sealed class EndGameMenuController
     private void ShowEndGameMenu(bool isVictory)
     {
         SetGameEndParams(isVictory);
-        SetScreenActive(true);
 
         _audioController.Clear();
         _audioController.Play(_audioClipType, true);
+
+        SetScreenActive(true); 
     }
 }

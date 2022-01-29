@@ -32,8 +32,6 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
             {
                 OnDamagedEvent?.Invoke((int)damage);
             }
-
-            EffectController.Create(EffectManager.AsteroidHitting, gameObject.transform);
         }
         if (interactiveObject is IShip)
         {            
@@ -55,7 +53,6 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 
     public void Die()
     {
-        EffectController.Create(EffectManager.AsteroidExplosion, gameObject.transform);
         ReturnObjectToPool(gameObject);
     }
 

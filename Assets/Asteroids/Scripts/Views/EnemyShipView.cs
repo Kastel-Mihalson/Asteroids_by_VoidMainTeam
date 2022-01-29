@@ -17,8 +17,6 @@ public sealed class EnemyShipView : ShipView
                 {
                     GetDamage((int)damage);
                 }
-
-                EffectController.Create(EffectManager.ShipHitting, gameObject.transform);
             }
         }
     }
@@ -30,7 +28,6 @@ public sealed class EnemyShipView : ShipView
             _loseMenu.ShowResult(true);
         }
 
-        EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
         Destroy(gameObject);
     }
 

@@ -15,8 +15,6 @@ public sealed class PlayerShipView : ShipView
             {
                 var bulletView = (BulletView)interactiveObject;
                 damage = bulletView.GetBulletDamage();
-
-                EffectController.Create(EffectManager.ShipHitting, gameObject.transform);
             }
             else if (interactiveObject is IAsteroid)
             {
@@ -42,7 +40,6 @@ public sealed class PlayerShipView : ShipView
             _loseMenu.ShowResult(false);
         }
 
-        EffectController.Create(EffectManager.ShipExplosion, gameObject.transform);
         Destroy(gameObject);
     }
 

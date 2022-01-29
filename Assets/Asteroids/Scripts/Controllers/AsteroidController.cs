@@ -15,8 +15,9 @@ public sealed class AsteroidController
     private float _borderSpawnOffset;
     private float _ySpawnPosition;
     private AudioController _audioController;
+    private EffectController _effectController;
 
-    public AsteroidController(AsteroidData data, AudioController audioController)
+    public AsteroidController(AsteroidData data, AudioController audioController, EffectController effectController)
     {
         _data = data;
         _prefab = data.AsteroidPrefab;
@@ -24,6 +25,7 @@ public sealed class AsteroidController
         _borderSpawnOffset = 0.5f;
         _ySpawnPosition = 8f;
         _audioController = audioController;
+        _effectController = effectController;
     }
 
     public void Move()
@@ -61,11 +63,11 @@ public sealed class AsteroidController
         _view.GetAsteroidHealthEvent += GetHealth;
         _view.GetAsteroidDamageEvent += GetDamage;
         _view.OnDamagedEvent += RecieveDamage;
-        OnDiedEvent += _view.Die;
-        OnDiedEvent += OnDisable;
+        _view.OnDamagedEvent += CreateHittingEffects;
         _view.ReturnObjectToPoolEvent += AddToQueue;
-        _view.OnDamagedEvent += PlayHittingAudioClip;
-        OnDiedEvent += PlayExplosionAudioClip;
+        OnDiedEvent += _view.Die;
+        OnDiedEvent += CreateExplosionEffects;
+        OnDiedEvent += OnDisable;
     }
 
     public void OnDisable()
@@ -73,11 +75,11 @@ public sealed class AsteroidController
         _view.GetAsteroidHealthEvent -= GetHealth;
         _view.GetAsteroidDamageEvent -= GetDamage;
         _view.OnDamagedEvent -= RecieveDamage;
-        OnDiedEvent -= _view.Die;
-        OnDiedEvent -= OnDisable;
+        _view.OnDamagedEvent -= CreateHittingEffects;
         _view.ReturnObjectToPoolEvent -= AddToQueue;
-        _view.OnDamagedEvent -= PlayHittingAudioClip;
-        OnDiedEvent -= PlayExplosionAudioClip;
+        OnDiedEvent -= _view.Die;
+        OnDiedEvent -= CreateExplosionEffects;
+        OnDiedEvent -= OnDisable;
     }
 
     private int? GetHealth() => _model.CurrentHP;
@@ -99,6 +101,15 @@ public sealed class AsteroidController
         OnDiedEvent?.Invoke();
     }
 
-    private void PlayHittingAudioClip(int _) => _audioController.Play(AudioClipManager.AsteroidHitting);
-    private void PlayExplosionAudioClip() => _audioController.Play(AudioClipManager.AsteroidExplosion);
+    private void CreateHittingEffects(int _)
+    {
+        _audioController.Play(AudioClipManager.AsteroidHitting);
+        _effectController.Create(EffectManager.AsteroidHitting, _view.transform);
+    }
+
+    private void CreateExplosionEffects()
+    {
+        _audioController.Play(AudioClipManager.AsteroidExplosion);
+        _effectController.Create(EffectManager.AsteroidExplosion, _view.transform);
+    }
 }
