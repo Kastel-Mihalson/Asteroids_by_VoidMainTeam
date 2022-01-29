@@ -1,41 +1,36 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.Audio;
+﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 using OptionData = TMPro.TMP_Dropdown.OptionData;
 
-public sealed class SettingsMenu : MonoBehaviour
+public sealed class SettingsMenuController
 {
-    [SerializeField] private Button _backButton;
-    [SerializeField] private GameObject _mainMenuPanel;
-    [SerializeField] private Slider _volumeSlider;
-    [SerializeField] private TMP_Dropdown _graphicsDropdown;
-    [SerializeField] private AudioMixer _audioMixer;
-    [SerializeField] private Toggle _fullscreenToggle;
-    [SerializeField] private TMP_Dropdown _resolutionDropdown;
-
     private const string MAIN_VOLUME = "MainVolume";
     private Resolution[] _resolutions;
+    private SettingsMenuView _view;
+    private AudioMixer _audioMixer;
 
-    private void Start()
+    public SettingsMenuController(SettingsMenuView view)
     {
-        _backButton.onClick.AddListener(OpenMainMenu);
-        _volumeSlider.onValueChanged.AddListener(SetVolume);
-        _graphicsDropdown.onValueChanged.AddListener(SetQuality);
-        _fullscreenToggle.onValueChanged.AddListener(SetFullscreen);
-        _resolutionDropdown.onValueChanged.AddListener(SetResolution);
+        _view = view;
+        _audioMixer = _view.AudioMixer;
+        InitResolutionsToggle();
+    }
 
-        InitResolutionsToggle();        
-    }   
-
-    private void OpenMainMenu()
+    public void OnEnable()
     {
-        if (!_mainMenuPanel.activeSelf)
-        {
-            _mainMenuPanel.SetActive(true);
-            gameObject.SetActive(false);
-        }
+        _view.OnVolumeSliderValueChangedEvent += SetVolume;
+        _view.OnGraphicsDropdownValueChangedEvent += SetQuality;
+        _view.OnFullscreenToggleValueChangedEvent += SetFullscreen;
+        _view.OnResolutionDropdownValueChangedEvent += SetResolution;
+    }
+
+    public void OnDisable()
+    {
+        _view.OnVolumeSliderValueChangedEvent -= SetVolume;
+        _view.OnGraphicsDropdownValueChangedEvent -= SetQuality;
+        _view.OnFullscreenToggleValueChangedEvent -= SetFullscreen;
+        _view.OnResolutionDropdownValueChangedEvent -= SetResolution;
     }
 
     private void SetVolume(float volume)
@@ -84,9 +79,6 @@ public sealed class SettingsMenu : MonoBehaviour
             }
         }
 
-        _resolutionDropdown.ClearOptions();
-        _resolutionDropdown.AddOptions(resolutions);
-        _resolutionDropdown.value = defaultResolutionIndex;
-        _resolutionDropdown.RefreshShownValue();
+        _view.UpdateToggle(resolutions, defaultResolutionIndex);
     }
 }

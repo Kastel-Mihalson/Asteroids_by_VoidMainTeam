@@ -1165,7 +1165,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 467513133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb6c0e2e524a02d4d8d77d06ee1bc341, type: 3}
+  m_Script: {fileID: 11500000, guid: f89fc5ea252c72443b2bbec617591597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _backButton: {fileID: 507465078}
@@ -4126,6 +4126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioData: {fileID: 11400000, guid: c5b24dc2d08ed0b42a9424a487b3654e, type: 2}
+  _mainMenuView: {fileID: 1176854671}
+  _settingsMenuView: {fileID: 467513135}
 --- !u!4 &1640824935
 Transform:
   m_ObjectHideFlags: 0

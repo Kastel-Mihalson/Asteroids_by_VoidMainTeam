@@ -6,11 +6,11 @@ public sealed class MainMenuController
     private MainMenuView _view;
     private AudioController _audioController;
 
-    public MainMenuController(AudioController audioController)
+    public MainMenuController(MainMenuView view, AudioController audioController)
     {
         _audioController = audioController;
         _audioController.Play(AudioClipManager.NewGameMusic, true);
-        _view = Object.FindObjectOfType<MainMenuView>();
+        _view = view;
     }
 
     public void OnEnable()

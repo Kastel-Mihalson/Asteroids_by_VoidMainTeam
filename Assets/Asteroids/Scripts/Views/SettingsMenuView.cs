@@ -3,10 +3,16 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Audio;
 using System.Collections.Generic;
+using System;
 using OptionData = TMPro.TMP_Dropdown.OptionData;
 
 public sealed class SettingsMenuView : MonoBehaviour
 {
+    public event Action<float> OnVolumeSliderValueChangedEvent;
+    public event Action<int> OnGraphicsDropdownValueChangedEvent;
+    public event Action<bool> OnFullscreenToggleValueChangedEvent;
+    public event Action<int> OnResolutionDropdownValueChangedEvent;
+
     [SerializeField] private Button _backButton;
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private Slider _volumeSlider;
@@ -14,6 +20,8 @@ public sealed class SettingsMenuView : MonoBehaviour
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private Toggle _fullscreenToggle;
     [SerializeField] private TMP_Dropdown _resolutionDropdown;
+
+    public AudioMixer AudioMixer => _audioMixer;
 
     private void Start()
     {
@@ -35,22 +43,22 @@ public sealed class SettingsMenuView : MonoBehaviour
 
     private void SetVolume(float volume)
     {
-        
+        OnVolumeSliderValueChangedEvent?.Invoke(volume);
     }
 
     private void SetQuality(int qualityLevelIndex)
     {
-       
+        OnGraphicsDropdownValueChangedEvent?.Invoke(qualityLevelIndex);
     }
 
     private void SetFullscreen(bool isFullscreen)
     {
-
+        OnFullscreenToggleValueChangedEvent?.Invoke(isFullscreen);
     }
 
     private void SetResolution(int resolutionIndex)
     {
-       
+        OnResolutionDropdownValueChangedEvent?.Invoke(resolutionIndex);
     }
 
     public void UpdateToggle(List<OptionData> resolutions, int defaultResolutionIndex)
