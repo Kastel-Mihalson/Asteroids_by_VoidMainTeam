@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Audio;
 using System.Collections.Generic;
 using System;
 using OptionData = TMPro.TMP_Dropdown.OptionData;
@@ -17,11 +16,8 @@ public sealed class SettingsMenuView : MonoBehaviour
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private Slider _volumeSlider;
     [SerializeField] private TMP_Dropdown _graphicsDropdown;
-    [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private Toggle _fullscreenToggle;
     [SerializeField] private TMP_Dropdown _resolutionDropdown;
-
-    public AudioMixer AudioMixer => _audioMixer;
 
     private void Start()
     {
@@ -67,5 +63,10 @@ public sealed class SettingsMenuView : MonoBehaviour
         _resolutionDropdown.AddOptions(resolutions);
         _resolutionDropdown.value = defaultResolutionIndex;
         _resolutionDropdown.RefreshShownValue();
+    }
+
+    public void SetVolumeSliderValue(float value)
+    {
+        _volumeSlider.value = value;
     }
 }

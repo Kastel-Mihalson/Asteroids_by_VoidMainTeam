@@ -12,15 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02c49ec87a2d7f4481e6455dceb1508, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  _shootingDistance: 9
-  _nextSpawn: 0
-  _minDelay: 0.1
-  _maxDelay: 0.6
-  _nextShoot: 0
-  _startLoadedPrefabNames:
-  - PlayerV2
-  - Bullet
-  - Asteroid
-  _enemyMask:
-    serializedVersion: 2
-    m_Bits: 8
+  _gameMode: 0
+  _levelData: {fileID: 11400000, guid: b450d8afaf89ccb469c3204748f188a2, type: 2}
+  _audioMixerGroup: {fileID: 24300002, guid: a966118f2ead90742a09fbe591d579c1, type: 2}
+  _audioData: {fileID: 11400000, guid: c5b24dc2d08ed0b42a9424a487b3654e, type: 2}
+  _effectData: {fileID: 11400000, guid: 83deb9c807c1c8448bdf829ddb96f3d7, type: 2}

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -7,9 +6,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private ShipData _enemyShip;
     [SerializeField] private BulletData _playerBullet;
     [SerializeField] private BulletData _enemyBullet;
-    [SerializeField] private List<AsteroidData> _asteroidDataList;
-    [SerializeField] private AudioData _audioData;
-    [SerializeField] private EffectData _effectData;
+    [SerializeField] private GameData _gameData;
 
     private ShootingController _playerShootingController;
     private ShootingController _enemyShootingController;
@@ -33,13 +30,20 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 1;
         _bgStars = new BackgroundStars(50);
-        _audioController = new AudioController(_audioData);
-        _effectController = new EffectController(_effectData);
+        _audioController = new AudioController(_gameData.AudioData, _gameData.AudioMixerGroup);
+        _effectController = new EffectController(_gameData.EffectData);
 
         _spawnController = new SpawnController(_audioController, _effectController);
 
-        _playerShipController = _spawnController.SpawnPlayerShip(_playerShip);
-        _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
+        if (_gameData.GameMode == GameModeManager.Singleplayer)
+        {
+            _playerShipController = _spawnController.SpawnPlayerShip(_playerShip);
+            _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
+        }
+        else if (_gameData.GameMode == GameModeManager.Multiplayer)
+        {
+            // TODO two players
+        }
 
         _playerShootingController = new ShootingController(
             _playerShipController.BulletStartPoint, _playerBullet, _playerShip.ShootingLayer, _audioController);
@@ -57,7 +61,7 @@ public class GameController : MonoBehaviour
     {   
         _playerShipController.Execute();
         _enemyShipController.Execute();
-        _spawnController.SpawnAsteroid(_asteroidDataList);
+        _spawnController.SpawnAsteroid(_gameData.LevelData.AsteroidDataList);
     }
 
     private void FixedUpdate()

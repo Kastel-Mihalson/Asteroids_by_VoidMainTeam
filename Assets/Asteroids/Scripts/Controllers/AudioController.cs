@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 
 public sealed class AudioController
 {
@@ -7,12 +8,14 @@ public sealed class AudioController
     private AudioData _audioData;
     private GameObject _root;
     private List<GameObject> _soundSource;
+    private AudioMixerGroup _audioMixerGroup;
 
-    public AudioController(AudioData data)
+    public AudioController(AudioData data, AudioMixerGroup audioMixerGroup)
     {
         _audioData = data;
         _root = new GameObject($"[{SOUND}]");
         _soundSource = new List<GameObject>();
+        _audioMixerGroup = audioMixerGroup;
     }
 
     public void Play(AudioClipManager clipType, bool isLoop = false)
@@ -37,6 +40,7 @@ public sealed class AudioController
 
         audioSource.clip = clip;
         audioSource.loop = isLoop;
+        audioSource.outputAudioMixerGroup = _audioMixerGroup;
         audioSource.Play();
 
         if (!isLoop)

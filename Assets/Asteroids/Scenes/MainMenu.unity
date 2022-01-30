@@ -4128,6 +4128,7 @@ MonoBehaviour:
   _audioData: {fileID: 11400000, guid: c5b24dc2d08ed0b42a9424a487b3654e, type: 2}
   _mainMenuView: {fileID: 1176854671}
   _settingsMenuView: {fileID: 467513135}
+  _gameData: {fileID: 11400000, guid: c8c6f374d44128c49b311259aa484acf, type: 2}
 --- !u!4 &1640824935
 Transform:
   m_ObjectHideFlags: 0
