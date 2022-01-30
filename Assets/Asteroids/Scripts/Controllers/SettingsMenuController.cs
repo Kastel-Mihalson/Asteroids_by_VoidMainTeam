@@ -13,8 +13,10 @@ public sealed class SettingsMenuController
     {
         _view = view;
         _gameData = gameData;
-        InitResolutionsToggle();
         InitVolumeSlider();
+        InitResolutionsToggle();
+        _view.UpdateFullscreenToggle(_gameData.IsFullscreen);
+        _view.UpdateQualityDropdown(_gameData.QualityLevel);
     }
 
     private void InitVolumeSlider()
@@ -48,11 +50,13 @@ public sealed class SettingsMenuController
 
     private void SetQuality(int qualityLevelIndex)
     {
+        _gameData.QualityLevel = qualityLevelIndex;
         QualitySettings.SetQualityLevel(qualityLevelIndex);
     }
 
     private void SetFullscreen(bool isFullscreen)
     {
+        _gameData.IsFullscreen = isFullscreen;
 #if UNITY_EDITOR
         var editorWindow = UnityEditor.EditorWindow.focusedWindow;
         editorWindow.maximized = isFullscreen;
@@ -63,6 +67,7 @@ public sealed class SettingsMenuController
 
     private void SetResolution(int resolutionIndex)
     {
+        _gameData.ResolutionIndex = resolutionIndex;
         Resolution resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
@@ -71,22 +76,15 @@ public sealed class SettingsMenuController
     {
         _resolutions = Screen.resolutions;
 
-        int defaultResolutionIndex = 0;
         List<OptionData> resolutions = new List<OptionData>();
-        for (int i = 0; i < Screen.resolutions.Length; i++)
+        for (int i = 0; i < _resolutions.Length; i++)
         {
             Resolution resolution = _resolutions[i];
             string resolutionText = $"{resolution.width} x {resolution.height}";
             OptionData optionData = new OptionData(resolutionText);
             resolutions.Add(optionData);
-
-            if (resolution.width == Screen.currentResolution.width
-                && resolution.height == Screen.currentResolution.height)
-            {
-                defaultResolutionIndex = i;
-            }
         }
 
-        _view.UpdateToggle(resolutions, defaultResolutionIndex);
+        _view.AddResolutionsToDropdown(resolutions, _gameData.ResolutionIndex);
     }
 }

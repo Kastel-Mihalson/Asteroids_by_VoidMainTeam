@@ -35,10 +35,12 @@ public class GameController : MonoBehaviour
 
         _spawnController = new SpawnController(_audioController, _effectController);
 
+        _playerShipController = _spawnController.SpawnPlayerShip(_playerShip);
+        _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
+
         if (_gameData.GameMode == GameModeManager.Singleplayer)
         {
-            _playerShipController = _spawnController.SpawnPlayerShip(_playerShip);
-            _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
+            // TODO one player
         }
         else if (_gameData.GameMode == GameModeManager.Multiplayer)
         {
@@ -51,7 +53,6 @@ public class GameController : MonoBehaviour
             _enemyShipController.BulletStartPoint, _enemyBullet,  _enemyShip.ShootingLayer, _audioController);
 
         _audioController.Play(AudioClipManager.BackgroundMusic, true);
-
 
         _endGameMenuController = new EndGameMenuController(_audioController);
         _endGameMenuController.OnEnable();

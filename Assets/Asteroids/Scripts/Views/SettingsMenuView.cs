@@ -14,7 +14,7 @@ public sealed class SettingsMenuView : MonoBehaviour
 
     [SerializeField] private Button _backButton;
     [SerializeField] private GameObject _mainMenuPanel;
-    [SerializeField] private Slider _volumeSlider;
+    [SerializeField] private Slider _volumeSlider;  
     [SerializeField] private TMP_Dropdown _graphicsDropdown;
     [SerializeField] private Toggle _fullscreenToggle;
     [SerializeField] private TMP_Dropdown _resolutionDropdown;
@@ -57,7 +57,7 @@ public sealed class SettingsMenuView : MonoBehaviour
         OnResolutionDropdownValueChangedEvent?.Invoke(resolutionIndex);
     }
 
-    public void UpdateToggle(List<OptionData> resolutions, int defaultResolutionIndex)
+    public void AddResolutionsToDropdown(List<OptionData> resolutions, int defaultResolutionIndex)
     {
         _resolutionDropdown.ClearOptions();
         _resolutionDropdown.AddOptions(resolutions);
@@ -68,5 +68,15 @@ public sealed class SettingsMenuView : MonoBehaviour
     public void SetVolumeSliderValue(float value)
     {
         _volumeSlider.value = value;
+    }
+
+    public void UpdateFullscreenToggle(bool isFullscreen)
+    {
+        _fullscreenToggle.isOn = isFullscreen;
+    }
+
+    public void UpdateQualityDropdown(int qualityLevel)
+    {
+        _graphicsDropdown.value = qualityLevel;
     }
 }
