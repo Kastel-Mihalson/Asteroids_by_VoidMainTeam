@@ -11,23 +11,21 @@ public sealed class AsteroidController
     private AsteroidData _data;
     private Rigidbody _rigidBody;
     private GameObject _prefab;
-    private float _sizeMultiplier;
-    private float _borderSpawnOffset;
-    private int _speedMultiplier;
-    private int _healthMultiplier;
     private GameObjectPool _asteroidPool;
-    private float _yAxisAsteroidSpawn;
+    private float _borderSpawnOffset;
+    private float _ySpawnPosition;
+    private AudioController _audioController;
+    private EffectController _effectController;
 
-    public AsteroidController(AsteroidData data)
+    public AsteroidController(AsteroidData data, AudioController audioController, EffectController effectController)
     {
         _data = data;
         _prefab = data.AsteroidPrefab;
-        _borderSpawnOffset = 0.5f;
-        _sizeMultiplier = 0.5f;
-        _speedMultiplier = 3;
-        _healthMultiplier = 10;
         _asteroidPool = new GameObjectPool(_prefab);
-        _yAxisAsteroidSpawn = 8f;
+        _borderSpawnOffset = 0.5f;
+        _ySpawnPosition = 8f;
+        _audioController = audioController;
+        _effectController = effectController;
     }
 
     public void Move()
@@ -45,15 +43,9 @@ public sealed class AsteroidController
 
         GameObject asteroidGameObject = _asteroidPool.GetGameObject();
 
-        var xAxisAsteroidSpawn = Random.Range(GameModel.ScreenBorder[Border.Left] + _borderSpawnOffset, GameModel.ScreenBorder[Border.Right] - _borderSpawnOffset);
-        asteroidGameObject.transform.position = new Vector3(xAxisAsteroidSpawn, 0, _yAxisAsteroidSpawn);          
-       
-        var asteroidParamValue = Random.Range(_model.MinSize, _model.MaxSize + 1);
-        _model.Size = asteroidParamValue;
-        _model.Damage = asteroidParamValue;
-        _model.CurrentHP = asteroidParamValue * _healthMultiplier;
-        _model.MoveSpeed = Mathf.Abs(asteroidParamValue - (_model.MaxSize + 1)) * _speedMultiplier;
-        asteroidGameObject.transform.localScale = Vector3.one * asteroidParamValue * _sizeMultiplier;
+        var xSpawnPosition = Random.Range(GameModel.ScreenBorder[Border.Left] + _borderSpawnOffset, GameModel.ScreenBorder[Border.Right] - _borderSpawnOffset);
+        asteroidGameObject.transform.position = new Vector3(xSpawnPosition, 0, _ySpawnPosition);
+        asteroidGameObject.transform.localScale = Vector3.one * _model.Size;
 
         _view = asteroidGameObject.GetComponent<AsteroidView>();
         _rigidBody = _view.Rigidbody;
@@ -71,9 +63,11 @@ public sealed class AsteroidController
         _view.GetAsteroidHealthEvent += GetHealth;
         _view.GetAsteroidDamageEvent += GetDamage;
         _view.OnDamagedEvent += RecieveDamage;
-        OnDiedEvent += _view.Die;
-        OnDiedEvent += OnDisable;
+        _view.OnDamagedEvent += CreateHittingEffects;
         _view.ReturnObjectToPoolEvent += AddToQueue;
+        OnDiedEvent += _view.Die;
+        OnDiedEvent += CreateExplosionEffects;
+        OnDiedEvent += OnDisable;
     }
 
     public void OnDisable()
@@ -81,10 +75,16 @@ public sealed class AsteroidController
         _view.GetAsteroidHealthEvent -= GetHealth;
         _view.GetAsteroidDamageEvent -= GetDamage;
         _view.OnDamagedEvent -= RecieveDamage;
-        OnDiedEvent -= _view.Die;
-        OnDiedEvent -= OnDisable;
+        _view.OnDamagedEvent -= CreateHittingEffects;
         _view.ReturnObjectToPoolEvent -= AddToQueue;
+        OnDiedEvent -= _view.Die;
+        OnDiedEvent -= CreateExplosionEffects;
+        OnDiedEvent -= OnDisable;
     }
+
+    private int? GetHealth() => _model.CurrentHP;
+
+    private int? GetDamage() => _model.Damage;
 
     private void RecieveDamage(int damage)
     {
@@ -96,17 +96,20 @@ public sealed class AsteroidController
         }
     }
 
-    private int? GetHealth()
-    {
-        return _model.CurrentHP;
-    }
-
-    private int? GetDamage()
-    {
-        return _model.Damage;
-    }
     private void Die()
     {
         OnDiedEvent?.Invoke();
+    }
+
+    private void CreateHittingEffects(int _)
+    {
+        _audioController.Play(AudioClipManager.AsteroidHitting);
+        _effectController.Create(EffectManager.AsteroidHitting, _view.transform);
+    }
+
+    private void CreateExplosionEffects()
+    {
+        _audioController.Play(AudioClipManager.AsteroidExplosion);
+        _effectController.Create(EffectManager.AsteroidExplosion, _view.transform);
     }
 }
