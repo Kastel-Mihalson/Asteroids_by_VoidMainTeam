@@ -4,15 +4,22 @@ using UnityEngine;
 public sealed class GameObjectPool
 {
 	private readonly Queue<GameObject> _queue = new Queue<GameObject>();
-	private readonly GameObject _prefab;
 	private readonly Transform _root;
+	private GameObject _prefab;
 	private int _index = 0;
+
+	public GameObjectPool(string rootName)
+	{
+		_root = new GameObject($"[{rootName}]").transform;
+	}
 
 	public GameObjectPool(GameObject prefab)
 	{
 		_prefab = prefab;
 		_root = new GameObject($"[{_prefab.name}]").transform;
 	}
+
+	public GameObject SetGameObject { set => _prefab = value; }
 
 	public GameObject GetGameObject()
 	{
