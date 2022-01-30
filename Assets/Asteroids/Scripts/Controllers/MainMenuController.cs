@@ -1,16 +1,14 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 
 public sealed class MainMenuController
 {
     private MainMenuView _view;
-    private AudioController _audioController;
+    private GameData _gameData;
 
-    public MainMenuController(MainMenuView view, AudioController audioController)
+    public MainMenuController(MainMenuView view, GameData gameData)
     {
-        _audioController = audioController;
-        _audioController.Play(AudioClipManager.NewGameMusic, true);
         _view = view;
+        _gameData = gameData;
     }
 
     public void OnEnable()
@@ -27,7 +25,6 @@ public sealed class MainMenuController
 
     private void StartGame()
     {
-        _audioController.Clear();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

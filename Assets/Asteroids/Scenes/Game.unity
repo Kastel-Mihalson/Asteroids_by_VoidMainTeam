@@ -535,12 +535,7 @@ MonoBehaviour:
   _enemyShip: {fileID: 11400000, guid: 4c9e484abb6273049ab323086e8db40b, type: 2}
   _playerBullet: {fileID: 11400000, guid: 6864a7eb38b02d04ca6cc775b6ad5d54, type: 2}
   _enemyBullet: {fileID: 11400000, guid: 6af0672382d27cd4fafdf0f9e6d51977, type: 2}
-  _asteroidDataList:
-  - {fileID: 11400000, guid: 3f26f99469afe214eada59cf2098969f, type: 2}
-  - {fileID: 11400000, guid: 9f717502a63645c4e921a8c9dbd22c0c, type: 2}
-  - {fileID: 11400000, guid: f5f15470656fe084eb3f8bf9aabe8054, type: 2}
-  _audioData: {fileID: 11400000, guid: c5b24dc2d08ed0b42a9424a487b3654e, type: 2}
-  _effectData: {fileID: 11400000, guid: 83deb9c807c1c8448bdf829ddb96f3d7, type: 2}
+  _gameData: {fileID: 11400000, guid: c8c6f374d44128c49b311259aa484acf, type: 2}
   speed: 10
 --- !u!4 &323969929
 Transform:

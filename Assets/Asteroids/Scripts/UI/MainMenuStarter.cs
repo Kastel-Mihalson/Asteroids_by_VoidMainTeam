@@ -2,9 +2,9 @@ using UnityEngine;
 
 public sealed class MainMenuStarter : MonoBehaviour
 {
-    [SerializeField] private AudioData _audioData;
     [SerializeField] private MainMenuView _mainMenuView;
     [SerializeField] private SettingsMenuView _settingsMenuView;
+    [SerializeField] private GameData _gameData;
 
     private MainMenuController _mainMenuController;
     private SettingsMenuController _settingsMenuController;
@@ -12,10 +12,12 @@ public sealed class MainMenuStarter : MonoBehaviour
 
     private void Start()
     {
-        _audioController = new AudioController(_audioData);
-        _mainMenuController = new MainMenuController(_mainMenuView, _audioController);
-        _settingsMenuController = new SettingsMenuController(_settingsMenuView);
+        _audioController = new AudioController(_gameData.AudioData, _gameData.AudioMixerGroup);
+        _mainMenuController = new MainMenuController(_mainMenuView, _gameData);
+        _settingsMenuController = new SettingsMenuController(_settingsMenuView, _gameData);
         _mainMenuController.OnEnable();
         _settingsMenuController.OnEnable();
+
+        _audioController.Play(AudioClipManager.NewGameMusic, true);
     }
 }
