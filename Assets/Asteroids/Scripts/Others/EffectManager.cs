@@ -1,7 +1,7 @@
 ﻿public enum EffectManager
 {
-    ShipExplosion,
-    AsteroidExplosion,
-    ShipHitting,
-    AsteroidHitting
+    ShipExplosion = 0,
+    AsteroidExplosion = 1,
+    ShipHitting = 2,
+    AsteroidHitting = 3
 }

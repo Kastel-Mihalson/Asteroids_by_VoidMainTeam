@@ -1,7 +1,4 @@
-using UnityEngine;
-using System;
-
-public sealed class ShipModel
+public abstract class ShipModel
 {
     private float _moveSpeed;
     private float _turnSpeed;
@@ -10,35 +7,15 @@ public sealed class ShipModel
     private int _currentArmor;
     private int _maxArmor;
 
-    public float MoveSpeed
-    {
-        get => _moveSpeed;
-        private set => _moveSpeed = value;
-    }
-    public float TurnSpeed
-    {
-        get => _turnSpeed;
-        private set => _turnSpeed = value;
-    }
-
-    public int MaxHP
-    {
-        get => _maxHP;
-        set => _maxHP = value;
-    }
-
-    public int MaxArmor
-    {
-        get => _maxArmor;
-        set => _maxArmor = value;
-    }
-
+    public float MoveSpeed => _moveSpeed;
+    public float TurnSpeed => _turnSpeed;
+    public int MaxHP => _maxHP;
+    public int MaxArmor => _maxArmor;
     public int CurrentHP
     {
         get => _currentHP;
         set => _currentHP = value;
     }
-
     public int CurrentArmor
     {
         get => _currentArmor;

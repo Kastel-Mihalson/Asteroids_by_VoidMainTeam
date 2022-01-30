@@ -3,17 +3,17 @@
 public sealed class EffectController
 {
     private const string EFFECT = "Effect";
-    private static EffectData _effectData;
-    private static GameObject _root;
-    private static float _yPosition = 2f;
+    private EffectData _effectData;
+    private GameObject _root;
+    private float _yPosition = 2f;
 
     public EffectController(EffectData effectData)
     {
         _effectData = effectData;
         _root = new GameObject($"[{EFFECT}]");
-;    }
+    }
 
-    public static void Create(EffectManager effect, Transform root)
+    public void Create(EffectManager effect, Transform root)
     {
         GameObject prefab = _effectData.Effects.GetEffectPrefab(effect);
         if (prefab == null)

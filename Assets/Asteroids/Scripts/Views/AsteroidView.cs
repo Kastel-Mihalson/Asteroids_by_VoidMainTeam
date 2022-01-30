@@ -12,9 +12,14 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
 
     private void OnTriggerEnter(Collider other)
-    {        
+    {
+        Interact(other);
+    }
+
+    public void Interact(Collider other)
+    {
         var interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
-        
+
         if (interactiveObject is IAsteroid)
         {
             return;
@@ -27,8 +32,6 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
             {
                 OnDamagedEvent?.Invoke((int)damage);
             }
-            AudioController.Play(AudioClipManager.AsteroidHitting);
-            EffectController.Create(EffectManager.AsteroidHitting, gameObject.transform);
         }
         if (interactiveObject is IShip)
         {            
@@ -50,12 +53,12 @@ public class AsteroidView : MonoBehaviour, IInteractiveObject, IAsteroid
 
     public void Die()
     {
-        AudioController.Play(AudioClipManager.AsteroidExplosion);
-        EffectController.Create(EffectManager.AsteroidExplosion, gameObject.transform);
         ReturnObjectToPool(gameObject);
     }
 
     public int? GetAsteroidDamage() => GetAsteroidDamageEvent?.Invoke();
+
     public int? GetAsteroidHealth() => GetAsteroidHealthEvent?.Invoke();
+    
     public void ReturnObjectToPool(GameObject asteroid) => ReturnObjectToPoolEvent?.Invoke(asteroid);
 }

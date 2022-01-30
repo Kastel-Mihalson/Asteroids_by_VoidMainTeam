@@ -1,9 +1,12 @@
+﻿using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public sealed class MainMenu : MonoBehaviour
+public sealed class MainMenuView : MonoBehaviour
 {
+    public event Action OnStartGameButtonClickEvent;
+    public event Action OnExitButtonClickEvent;
+
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _quitButton;
@@ -14,13 +17,11 @@ public sealed class MainMenu : MonoBehaviour
         _startButton.onClick.AddListener(StartGame);
         _settingsButton.onClick.AddListener(OpenSettings);
         _quitButton.onClick.AddListener(QuitGame);
-
-        // AudioController.Play(AudioClipManager.NewGameMusic, true);
     }
 
-    private void StartGame()
+    private void QuitGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        OnExitButtonClickEvent?.Invoke();
     }
 
     private void OpenSettings()
@@ -32,12 +33,8 @@ public sealed class MainMenu : MonoBehaviour
         }
     }
 
-    private void QuitGame()
+    private void StartGame()
     {
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+        OnStartGameButtonClickEvent?.Invoke();
     }
 }
