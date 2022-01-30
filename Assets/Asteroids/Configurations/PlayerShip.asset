@@ -16,7 +16,6 @@ MonoBehaviour:
   _turnSpeed: 4
   _hp: 30
   _armor: 30
-  _type: 1
   _shootingLayer:
     serializedVersion: 2
     m_Bits: 264
