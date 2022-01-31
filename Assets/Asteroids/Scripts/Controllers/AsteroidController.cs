@@ -17,11 +17,14 @@ public sealed class AsteroidController
     private AudioController _audioController;
     private EffectController _effectController;
 
-    public AsteroidController(AsteroidData data, AudioController audioController, EffectController effectController)
+    public AsteroidController(
+        AsteroidData data, AudioController audioController, 
+        EffectController effectController, GameObjectPool asteroidPool)
     {
         _data = data;
         _prefab = data.AsteroidPrefab;
-        _asteroidPool = new GameObjectPool(_prefab);
+        //_asteroidPool = new GameObjectPool(_prefab);
+        _asteroidPool = asteroidPool;
         _borderSpawnOffset = 0.5f;
         _ySpawnPosition = 8f;
         _audioController = audioController;
