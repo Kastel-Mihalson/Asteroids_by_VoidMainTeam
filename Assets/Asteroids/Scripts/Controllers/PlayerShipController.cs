@@ -11,6 +11,7 @@ public sealed class PlayerShipController : ShipController
     private PlayerShipModel _model;
     private PlayerShipView _view;
     private PlayerShipMovement _movementController;
+    private GodMode _godMode;
     private AudioController _audioController;
     private EffectController _effectController;
 
@@ -38,6 +39,11 @@ public sealed class PlayerShipController : ShipController
         }
 
         OnEnable();
+    }
+
+    public void ChitsInit(GodMode godMode)
+    {
+        _godMode = godMode;
     }
 
     public override void OnEnable()
@@ -74,20 +80,23 @@ public sealed class PlayerShipController : ShipController
 
     private void RecieveDamage(int damage)
     {
-        if (_model.CurrentArmor > 0)
+        if (_godMode.IsGodMode() == false)
         {
-            _model.CurrentArmor -= damage;
-            OnArmorChangedEvent?.Invoke(_model.CurrentArmor);
-        }
-        else
-        {
-            _model.CurrentHP -= damage;
-            OnHpChangedEvent?.Invoke(_model.CurrentHP);
-        }
+            if (_model.CurrentArmor > 0)
+            {
+                _model.CurrentArmor -= damage;
+                OnArmorChangedEvent?.Invoke(_model.CurrentArmor);
+            }
+            else
+            {
+                _model.CurrentHP -= damage;
+                OnHpChangedEvent?.Invoke(_model.CurrentHP);
+            }
 
-        if (_model.CurrentHP <= 0)
-        {
-            Die();
+            if (_model.CurrentHP <= 0)
+            {
+                Die();
+            }
         }
     }
 

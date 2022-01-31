@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     private AudioController _audioController;
     private EffectController _effectController;
     private EndGameMenuController _endGameMenuController;
+    private GodMode _godMode;
 
     private BackgroundStars _bgStars;
     [Range(1, 10)]
@@ -48,6 +49,9 @@ public class GameController : MonoBehaviour
 
         _audioController.Play(AudioClipManager.BackgroundMusic, true);
 
+        _godMode = new GodMode();
+
+        _playerShipController.ChitsInit(_godMode);
 
         _endGameMenuController = new EndGameMenuController(_audioController);
         _endGameMenuController.OnEnable();
@@ -58,6 +62,7 @@ public class GameController : MonoBehaviour
         _playerShipController.Execute();
         _enemyShipController.Execute();
         _spawnController.SpawnAsteroid(_asteroidDataList);
+        _godMode.Execute();
     }
 
     private void FixedUpdate()
