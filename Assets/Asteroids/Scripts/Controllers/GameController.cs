@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -17,9 +18,10 @@ public class GameController : MonoBehaviour
     private EffectController _effectController;
     private EndGameMenuController _endGameMenuController;
 
+    private GameObjectPool _asteroidPool;
     private BackgroundStars _bgStars;
-    [Range(1, 10)]
-    public float speed = 2f;
+    private float _currentTime;
+    private float speed = 2f;
 
     private void Awake()
     {
@@ -29,6 +31,8 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
+
+        _asteroidPool = new GameObjectPool("Asteroids");
         _bgStars = new BackgroundStars(50);
         _audioController = new AudioController(_gameData.AudioData, _gameData.AudioMixerGroup);
         _effectController = new EffectController(_gameData.EffectData);
@@ -59,10 +63,14 @@ public class GameController : MonoBehaviour
     }
 
     private void Update()
-    {   
+    {
+        var asteroid = SelectAsteroid(_gameData.LevelData.AsteroidDataList);
+        _currentTime += Time.deltaTime;
+
         _playerShipController.Execute();
         _enemyShipController.Execute();
-        _spawnController.SpawnAsteroid(_gameData.LevelData.AsteroidDataList);
+
+        _spawnController.SpawnAsteroid(asteroid, _asteroidPool, _currentTime);
     }
 
     private void FixedUpdate()
@@ -72,5 +80,14 @@ public class GameController : MonoBehaviour
         _enemyShipController.FixedExecute();
         _playerShootingController.Shoot();
         _enemyShootingController.Shoot();
+    }
+
+    // TODO implement in other class
+    private AsteroidData SelectAsteroid(List<AsteroidData> asteroids)
+    {
+        var asteroidIndex = Random.Range(0, asteroids.Count);
+        _asteroidPool.SetGameObject = asteroids[asteroidIndex].AsteroidPrefab;
+
+        return asteroids[asteroidIndex];
     }
 }
