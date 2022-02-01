@@ -22,7 +22,7 @@ public abstract class ShipController
         _data = data;
     }
 
-    public abstract void Init();
+    public abstract void Init(Vector3 spawnPosition);
 
     public abstract void Execute();
 

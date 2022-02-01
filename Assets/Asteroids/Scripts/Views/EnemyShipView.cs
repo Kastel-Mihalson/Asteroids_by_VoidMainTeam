@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public sealed class EnemyShipView : ShipView
+public sealed class EnemyShipView : ShipView, IEnemy
 {
     private EnemyHUDView _hudView;
     private EndGameMenuView _loseMenu;

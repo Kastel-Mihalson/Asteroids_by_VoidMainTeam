@@ -21,9 +21,9 @@ public sealed class EnemyShipController : ShipController
         _effectController = effectController;
     }
 
-    public override void Init()
+    public override void Init(Vector3 spawnPosition)
     {
-        GameObject shipGameObject = Object.Instantiate(Data.ShipPrefab, Data.StartPosition, Quaternion.identity);
+        GameObject shipGameObject = Object.Instantiate(Data.ShipPrefab, spawnPosition, Quaternion.identity);
         _view = shipGameObject.GetComponent<EnemyShipView>();
 
         BulletStartPoint = _view.BulletSpawnPoint;

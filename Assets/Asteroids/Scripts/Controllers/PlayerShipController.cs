@@ -10,30 +10,36 @@ public sealed class PlayerShipController : ShipController
 
     private PlayerShipModel _model;
     private PlayerShipView _view;
+    private PlayerManager _player;
     private PlayerShipMovement _movementController;
     private AudioController _audioController;
     private EffectController _effectController;
+    private PlayerHUDView _hudView;
 
-    public PlayerShipController(ShipData data, AudioController auidoController, EffectController effectController) : base(data)
+    public PlayerShipController(ShipData data, PlayerManager player, AudioController auidoController, 
+        EffectController effectController, PlayerHUDView hudView) : base(data)
     {
         _model = new PlayerShipModel(data);
+        _player = player;
         _audioController = auidoController;
         _effectController = effectController;
+        _hudView = hudView;
     }
 
-    public override void Init()
+    public override void Init(Vector3 spawnPosition)
     {
-        GameObject shipGameObject = Object.Instantiate(Data.ShipPrefab, Data.StartPosition, Quaternion.identity);
+        GameObject shipGameObject = Object.Instantiate(Data.ShipPrefab, spawnPosition, Quaternion.identity);
         _view = shipGameObject.GetComponent<PlayerShipView>();
 
         BulletStartPoint = _view.BulletSpawnPoint;
 
+        _view.SetHUDView(_hudView);
         _view.SetMaxHealth(_model.MaxHP);
         _view.SetMaxArmor(_model.MaxArmor);
 
         if (shipGameObject.TryGetComponent(out CapsuleCollider collider))
         {
-            _movementController = new PlayerShipMovement();
+            _movementController = new PlayerShipMovement(_player);
             _movementController.Init(_view.Rigidbody, _model, collider);
         }
 

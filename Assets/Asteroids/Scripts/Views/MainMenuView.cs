@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public sealed class MainMenuView : MonoBehaviour
 {
-    public event Action OnStartGameButtonClickEvent;
     public event Action OnExitButtonClickEvent;
 
     [SerializeField] private Button _startButton;

@@ -3,20 +3,24 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private ShipData _playerShip;
+    [SerializeField] private ShipData _firstPlayerShip;
+    [SerializeField] private ShipData _secondPlayerShip;
     [SerializeField] private ShipData _enemyShip;
     [SerializeField] private BulletData _playerBullet;
     [SerializeField] private BulletData _enemyBullet;
     [SerializeField] private GameData _gameData;
 
-    private ShootingController _playerShootingController;
+    private ShootingController _firstPlayerShootingController;
+    private ShootingController _secondPlayerShootingController;
     private ShootingController _enemyShootingController;
     private SpawnController _spawnController;
-    private PlayerShipController _playerShipController;
+    private PlayerShipController _firstPlayerShipController;
+    private PlayerShipController _secondPlayerShipController;
     private EnemyShipController _enemyShipController;
     private AudioController _audioController;
     private EffectController _effectController;
     private EndGameMenuController _endGameMenuController;
+    private UIController _uiController;
 
     private GameObjectPool _asteroidPool;
     private BackgroundStars _bgStars;
@@ -37,29 +41,31 @@ public class GameController : MonoBehaviour
         _audioController = new AudioController(_gameData.AudioData, _gameData.AudioMixerGroup);
         _effectController = new EffectController(_gameData.EffectData);
 
-        _spawnController = new SpawnController(_audioController, _effectController);
+        _spawnController = new SpawnController(_gameData.GameMode, _audioController, _effectController);
+        _uiController = new UIController(_gameData.GameMode);
 
-        _playerShipController = _spawnController.SpawnPlayerShip(_playerShip);
         _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
+        _firstPlayerShipController = _spawnController.SpawnPlayerShip(_firstPlayerShip, 
+            _uiController.GetPlayerHUD(PlayerManager.First));
 
-        if (_gameData.GameMode == GameModeManager.Singleplayer)
-        {
-            // TODO one player
-        }
-        else if (_gameData.GameMode == GameModeManager.Multiplayer)
-        {
-            // TODO two players
-        }
-
-        _playerShootingController = new ShootingController(
-            _playerShipController.BulletStartPoint, _playerBullet, _playerShip.ShootingLayer, _audioController);
+        _firstPlayerShootingController = new ShootingController(
+            _firstPlayerShipController.BulletStartPoint, _playerBullet, _firstPlayerShip.ShootingLayer, _audioController);
         _enemyShootingController = new ShootingController(
-            _enemyShipController.BulletStartPoint, _enemyBullet,  _enemyShip.ShootingLayer, _audioController);
+            _enemyShipController.BulletStartPoint, _enemyBullet, _enemyShip.ShootingLayer, _audioController);
+
+        if (_gameData.GameMode == GameModeManager.Multiplayer)
+        {
+            _secondPlayerShipController = _spawnController.SpawnPlayerShip(_secondPlayerShip,
+                _uiController.GetPlayerHUD(PlayerManager.Second), PlayerManager.Second);
+            _secondPlayerShootingController = new ShootingController(
+                _secondPlayerShipController.BulletStartPoint, _playerBullet, _firstPlayerShip.ShootingLayer, _audioController);
+        }
 
         _audioController.Play(AudioClipManager.BackgroundMusic, true);
 
         _endGameMenuController = new EndGameMenuController(_audioController);
         _endGameMenuController.OnEnable();
+
     }
 
     private void Update()
@@ -67,19 +73,21 @@ public class GameController : MonoBehaviour
         var asteroid = SelectAsteroid(_gameData.LevelData.AsteroidDataList);
         _currentTime += Time.deltaTime;
 
-        _playerShipController.Execute();
-        _enemyShipController.Execute();
-
+        _firstPlayerShipController?.Execute();
+        _enemyShipController?.Execute();
+        _secondPlayerShipController?.Execute();
         _spawnController.SpawnAsteroid(asteroid, _asteroidPool, _currentTime);
     }
 
     private void FixedUpdate()
     {
         _bgStars.MoveStars(speed);
-        _playerShipController.FixedExecute();
-        _enemyShipController.FixedExecute();
-        _playerShootingController.Shoot();
-        _enemyShootingController.Shoot();
+        _firstPlayerShipController?.FixedExecute();
+        _enemyShipController?.FixedExecute();
+        _secondPlayerShipController?.FixedExecute();
+        _firstPlayerShootingController?.Shoot();
+        _enemyShootingController?.Shoot();
+        _secondPlayerShootingController?.Shoot();
     }
 
     // TODO implement in other class
