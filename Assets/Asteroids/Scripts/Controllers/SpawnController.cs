@@ -6,10 +6,13 @@ public sealed class SpawnController
     private AsteroidController _asteroidController;
     private PlayerShipController _playerShipController;
     private EnemyShipController _enemyShipController;
+    private List<AsteroidData> _asteroidList;
+    private GameObjectPool _asteroidPool;
+    private GameData _gameData;
     private float _nextSpawnTime;
     private float _currentTime;
     private float _minSpawnDelay = 0.5f;
-    private float _maxSpawnDelay = 2f;
+    private float _maxSpawnDelay = 1.5f;
     private AudioController _audioController;
     private EffectController _effectController;
     private Vector3 _firstPlayerStartPosition;
@@ -20,10 +23,13 @@ public sealed class SpawnController
     private float _leftOffset = 4f;
     private float _rightOffset = 4f;
 
-    public SpawnController(GameModeManager gameMode, AudioController audioController, EffectController effectController)
+    public SpawnController(GameData gameData, AudioController audioController, EffectController effectController)
     {
+        _gameData = gameData;
         _audioController = audioController;
         _effectController = effectController;
+
+        GameModeManager gameMode = gameData.GameMode;
 
         float bottomPosition = GameModel.ScreenBorder[Border.Bottom];
         float topPosition = GameModel.ScreenBorder[Border.Top];
@@ -41,22 +47,27 @@ public sealed class SpawnController
         }
 
         _enemyShipStartPosition = new Vector3(0, 0, topPosition - _topOffset);
+        _asteroidPool = new GameObjectPool("Asteroids");
+        _asteroidList = gameData.LevelData.AsteroidDataList;
     }
 
-
-    public void SpawnAsteroid(AsteroidData asteroids, GameObjectPool asteroidPool, float currentTime)
+    private AsteroidData SelectAsteroid(List<AsteroidData> asteroids)
     {
+        var asteroidIndex = Random.Range(0, asteroids.Count);
+        _asteroidPool.SetGameObject = asteroids[asteroidIndex].AsteroidPrefab;
+
+        return asteroids[asteroidIndex];
+    }
+
+    public void SpawnAsteroid(float currentTime)
+    {
+        var asteroids = SelectAsteroid(_asteroidList);
+
         if (currentTime > _nextSpawnTime)
         {
-            //var asteroidIndex = Random.Range(0, asteroids.Count);
-
-            //_asteroidController = new AsteroidController(
-            //    asteroids[asteroidIndex], _audioController, 
-            //    _effectController, asteroidPool);
-
             _asteroidController = new AsteroidController(
                 asteroids, _audioController,
-                _effectController, asteroidPool);
+                _effectController, _asteroidPool);
 
             _asteroidController.Init();
             _asteroidController.OnDisable();
