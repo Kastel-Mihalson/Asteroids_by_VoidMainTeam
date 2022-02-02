@@ -12,6 +12,7 @@ public sealed class SpawnController
     private float _maxSpawnDelay = 2f;
     private AudioController _audioController;
     private EffectController _effectController;
+    private float asteroidCount = 1;
 
     public SpawnController(AudioController audioController, EffectController effectController)
     {
@@ -30,15 +31,21 @@ public sealed class SpawnController
             //    asteroids[asteroidIndex], _audioController, 
             //    _effectController, asteroidPool);
 
-            _asteroidController = new AsteroidController(
-                asteroids, _audioController,
-                _effectController, asteroidPool);
+            var maxAsteroidCount = Random.Range(1, asteroidCount);
+            for (int i = 0; i < maxAsteroidCount; i++)
+            {
 
-            _asteroidController.Init();
-            _asteroidController.OnDisable();
-            _asteroidController.OnEnable();
-            _asteroidController.Move();
-            _nextSpawnTime += Random.Range(_minSpawnDelay, _maxSpawnDelay);
+                _asteroidController = new AsteroidController(
+                    asteroids, _audioController,
+                    _effectController, asteroidPool);
+
+                _asteroidController.Init();
+                _asteroidController.OnDisable();
+                _asteroidController.OnEnable();
+                _asteroidController.Move();
+                _nextSpawnTime += Random.Range(_minSpawnDelay, _maxSpawnDelay);
+            }
+            asteroidCount += 0.5f;
         }
     }
 
