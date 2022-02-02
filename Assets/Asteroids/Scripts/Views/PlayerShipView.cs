@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public sealed class PlayerShipView : ShipView
+public sealed class PlayerShipView : ShipView, IPlayer
 {
     private PlayerHUDView _hudView;
     private EndGameMenuView _loseMenu;
@@ -21,7 +21,7 @@ public sealed class PlayerShipView : ShipView
                 var asteroidView = (AsteroidView)interactiveObject;
                 damage = asteroidView.GetAsteroidDamage();
             }
-            else if (interactiveObject is IShip)
+            else if (interactiveObject is IEnemy)
             {
                 Die();
             }
@@ -45,8 +45,12 @@ public sealed class PlayerShipView : ShipView
 
     private void Awake()
     {
-        _hudView = FindObjectOfType<PlayerHUDView>();
         _loseMenu = FindObjectOfType<EndGameMenuView>();
+    }
+
+    public void SetHUDView(PlayerHUDView view)
+    {
+        _hudView = view;
     }
 
     public void SetMaxHealth(int health)

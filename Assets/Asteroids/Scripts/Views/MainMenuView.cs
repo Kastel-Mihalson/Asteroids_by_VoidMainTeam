@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public sealed class MainMenuView : MonoBehaviour
 {
-    public event Action OnStartGameButtonClickEvent;
     public event Action OnExitButtonClickEvent;
 
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _quitButton;
     [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private GameObject _gameModePanel;
 
     private void Start()
     {
@@ -35,6 +35,10 @@ public sealed class MainMenuView : MonoBehaviour
 
     private void StartGame()
     {
-        OnStartGameButtonClickEvent?.Invoke();
+        if (!_gameModePanel.activeSelf)
+        {
+            _gameModePanel.SetActive(true);
+            gameObject.SetActive(false);
+        }
     }
 }

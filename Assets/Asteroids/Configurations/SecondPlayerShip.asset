@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64e85f12892c44f4e81475eab46e44e6, type: 3}
-  m_Name: PlayerShip
+  m_Name: SecondPlayerShip
   m_EditorClassIdentifier: 
   _moveSpeed: 10
   _turnSpeed: 4
@@ -19,5 +19,5 @@ MonoBehaviour:
   _shootingLayer:
     serializedVersion: 2
     m_Bits: 264
-  _startPosition: {x: 0, y: 0, z: -4.5}
-  _shipPrefab: {fileID: 1411103268356311223, guid: 0d4d4b9e719d3464299fd499022f1b04, type: 3}
+  _startPosition: {x: 5, y: 0, z: -4.5}
+  _shipPrefab: {fileID: 1411103268356311223, guid: 378a385216bb5104495c62d14446a127, type: 3}
