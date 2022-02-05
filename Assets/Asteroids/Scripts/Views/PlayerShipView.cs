@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public sealed class PlayerShipView : ShipView, IPlayer
 {
+    public event Action OnBurnEvent;
+
     private PlayerHUDView _hudView;
     private EndGameMenuView _loseMenu;
+    private float _fireHitTimeDelay = 1f;
+    private int _fireDamage = 1;
 
     public override void Interact(Collider other)
     {
@@ -20,6 +26,11 @@ public sealed class PlayerShipView : ShipView, IPlayer
             {
                 var asteroidView = (AsteroidView)interactiveObject;
                 damage = asteroidView.GetAsteroidDamage();
+
+                if (asteroidView is IFire)
+                {
+                    StartCoroutine(Burn((int)damage));
+                }
             }
             else if (interactiveObject is IEnemy)
             {
@@ -76,5 +87,18 @@ public sealed class PlayerShipView : ShipView, IPlayer
     public void SetScore(int? value)
     {
         _hudView.SetScore(value);
+    }
+
+    private IEnumerator Burn(int fireHitCount)
+    {
+        OnBurnEvent?.Invoke();
+
+        for (var i = 0; i < fireHitCount; i++)
+        {
+            GetDamage(_fireDamage);
+            yield return new WaitForSeconds(_fireHitTimeDelay);
+        }
+        
+        StopCoroutine(Burn(fireHitCount));
     }
 }

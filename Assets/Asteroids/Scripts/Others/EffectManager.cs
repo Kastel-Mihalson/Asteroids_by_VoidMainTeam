@@ -3,5 +3,6 @@
     ShipExplosion = 0,
     AsteroidExplosion = 1,
     ShipHitting = 2,
-    AsteroidHitting = 3
+    AsteroidHitting = 3,
+    Burning = 4
 }

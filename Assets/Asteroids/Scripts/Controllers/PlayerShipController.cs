@@ -50,6 +50,7 @@ public sealed class PlayerShipController : ShipController
     {
         _view.OnDamagedEvent += RecieveDamage;
         _view.OnDamagedEvent += CreateHittingEffects;
+        _view.OnBurnEvent += CreateBurnEffect;
         OnHpChangedEvent += _view.SetHealth;
         OnArmorChangedEvent += _view.SetArmor;
         OnDiedEvent += _view.Die;
@@ -61,6 +62,7 @@ public sealed class PlayerShipController : ShipController
     {
         _view.OnDamagedEvent -= RecieveDamage;
         _view.OnDamagedEvent -= CreateHittingEffects;
+        _view.OnBurnEvent -= CreateBurnEffect;
         OnHpChangedEvent -= _view.SetHealth;
         OnArmorChangedEvent -= _view.SetArmor;
         OnDiedEvent -= _view.Die;
@@ -112,5 +114,12 @@ public sealed class PlayerShipController : ShipController
     {
         _audioController.Play(AudioClipManager.ShipExplosion);
         _effectController.Create(EffectManager.ShipExplosion, _view.transform);
+    }
+
+    private void CreateBurnEffect()
+    {
+        var burnEffect = _effectController.Create(EffectManager.Burning, _view.transform);
+        burnEffect.transform.position = Vector3.zero;
+        burnEffect.SetParent(_view.transform);
     }
 }

@@ -10,7 +10,6 @@ public sealed class AsteroidController
     private AsteroidView _view;
     private AsteroidData _data;
     private Rigidbody _rigidBody;
-    private GameObject _prefab;
     private GameObjectPool _asteroidPool;
     private float _borderSpawnOffset;
     private float _ySpawnPosition;
@@ -22,7 +21,6 @@ public sealed class AsteroidController
         EffectController effectController, GameObjectPool asteroidPool)
     {
         _data = data;
-        _prefab = data.AsteroidPrefab;
         //_asteroidPool = new GameObjectPool(_prefab);
         _asteroidPool = asteroidPool;
         _borderSpawnOffset = 0.5f;
