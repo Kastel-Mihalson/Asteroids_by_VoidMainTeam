@@ -31,11 +31,9 @@ public sealed class AudioController
 
     private void Play(AudioClip clip, bool isLoop)
     {
-        // TODO pool
         GameObject soundGameObject = new GameObject(SOUND);
         soundGameObject.transform.SetParent(_root.transform);
         AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
-        // _soundSource.Add(soundSource);
         _soundSource.Add(audioSource);
 
         audioSource.clip = clip;
@@ -45,9 +43,8 @@ public sealed class AudioController
 
         if (!isLoop)
         {
-            //_soundSource.Remove(soundSource);
+            Object.Destroy(audioSource.gameObject, clip.length);
             _soundSource.Remove(audioSource);
-            Object.Destroy(soundGameObject, clip.length);
         }
     }
 
@@ -55,7 +52,10 @@ public sealed class AudioController
     {        
         foreach (var source in _soundSource)
         {
-            Object.Destroy(source.gameObject); // NOT GameObject? Or GameObject?
+            if (source != null)
+            {
+                Object.Destroy(source?.gameObject);
+            }
         }
     }
 
