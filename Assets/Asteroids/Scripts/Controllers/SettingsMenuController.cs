@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using OptionData = TMPro.TMP_Dropdown.OptionData;
+using System;
 
 public sealed class SettingsMenuController
 {
-    private const string MAIN_VOLUME = "MainVolume";
+    public event Action<float> OnVolumeChandedEvent;
+
     private Resolution[] _resolutions;
     private SettingsMenuView _view;
     private GameData _gameData;
@@ -21,10 +23,8 @@ public sealed class SettingsMenuController
 
     private void InitVolumeSlider()
     {
-        if (_gameData.AudioMixerGroup.audioMixer.GetFloat(MAIN_VOLUME, out float volume))
-        {
-            _view.SetVolumeSliderValue(volume);
-        }
+        var volume = _gameData.Volume;
+        _view.SetVolumeSliderValue(volume);
     }
 
     public void OnEnable()
@@ -45,7 +45,8 @@ public sealed class SettingsMenuController
 
     private void SetVolume(float volume)
     {
-        _gameData.AudioMixerGroup.audioMixer.SetFloat(MAIN_VOLUME, volume);
+        _gameData.Volume = volume;
+        OnVolumeChandedEvent?.Invoke(volume);
     }
 
     private void SetQuality(int qualityLevelIndex)

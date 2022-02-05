@@ -19,8 +19,8 @@ public class GameController : MonoBehaviour
     private EnemyShipController _enemyShipController;
     private AudioController _audioController;
     private EffectController _effectController;
-    private EndGameMenuController _endGameMenuController;
     private UIController _uiController;
+    private EndGameMenuController _endGameMenuController;
 
     private GameObjectPool _asteroidPool;
     private BackgroundStars _bgStars;
@@ -38,11 +38,10 @@ public class GameController : MonoBehaviour
 
         _asteroidPool = new GameObjectPool("Asteroids");
         _bgStars = new BackgroundStars(50);
-        _audioController = new AudioController(_gameData.AudioData, _gameData.AudioMixerGroup);
+        _audioController = new AudioController(_gameData.AudioData, _gameData.Volume);
         _effectController = new EffectController(_gameData.EffectData);
-
         _spawnController = new SpawnController(_gameData.GameMode, _audioController, _effectController);
-        _uiController = new UIController(_gameData.GameMode);
+        _uiController = new UIController(_audioController, _gameData.GameMode);
 
         _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
         _firstPlayerShipController = _spawnController.SpawnPlayerShip(_firstPlayerShip, 
@@ -65,7 +64,6 @@ public class GameController : MonoBehaviour
 
         _endGameMenuController = new EndGameMenuController(_audioController);
         _endGameMenuController.OnEnable();
-
     }
 
     private void Update()

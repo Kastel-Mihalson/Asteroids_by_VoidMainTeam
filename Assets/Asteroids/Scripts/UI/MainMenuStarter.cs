@@ -14,7 +14,7 @@ public sealed class MainMenuStarter : MonoBehaviour
 
     private void Start()
     {
-        _audioController = new AudioController(_gameData.AudioData, _gameData.AudioMixerGroup);
+        _audioController = new AudioController(_gameData.AudioData, _gameData.Volume);
         _mainMenuController = new MainMenuController(_mainMenuView);
         _settingsMenuController = new SettingsMenuController(_settingsMenuView, _gameData);
         _gameModeMenuController = new GameModeMenuController(_gameModeMenuView, _gameData);
@@ -22,6 +22,8 @@ public sealed class MainMenuStarter : MonoBehaviour
         _mainMenuController.OnEnable();
         _settingsMenuController.OnEnable();
         _gameModeMenuController.OnEnable();
+
+        _settingsMenuController.OnVolumeChandedEvent += _audioController.SetVolume;
 
         _audioController.Play(AudioClipManager.NewGameMusic, true);
     }
