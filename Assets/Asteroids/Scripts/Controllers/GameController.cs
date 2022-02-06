@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
         _bgStars = new BackgroundStars(50);
         _audioController = new AudioController(_gameData.AudioData, _gameData.Volume);
         _effectController = new EffectController(_gameData.EffectData);
-        _spawnController = new SpawnController(_gameData.GameMode, _audioController, _effectController);
+        _spawnController = new SpawnController(_gameData, _audioController, _effectController);
         _uiController = new UIController(_audioController, _gameData.GameMode);
 
         _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);

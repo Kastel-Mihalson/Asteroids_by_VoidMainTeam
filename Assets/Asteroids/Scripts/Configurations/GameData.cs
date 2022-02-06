@@ -11,7 +11,7 @@ public sealed class GameData : ScriptableObject
     private bool _isFullscreen;
     private int _resolutionIndex;
     private int _qualityLevel;
-    private float _volume;
+    private float _volume = 1f;
 
     public GameModeManager GameMode
     {
