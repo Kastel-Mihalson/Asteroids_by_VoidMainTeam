@@ -35,6 +35,8 @@ public sealed class PlayerShipView : ShipView, IPlayer
 
     public override void Die()
     {
+        _hudView.IsDead = true;
+
         if (_loseMenu)
         {
             _loseMenu.ShowResult(false);
