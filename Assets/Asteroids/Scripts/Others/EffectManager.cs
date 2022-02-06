@@ -4,5 +4,6 @@
     AsteroidExplosion = 1,
     ShipHitting = 2,
     AsteroidHitting = 3,
-    Burning = 4
+    Burning = 4,
+    Deceleration = 5
 }

@@ -51,6 +51,8 @@ public sealed class PlayerShipController : ShipController
         _view.OnDamagedEvent += RecieveDamage;
         _view.OnDamagedEvent += CreateHittingEffects;
         _view.OnBurnEvent += CreateBurnEffect;
+        _view.OnDeceleratedEvent += Decelerate;
+        _view.OnNormilizedSpeedEvent += NormalizeSpeed;
         OnHpChangedEvent += _view.SetHealth;
         OnArmorChangedEvent += _view.SetArmor;
         OnDiedEvent += _view.Die;
@@ -63,6 +65,8 @@ public sealed class PlayerShipController : ShipController
         _view.OnDamagedEvent -= RecieveDamage;
         _view.OnDamagedEvent -= CreateHittingEffects;
         _view.OnBurnEvent -= CreateBurnEffect;
+        _view.OnDeceleratedEvent -= Decelerate;
+        _view.OnNormilizedSpeedEvent -= NormalizeSpeed;
         OnHpChangedEvent -= _view.SetHealth;
         OnArmorChangedEvent -= _view.SetArmor;
         OnDiedEvent -= _view.Die;
@@ -119,5 +123,16 @@ public sealed class PlayerShipController : ShipController
     private void CreateBurnEffect()
     {
         _effectController.CreateLocal(EffectManager.Burning, _view.transform);
+    }
+
+    private void Decelerate(float decelerationSpeedParam)
+    {
+        _model.MoveSpeed /= decelerationSpeedParam;
+        _effectController.CreateLocal(EffectManager.Deceleration, _view.transform);
+    }
+
+    private void NormalizeSpeed()
+    {
+        _model.MoveSpeed = _model.DefaultMoveSpeed;
     }
 }

@@ -5,11 +5,14 @@ using UnityEngine;
 public sealed class PlayerShipView : ShipView, IPlayer
 {
     public event Action OnBurnEvent;
+    public event Action<float> OnDeceleratedEvent;
+    public event Action OnNormilizedSpeedEvent;
 
     private PlayerHUDView _hudView;
     private EndGameMenuView _loseMenu;
     private float _fireHitTimeDelay = 1f;
     private int _fireDamage = 1;
+    private float _decelerationTime = 3f;
 
     public override void Interact(Collider other)
     {
@@ -30,6 +33,10 @@ public sealed class PlayerShipView : ShipView, IPlayer
                 if (asteroidView is IFire)
                 {
                     StartCoroutine(Burn((int)damage));
+                }
+                else if (asteroidView is IIce)
+                {
+                    StartCoroutine(Decelerate((int)damage));
                 }
             }
             else if (interactiveObject is IEnemy)
@@ -102,5 +109,13 @@ public sealed class PlayerShipView : ShipView, IPlayer
         }
         
         StopCoroutine(Burn(fireHitCount));
+    }
+
+    private IEnumerator Decelerate(int decelerationSpeedParam)
+    {
+        OnDeceleratedEvent?.Invoke(decelerationSpeedParam * 1.5f);
+        yield return new WaitForSeconds(_decelerationTime);
+        OnNormilizedSpeedEvent?.Invoke();
+        StopCoroutine(Decelerate(decelerationSpeedParam));
     }
 }
