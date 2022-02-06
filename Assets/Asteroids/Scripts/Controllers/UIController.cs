@@ -2,7 +2,7 @@
 {
     private UIView _view;
 
-    public UIController(GameModeManager gameMode)
+    public UIController(AudioController audioController, GameModeManager gameMode)
     {
         _view = UnityEngine.Object.FindObjectOfType<UIView>();
 

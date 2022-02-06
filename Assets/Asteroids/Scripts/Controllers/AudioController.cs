@@ -1,21 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Audio;
 
 public sealed class AudioController
 {
     private const string SOUND = "Sound";
     private AudioData _audioData;
     private GameObject _root;
-    private List<GameObject> _soundSource;
-    private AudioMixerGroup _audioMixerGroup;
+    private List<AudioSource> _soundSource;
+    private float _volume;
 
-    public AudioController(AudioData data, AudioMixerGroup audioMixerGroup)
+    public AudioController(AudioData data, float volume)
     {
         _audioData = data;
         _root = new GameObject($"[{SOUND}]");
-        _soundSource = new List<GameObject>();
-        _audioMixerGroup = audioMixerGroup;
+        _soundSource = new List<AudioSource>();
+        _volume = volume;
     }
 
     public void Play(AudioClipManager clipType, bool isLoop = false)
@@ -32,21 +31,20 @@ public sealed class AudioController
 
     private void Play(AudioClip clip, bool isLoop)
     {
-        // TODO pool
-        GameObject soundSource = new GameObject(SOUND);
-        soundSource.transform.SetParent(_root.transform);
-        AudioSource audioSource = soundSource.AddComponent<AudioSource>();
-        _soundSource.Add(soundSource);
+        GameObject soundGameObject = new GameObject(SOUND);
+        soundGameObject.transform.SetParent(_root.transform);
+        AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
+        _soundSource.Add(audioSource);
 
         audioSource.clip = clip;
         audioSource.loop = isLoop;
-        audioSource.outputAudioMixerGroup = _audioMixerGroup;
+        audioSource.volume = _volume;
         audioSource.Play();
 
         if (!isLoop)
         {
-            _soundSource.Remove(soundSource);
-            Object.Destroy(soundSource, clip.length);
+            Object.Destroy(audioSource.gameObject, clip.length);
+            _soundSource.Remove(audioSource);
         }
     }
 
@@ -54,7 +52,18 @@ public sealed class AudioController
     {        
         foreach (var source in _soundSource)
         {
-            Object.Destroy(source);
+            if (source != null)
+            {
+                Object.Destroy(source?.gameObject);
+            }
+        }
+    }
+
+    public void SetVolume(float volume)
+    {
+        foreach (var source in _soundSource)
+        {
+            source.volume = volume;
         }
     }
 }

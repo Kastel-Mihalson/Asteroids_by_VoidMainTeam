@@ -19,8 +19,8 @@ public class GameController : MonoBehaviour
     private EnemyShipController _enemyShipController;
     private AudioController _audioController;
     private EffectController _effectController;
-    private EndGameMenuController _endGameMenuController;
     private UIController _uiController;
+    private EndGameMenuController _endGameMenuController;
 
     private BackgroundStars _bgStars;
     private float _currentTime;
@@ -35,11 +35,10 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 1;
         _bgStars = new BackgroundStars(50);
-
-        _audioController = new AudioController(_gameData.AudioData, _gameData.AudioMixerGroup);
+        _audioController = new AudioController(_gameData.AudioData, _gameData.Volume);
         _effectController = new EffectController(_gameData.EffectData);
         _spawnController = new SpawnController(_gameData, _audioController, _effectController);
-        _uiController = new UIController(_gameData.GameMode);
+        _uiController = new UIController(_audioController, _gameData.GameMode);
 
         _enemyShipController = _spawnController.SpawnEnemyShip(_enemyShip);
 
