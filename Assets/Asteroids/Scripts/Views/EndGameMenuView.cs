@@ -13,9 +13,12 @@ public sealed class EndGameMenuView : MonoBehaviour
     [SerializeField] private Button _restartButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private Text _screenText;
-    [SerializeField] private Text _scoreValue;
+    [SerializeField] private Text _firstPlayerScoreValue;
+    [SerializeField] private Text _secondPlayerScoreValue;
 
     public GameObject GameObject => gameObject;
+
+    public GameModeManager GameMode { get; set; }
 
     private void Start()
     {        
@@ -39,10 +42,23 @@ public sealed class EndGameMenuView : MonoBehaviour
         OnMainMenuButtonClickEvent?.Invoke();
     }
 
-    public void SetGameResult(int score, string text)
+    public void SetGameResult(string text, int P1Score, int P2Score = 0)
     {
-        _scoreValue.text = $"SCORE: {score}";
-        _screenText.text = $"{text}";
+        if (GameMode == GameModeManager.Singleplayer)
+        {
+            _secondPlayerScoreValue.gameObject.SetActive(false);
+
+            _screenText.text = $"{text}";
+            _firstPlayerScoreValue.text = $"SCORE: {P1Score}";
+        }
+        else
+        {
+            _secondPlayerScoreValue.gameObject.SetActive(true);
+
+            _screenText.text = $"{text}";
+            _firstPlayerScoreValue.text = $"Player 1 score: {P1Score}";
+            _secondPlayerScoreValue.text = $"Player 2 score: {P2Score}";
+        }
     }
 
     public void ShowResult(bool isVictory)

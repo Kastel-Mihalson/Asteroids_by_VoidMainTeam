@@ -23,6 +23,8 @@ public sealed class EnemyShipView : ShipView, IEnemy
 
     public override void Die()
     {
+        _hudView.IsDead = true;
+
         if (_loseMenu)
         {
             _loseMenu.ShowResult(true);

@@ -6,6 +6,7 @@ public abstract class ShipModel
     private int _maxHP;
     private int _currentArmor;
     private int _maxArmor;
+    private int _score;
 
     public float MoveSpeed => _moveSpeed;
     public float TurnSpeed => _turnSpeed;
@@ -20,6 +21,12 @@ public abstract class ShipModel
     {
         get => _currentArmor;
         set => _currentArmor = value;
+    }
+
+    public int Score
+    {
+        get => _score;
+        set => _score = value;
     }
 
     public ShipModel(ShipData data)
