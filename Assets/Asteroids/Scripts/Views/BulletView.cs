@@ -8,7 +8,7 @@ public class BulletView : MonoBehaviour, IInteractiveObject, IBullet
     public event Action<GameObject> ReturnBulletToPoolEvent;
     
     public Rigidbody Rigidbody => gameObject.GetComponent<Rigidbody>();
-    public PlayerHUDView PlayerHUD => FindObjectOfType<PlayerHUDView>();
+    public PlayerHUDView PlayerHUD;
 
     private void OnTriggerEnter(Collider other)
     {

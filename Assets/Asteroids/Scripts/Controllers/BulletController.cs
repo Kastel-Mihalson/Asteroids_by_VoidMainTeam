@@ -9,13 +9,15 @@ public class BulletController
     private GameObject _prefab;
     private Transform _spawnPosition;
     private GameObjectPool _bulletPool;
+    private PlayerHUDView _playerHUDView;
 
-    public BulletController(BulletData data, Transform spawnPosition)
+    public BulletController(BulletData data, Transform spawnPosition, PlayerHUDView playerHUDView = null)
     {
         _data = data;
         _prefab = data.Prefab;
         _spawnPosition = spawnPosition;
         _bulletPool = new GameObjectPool(_prefab);
+        _playerHUDView = playerHUDView;
     }
 
     public void Init()
@@ -26,6 +28,7 @@ public class BulletController
         _view = bulletGameObject.GetComponent<BulletView>();
         _rigidbody = _view.Rigidbody;
         _view.Die(_model.LifeTime);
+        _view.PlayerHUD = _playerHUDView;
     }
 
     public void Move()

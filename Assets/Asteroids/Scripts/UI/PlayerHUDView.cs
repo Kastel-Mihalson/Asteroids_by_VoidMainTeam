@@ -2,7 +2,15 @@ using UnityEngine.UI;
 
 public sealed class PlayerHUDView : HUDView
 {
+    private bool _isDead;
+
     public Text ScoreValue;
+
+    public bool IsDead
+    {
+        get => _isDead;
+        set => _isDead = value;
+    }
 
     public void SetScreenActive(bool flag)
     {
