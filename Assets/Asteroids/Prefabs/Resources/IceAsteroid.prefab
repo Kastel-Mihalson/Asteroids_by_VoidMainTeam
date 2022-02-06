@@ -5037,7 +5037,7 @@ GameObject:
   - component: {fileID: 7205921297374128408}
   - component: {fileID: 7205921297374128409}
   - component: {fileID: 6430953719229333477}
-  - component: {fileID: 7179328196586015971}
+  - component: {fileID: 6300724188000651579}
   m_Layer: 8
   m_Name: IceAsteroid
   m_TagString: Untagged
@@ -5099,7 +5099,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7179328196586015971
+--- !u!114 &6300724188000651579
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5108,7 +5108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7205921297374128390}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e0093bf1e1fc546856a42c05d8e749, type: 3}
+  m_Script: {fileID: 11500000, guid: bf4435c42eb4c7f49a857e3e68401267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7205921297427120223

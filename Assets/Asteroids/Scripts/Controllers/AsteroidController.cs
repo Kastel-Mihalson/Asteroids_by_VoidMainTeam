@@ -105,12 +105,12 @@ public sealed class AsteroidController
     private void CreateHittingEffects(int _)
     {
         _audioController.Play(AudioClipManager.AsteroidHitting);
-        _effectController.Create(EffectManager.AsteroidHitting, _view.transform);
+        _effectController.CreateWorld(EffectManager.AsteroidHitting, _view.transform);
     }
 
     private void CreateExplosionEffects()
     {
         _audioController.Play(AudioClipManager.AsteroidExplosion);
-        _effectController.Create(EffectManager.AsteroidExplosion, _view.transform);
+        _effectController.CreateWorld(EffectManager.AsteroidExplosion, _view.transform);
     }
 }
