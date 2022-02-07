@@ -21,7 +21,6 @@ public sealed class AsteroidController
         EffectController effectController, GameObjectPool asteroidPool)
     {
         _data = data;
-        //_asteroidPool = new GameObjectPool(_prefab);
         _asteroidPool = asteroidPool;
         _borderSpawnOffset = 0.5f;
         _ySpawnPosition = 8f;

@@ -5,7 +5,8 @@ using UnityEngine;
 public sealed class PlayerShipView : ShipView, IPlayer
 {
     public event Action OnBurnEvent;
-    public event Action<float> OnDeceleratedEvent;
+    public event Action<float> OnDecceleratedEvent;
+    public event Action<float> OnAcceleratedEvent;
     public event Action OnNormilizedSpeedEvent;
 
     private PlayerHUDView _hudView;
@@ -13,6 +14,7 @@ public sealed class PlayerShipView : ShipView, IPlayer
     private float _fireHitTimeDelay = 1f;
     private int _fireDamage = 1;
     private float _decelerationTime = 3f;
+
 
     public override void Interact(Collider other)
     {
@@ -111,11 +113,12 @@ public sealed class PlayerShipView : ShipView, IPlayer
         StopCoroutine(Burn(fireHitCount));
     }
 
-    private IEnumerator Decelerate(int decelerationSpeedParam)
+    private IEnumerator Decelerate(int speedParam)
     {
-        OnDeceleratedEvent?.Invoke(decelerationSpeedParam * 1.5f);
+        OnDecceleratedEvent?.Invoke(speedParam * 1.5f);
         yield return new WaitForSeconds(_decelerationTime);
-        OnNormilizedSpeedEvent?.Invoke();
-        StopCoroutine(Decelerate(decelerationSpeedParam));
+        OnAcceleratedEvent?.Invoke(speedParam * 1.5f);
+        //OnNormilizedSpeedEvent?.Invoke();
+        StopCoroutine(Decelerate(speedParam));
     }
 }
