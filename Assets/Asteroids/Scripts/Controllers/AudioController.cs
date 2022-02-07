@@ -52,10 +52,7 @@ public sealed class AudioController
     {        
         foreach (var source in _soundSource)
         {
-            if (source != null)
-            {
                 Object.Destroy(source?.gameObject);
-            }
         }
     }
 
