@@ -10,7 +10,6 @@ public sealed class AsteroidController
     private AsteroidView _view;
     private AsteroidData _data;
     private Rigidbody _rigidBody;
-    private GameObject _prefab;
     private GameObjectPool _asteroidPool;
     private float _borderSpawnOffset;
     private float _ySpawnPosition;
@@ -22,8 +21,6 @@ public sealed class AsteroidController
         EffectController effectController, GameObjectPool asteroidPool)
     {
         _data = data;
-        _prefab = data.AsteroidPrefab;
-        //_asteroidPool = new GameObjectPool(_prefab);
         _asteroidPool = asteroidPool;
         _borderSpawnOffset = 0.5f;
         _ySpawnPosition = 8f;
@@ -107,12 +104,12 @@ public sealed class AsteroidController
     private void CreateHittingEffects(int _)
     {
         _audioController.Play(AudioClipManager.AsteroidHitting);
-        _effectController.Create(EffectManager.AsteroidHitting, _view.transform);
+        _effectController.CreateWorld(EffectManager.AsteroidHitting, _view.transform);
     }
 
     private void CreateExplosionEffects()
     {
         _audioController.Play(AudioClipManager.AsteroidExplosion);
-        _effectController.Create(EffectManager.AsteroidExplosion, _view.transform);
+        _effectController.CreateWorld(EffectManager.AsteroidExplosion, _view.transform);
     }
 }
