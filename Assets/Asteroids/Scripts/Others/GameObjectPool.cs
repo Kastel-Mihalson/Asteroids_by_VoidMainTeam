@@ -42,11 +42,6 @@ public sealed class GameObjectPool
 
 	public void AddToQueue(GameObject gameObject)
 	{
-		if (_queue.Contains(gameObject))
-		{
-			return;
-		}
-
 		_queue.Enqueue(gameObject);
 		gameObject.transform.SetParent(_root);
 		gameObject.SetActive(false);
