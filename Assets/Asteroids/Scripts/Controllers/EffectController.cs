@@ -28,7 +28,7 @@ public sealed class EffectController
     }
 
     private void Create(EffectManager effect, Transform root, Vector3 position, Transform parent)
-    { 
+    {
         GameObject prefab = _effectData.Effects.GetEffectPrefab(effect);
         if (prefab == null)
         {
