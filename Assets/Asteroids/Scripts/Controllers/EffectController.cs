@@ -13,8 +13,22 @@ public sealed class EffectController
         _root = new GameObject($"[{EFFECT}]");
     }
 
-    public void Create(EffectManager effect, Transform root)
+    public void CreateWorld(EffectManager effect, Transform root)
     {
+        var position = new Vector3(root.position.x, _yPosition, root.position.z);
+        var parent = _root.transform;
+        Create(effect, root, position, parent);
+    }
+
+    public void CreateLocal(EffectManager effect, Transform root)
+    {
+        var position = root.position;
+        var parent = root;
+        Create(effect, root, position, parent);
+    }
+
+    private void Create(EffectManager effect, Transform root, Vector3 position, Transform parent)
+    { 
         GameObject prefab = _effectData.Effects.GetEffectPrefab(effect);
         if (prefab == null)
         {
@@ -22,11 +36,10 @@ public sealed class EffectController
             return;
         }
 
-        // TODO pool
         GameObject effectGameObject = Object.Instantiate(prefab);
-        effectGameObject.transform.position = new Vector3(root.position.x, _yPosition, root.position.z);
+        effectGameObject.transform.position = position;
         effectGameObject.transform.rotation = root.rotation;
-        effectGameObject.transform.SetParent(_root.transform);
+        effectGameObject.transform.SetParent(parent);
         float lifeTime = _effectData.Effects.GetEffectTime(effect);
         Object.Destroy(effectGameObject, lifeTime);
     }

@@ -99,11 +99,11 @@ public sealed class EnemyShipController : ShipController
     private void CreateHittingEffects(int _)
     {
         _audioController.Play(AudioClipManager.ShipHitting);
-        _effectController.Create(EffectManager.ShipHitting, _view.transform);
+        _effectController.CreateWorld(EffectManager.ShipHitting, _view.transform);
     }
     private void CreateExplosionEffects()
     {
         _audioController.Play(AudioClipManager.ShipExplosion);
-        _effectController.Create(EffectManager.ShipExplosion, _view.transform);
+        _effectController.CreateWorld(EffectManager.ShipExplosion, _view.transform);
     }
 }

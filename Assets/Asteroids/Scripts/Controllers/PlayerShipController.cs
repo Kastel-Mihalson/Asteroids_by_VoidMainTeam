@@ -50,6 +50,10 @@ public sealed class PlayerShipController : ShipController
     {
         _view.OnDamagedEvent += RecieveDamage;
         _view.OnDamagedEvent += CreateHittingEffects;
+        _view.OnBurnEvent += CreateBurnEffect;
+        _view.OnDecceleratedEvent += Deccelerate;
+        _view.OnNormilizedSpeedEvent += NormalizeSpeed;
+        _view.OnAcceleratedEvent += Accelerate;
         OnHpChangedEvent += _view.SetHealth;
         OnArmorChangedEvent += _view.SetArmor;
         OnDiedEvent += _view.Die;
@@ -61,6 +65,10 @@ public sealed class PlayerShipController : ShipController
     {
         _view.OnDamagedEvent -= RecieveDamage;
         _view.OnDamagedEvent -= CreateHittingEffects;
+        _view.OnBurnEvent -= CreateBurnEffect;
+        _view.OnDecceleratedEvent -= Deccelerate;
+        _view.OnNormilizedSpeedEvent -= NormalizeSpeed;
+        _view.OnAcceleratedEvent -= Accelerate;
         OnHpChangedEvent -= _view.SetHealth;
         OnArmorChangedEvent -= _view.SetArmor;
         OnDiedEvent -= _view.Die;
@@ -105,12 +113,33 @@ public sealed class PlayerShipController : ShipController
     private void CreateHittingEffects(int _)
     {
         _audioController.Play(AudioClipManager.ShipHitting);
-        _effectController.Create(EffectManager.ShipHitting, _view.transform);
+        _effectController.CreateWorld(EffectManager.ShipHitting, _view.transform);
     }
 
     private void CreateExplosionEffects()
     {
         _audioController.Play(AudioClipManager.ShipExplosion);
-        _effectController.Create(EffectManager.ShipExplosion, _view.transform);
+        _effectController.CreateWorld(EffectManager.ShipExplosion, _view.transform);
+    }
+
+    private void CreateBurnEffect()
+    {
+        _effectController.CreateLocal(EffectManager.Burning, _view.transform);
+    }
+
+    private void Deccelerate(float speedParam)
+    {
+        _model.MoveSpeed /= speedParam;
+        _effectController.CreateLocal(EffectManager.Deceleration, _view.transform);
+    }
+
+    private void NormalizeSpeed()
+    {
+        _model.MoveSpeed = _model.DefaultMoveSpeed;
+    }
+
+    private void Accelerate(float speedParam)
+    {
+        _model.MoveSpeed *= speedParam;
     }
 }

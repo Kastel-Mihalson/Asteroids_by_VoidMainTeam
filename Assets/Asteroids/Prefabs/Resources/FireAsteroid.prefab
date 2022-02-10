@@ -5064,7 +5064,7 @@ GameObject:
   - component: {fileID: 4190704875280118914}
   - component: {fileID: 6034216366802681829}
   - component: {fileID: 6462853963563737440}
-  - component: {fileID: 1211310286984156578}
+  - component: {fileID: 5801831295273035613}
   m_Layer: 8
   m_Name: FireAsteroid
   m_TagString: Untagged
@@ -5117,7 +5117,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1211310286984156578
+--- !u!114 &5801831295273035613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5126,7 +5126,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2005854502083048176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e0093bf1e1fc546856a42c05d8e749, type: 3}
+  m_Script: {fileID: 11500000, guid: e831cb858c56f7842bf1387780a9670f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3338325931344075051
