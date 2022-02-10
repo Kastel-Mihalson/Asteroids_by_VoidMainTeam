@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public sealed class SpawnController
 {
+    public event Action OnAllAsteroidsDestroiedEvent;
+
     private AsteroidController _asteroidController;
     private PlayerShipController _playerShipController;
     private EnemyShipController _enemyShipController;
-    private List<AsteroidData> _asteroidList;
+    private List<AsteroidLevelConfiguration> _asteroidLevelConfiguration;
     private GameObjectPool _asteroidPool;
-    private GameData _gameData;
     private float _nextSpawnTime;
-    private float _currentTime;
     private float _minSpawnDelay = 0.5f;
     private float _maxSpawnDelay = 1.5f;
     private AudioController _audioController;
@@ -23,9 +25,10 @@ public sealed class SpawnController
     private float _leftOffset = 4f;
     private float _rightOffset = 4f;
 
+    private Dictionary<AsteroidData, int> _asteroidQuantity;
+
     public SpawnController(GameData gameData, AudioController audioController, EffectController effectController)
     {
-        _gameData = gameData;
         _audioController = audioController;
         _effectController = effectController;
 
@@ -48,25 +51,65 @@ public sealed class SpawnController
 
         _enemyShipStartPosition = new Vector3(0, 0, topPosition - _topOffset);
         _asteroidPool = new GameObjectPool("Asteroids");
-        _asteroidList = gameData.LevelData.AsteroidDataList;
+        _asteroidLevelConfiguration = gameData.LevelData.Asteroids;
+
+        _asteroidQuantity = new Dictionary<AsteroidData, int>();
+        foreach (var asteroid in _asteroidLevelConfiguration)
+        {
+            if (asteroid.Quantity > 0)
+            {
+                _asteroidQuantity[asteroid.AsteroidData] = asteroid.Quantity;
+            }
+        }
     }
 
-    private AsteroidData SelectAsteroid(List<AsteroidData> asteroids)
+    private AsteroidData SelectAsteroid(List<AsteroidLevelConfiguration> asteroids)
     {
-        var asteroidIndex = Random.Range(0, asteroids.Count);
-        _asteroidPool.SetGameObject = asteroids[asteroidIndex].AsteroidPrefab;
+        var index = Random.Range(0, asteroids.Count);
+        var data = asteroids[index].AsteroidData;
 
-        return asteroids[asteroidIndex];
+        if (_asteroidQuantity[data] > 0)
+        {
+            _asteroidPool.SetGameObject = data.AsteroidPrefab;
+            _asteroidQuantity[data]--;
+            return data;
+        }
+        else
+        {
+            _asteroidQuantity.Remove(data);
+
+            List<AsteroidLevelConfiguration> temp = new List<AsteroidLevelConfiguration>();
+            foreach (var asteroid in asteroids)
+            {
+                if (_asteroidQuantity.ContainsKey(asteroid.AsteroidData))
+                {
+                    temp.Add(asteroid);
+                }
+            }
+
+            if (temp.Count > 0)
+            {
+                SelectAsteroid(temp);
+            }
+        }
+
+        return null;
     }
 
     public void SpawnAsteroid(float currentTime)
     {
-        var asteroids = SelectAsteroid(_asteroidList);
-
         if (currentTime > _nextSpawnTime)
         {
+            var asteroid = SelectAsteroid(_asteroidLevelConfiguration);
+
+            if (asteroid == null)
+            {
+                OnAllAsteroidsDestroiedEvent?.Invoke();
+                return;
+            }
+
             _asteroidController = new AsteroidController(
-                asteroids, _audioController,
+                asteroid, _audioController,
                 _effectController, _asteroidPool);
 
             _asteroidController.Init();

@@ -26,6 +26,8 @@ public class GameController : MonoBehaviour
     private float _currentTime;
     private float speed = 2f;
 
+    private bool _canSpawnAsteroid = true;
+
     private void Awake()
     {
         GameModel.SetScreenBorders();
@@ -77,6 +79,8 @@ public class GameController : MonoBehaviour
         _audioController.Play(AudioClipManager.BackgroundMusic, true);
         _endGameMenuController = new EndGameMenuController(_audioController, _gameData.GameMode);
         _endGameMenuController.OnEnable();
+
+        _spawnController.OnAllAsteroidsDestroiedEvent += LockAsteroidSpawn;
     }
 
     private void Update()
@@ -87,7 +91,10 @@ public class GameController : MonoBehaviour
         _enemyShipController?.Execute();
         _secondPlayerShipController?.Execute();
 
-        _spawnController.SpawnAsteroid(_currentTime);
+        if (_canSpawnAsteroid)
+        {
+            _spawnController.SpawnAsteroid(_currentTime);
+        }
     }
 
     private void FixedUpdate()
@@ -100,5 +107,11 @@ public class GameController : MonoBehaviour
         _firstPlayerShootingController?.Shoot();
         _enemyShootingController?.Shoot();
         _secondPlayerShootingController?.Shoot();
+    }
+
+    private void LockAsteroidSpawn()
+    {
+        _canSpawnAsteroid = false;
+        Debug.Log("Asteroids are destroied");
     }
 }
