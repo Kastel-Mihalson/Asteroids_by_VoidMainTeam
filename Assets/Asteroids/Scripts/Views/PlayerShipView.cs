@@ -7,14 +7,14 @@ public sealed class PlayerShipView : ShipView, IPlayer
     public event Action OnBurnEvent;
     public event Action<float> OnDecceleratedEvent;
     public event Action<float> OnAcceleratedEvent;
-    public event Action OnNormilizedSpeedEvent;
+    public event Action OnDiedEvent;
 
     private PlayerHUDView _hudView;
     private EndGameMenuView _loseMenu;
     private float _fireHitTimeDelay = 1f;
     private int _fireDamage = 1;
     private float _decelerationTime = 3f;
-
+    private float _speedParam = 1.5f;
 
     public override void Interact(Collider other)
     {
@@ -38,11 +38,12 @@ public sealed class PlayerShipView : ShipView, IPlayer
                 }
                 else if (asteroidView is IIce)
                 {
-                    StartCoroutine(Decelerate((int)damage));
+                    StartCoroutine(Decelerate((int)damage * _speedParam));
                 }
             }
             else if (interactiveObject is IEnemy)
             {
+                OnDiedEvent?.Invoke();
                 Die();
             }
 
@@ -102,23 +103,21 @@ public sealed class PlayerShipView : ShipView, IPlayer
 
     private IEnumerator Burn(int fireHitCount)
     {
-        OnBurnEvent?.Invoke();
-
         for (var i = 0; i < fireHitCount; i++)
         {
-            GetDamage(_fireDamage);
+            OnBurnEvent?.Invoke();
             yield return new WaitForSeconds(_fireHitTimeDelay);
+            GetDamage(_fireDamage);
         }
         
         StopCoroutine(Burn(fireHitCount));
     }
 
-    private IEnumerator Decelerate(int speedParam)
+    private IEnumerator Decelerate(float speedParam)
     {
-        OnDecceleratedEvent?.Invoke(speedParam * 1.5f);
+        OnDecceleratedEvent?.Invoke(speedParam);
         yield return new WaitForSeconds(_decelerationTime);
-        OnAcceleratedEvent?.Invoke(speedParam * 1.5f);
-        //OnNormilizedSpeedEvent?.Invoke();
+        OnAcceleratedEvent?.Invoke(speedParam);
         StopCoroutine(Decelerate(speedParam));
     }
 }
